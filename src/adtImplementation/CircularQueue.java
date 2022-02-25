@@ -59,8 +59,11 @@ public class CircularQueue<T> implements QueueInterface<T> {
     // }
 
     @Override
-    public void clear() 
+    public void clear()
     {
+        this.starting = 0;
+        this.ending = 0;
+        this.elementQty = 0;
         this.elements = (T[]) new Object[size];
     }
 
@@ -69,10 +72,9 @@ public class CircularQueue<T> implements QueueInterface<T> {
     {
         if (!isFull())
         {
-            ++elementQty;
-            System.out.println("next insert= " + getNextInsertionIndex());
             elements[getNextInsertionIndex()] = e;
-            ++ending;
+            ending = ending+1 >= size? 0 : ending+1;
+            ++elementQty;
             return true;
         }
         return false;
@@ -93,6 +95,7 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return nextInsertion;
     }
 
+
     @Override
     public boolean isFull(){
         return elementQty >= size;
@@ -109,10 +112,10 @@ public class CircularQueue<T> implements QueueInterface<T> {
         T returnElement = null;
         if (elementQty > 0)
         {
-            --elementQty;
             returnElement = elements[starting];
             elements[starting] = null;
             starting = getNewStart(starting);
+            --elementQty;
         }
         return returnElement;
     }
@@ -139,9 +142,11 @@ public class CircularQueue<T> implements QueueInterface<T> {
     public void printLogicalQueue(){
         int start = starting;
         boolean endNotReached = true;
-        System.out.print("Logical : ");
+        System.out.println("Logical : ");
+        int count = 0;
         while (endNotReached)
         {
+            ++count;
             T element = elements[start];
             System.out.print(element + ", ");
             start = getNewStart(start);
@@ -167,26 +172,21 @@ class TestMyCircularQueue{
 
         cq.printActualQueue();
 
-
         cq.add(3);
         cq.add(4);
 
         cq.printActualQueue();
-
         cq.poll();
-
         cq.printActualQueue();
-
 
         cq.add(6);
         cq.printActualQueue();
-
 
         cq.add(9);
         cq.printActualQueue();
 
         cq.poll();
         cq.printActualQueue();
-
+        cq.printLogicalQueue();
     }
 }
