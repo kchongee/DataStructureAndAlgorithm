@@ -82,17 +82,7 @@ public class CircularQueue<T> implements QueueInterface<T> {
 
     private int getNextInsertionIndex()
     {
-        System.out.println("ENDING = " + ending);
-        int nextInsertion = 0;
-        if (ending == 0){
-            return 0;
-        } else if (ending == size){
-            nextInsertion = 0;
-        } else {
-            nextInsertion = ending;
-        }
-        System.out.print("NEXT INSERTION = " + nextInsertion);
-        return nextInsertion;
+        return ending == size? 0:ending;
     }
 
 
