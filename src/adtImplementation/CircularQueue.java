@@ -80,8 +80,7 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return false;
     }
 
-    private int getNextInsertionIndex()
-    {
+    private int getNextInsertionIndex() {
         return ending == size? 0:ending;
     }
 
