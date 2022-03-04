@@ -1,8 +1,10 @@
-public interface ListInterface {
-    void add(int newValue);
-    void remove(int specificValue);
-    void removeOnID(int id);
-    void retrieve(int id);
-    void retrieveOnID(int id);
-    void edit(int id,int newValue);
+package adtInterfaces;
+
+public interface ListInterface<T> {
+    public boolean add (T inputElement);
+    public boolean delete (int givenPosition);
+    public boolean contains(T inputElement); 
+    public T getElementValue(int givenPosition);
+    public int size();
+    public void clear();
 }
