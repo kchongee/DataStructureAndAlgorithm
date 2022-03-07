@@ -55,6 +55,7 @@ public class ArrayList<T> implements ListInterface<T> {
     public void clear(){
         this.numberOfEntries=0;
     }
+    
     @Override
     public boolean contains(T inputElement){
         boolean found=true;
@@ -68,7 +69,6 @@ public class ArrayList<T> implements ListInterface<T> {
         }
         return found;
     }
-
 
     @Override
     public T getElementValue(int givenPosition) {
