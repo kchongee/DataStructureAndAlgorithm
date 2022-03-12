@@ -51,8 +51,13 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return arr;
     }
 
-
+    @Override
     public T remove(final Object o) {
+        return null;
+    }
+
+
+    public T remove() {
         if (!isEmpty())
         {
             T returnElement = elements[starting];
@@ -126,12 +131,21 @@ public class CircularQueue<T> implements QueueInterface<T> {
 
 
     public T element() {
-        return null;
+        if (!isEmpty()){
+            return elements[starting];
+        }else {
+            throw new NoSuchElementException("Queue is empty");
+        }
     }
 
 
-    public T peek() {
-        return null;
+    public T peek()
+    {
+        T headElement = null;
+        if (!isEmpty()){
+            headElement = elements[starting];
+        }
+        return headElement;
     }
 
 
@@ -244,6 +258,8 @@ class TestMyCircularQueue{
         cq.printLogicalQueue();
         cq.printSize();
         cq.printEndingAndStarting();
+
+        cq.remove();
 
         cq.add(5);
         cq.printActualQueue();
