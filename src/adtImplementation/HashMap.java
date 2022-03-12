@@ -27,8 +27,14 @@ public class HashMap<K,V> implements MapInterface<K,V> {
 
     @Override
     public V get(K k) {
-        // TODO Auto-generated method stub
-        return null;
+        //get the index that the entry is stored
+        int index = getKey(k);
+        //non-empty check
+        if (table[index] == null) {
+            return null;
+        }
+        //call function to find the real value and then return
+        return findValueByEqualKey(k,table[index]);
     }
 
     @Override
@@ -143,6 +149,26 @@ public class HashMap<K,V> implements MapInterface<K,V> {
                 }
             }
         }
+    }
+
+    private V findValueByEqualKey(K k , Entry<K,V> entry) {
+
+        /*
+        * if key of this parameter equals to the key of this entry, that means
+        * this is the target entry
+        * */
+        if (k == entry.getKey() || k.equals(entry.getKey())) {
+            return entry.getValue();
+        } else {
+            /*
+            * if they are not equal, use recursive method to compare the key of its next pointer to find the real value
+            * */
+            if (entry.next != null) {
+                return findValueByEqualKey(k, entry.next);
+            }
+    
+        }
+        return entry.getValue();
     }
 
     
