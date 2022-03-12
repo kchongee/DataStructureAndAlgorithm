@@ -27,8 +27,14 @@ public class HashMap<K,V> implements MapInterface<K,V> {
 
     @Override
     public V get(K k) {
-        // TODO Auto-generated method stub
-        return null;
+        //get the index that the entry is stored
+        int index = getKey(k);
+        //non-empty check
+        if (table[index] == null) {
+            return null;
+        }
+        //call function to find the real value and then return
+        return findValueByEqualKey(k,table[index]);
     }
 
     @Override
@@ -102,7 +108,7 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         rehash(newTable);
     }
 
-    private void findEntryByNext(Entry<K, V> entry,ArrayList<Entry<K, V>> list ) {
+    private void findEntryByNext(Entry<K, V> entry,ListInterface<Entry<K, V>> list ) {
         if (entry != null && entry.next != null) {
             list.add(entry);
             //call recursive function
@@ -115,7 +121,7 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     //the process of rehash
     private void rehash(Entry<K,V>[] newTable) {
         //create a list to store all the entry objects in the hashmap
-        ArrayList<Entry<K, V>> list = new ArrayList<Entry<K, V>>();
+        ListInterface<Entry<K, V>> list = new ArrayList<Entry<K, V>>();
 
         //traverse the array
         for(int i=0; i<table.length;i++) {
@@ -134,14 +140,38 @@ public class HashMap<K,V> implements MapInterface<K,V> {
                 table = newTable;
                 
                 for(int j=0;j<list.size();i++) {
-                    if (list.getElementValue(j) != null) {
+                    if (list.retrieve(j) != null) {
                         //set next pointer of all entries to null
-                        list.getElementValue(j).next = null;
+                        list.retrieve(j).next = null;
                     }
                     //rehash new table
-                    put(list.getElementValue(j).getKey(), list.getElementValue(j).getValue());
+                    put(list.retrieve(j).getKey(), list.retrieve(j).getValue());
                 }
             }
         }
     }
+
+
+    private V findValueByEqualKey(K k , Entry<K,V> entry) {
+
+        /*
+        * if key of this parameter equals to the key of this entry, that means
+        * this is the target entry
+        * */
+        if (k == entry.getKey() || k.equals(entry.getKey())) {
+            return entry.getValue();
+        } else {
+            /*
+            * if they are not equal, use recursive method to compare the key of its next pointer to find the real value
+            * */
+            if (entry.next != null) {
+                return findValueByEqualKey(k, entry.next);
+            }
+    
+        }
+        return entry.getValue();
+    }
+    
 }
+
+

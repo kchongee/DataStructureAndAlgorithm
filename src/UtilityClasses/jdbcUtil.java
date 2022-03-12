@@ -16,7 +16,7 @@ public final class jdbcUtil
 
 
     private jdbcUtil() {}
-    
+
     public static jdbcUtil getInstance(){
         return INSTANCE;
     }
