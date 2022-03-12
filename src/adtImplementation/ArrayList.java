@@ -35,7 +35,7 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public boolean delete(int givenPosition) {
+    public boolean remove(int givenPosition) {
         // TODO Auto-generated method stub
 
         if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
@@ -71,7 +71,7 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public T getElementValue(int givenPosition) {
+    public T retrieve(int givenPosition) {
         // TODO Auto-generated method stub
         T returned = null;
         if((givenPosition>=1) && (givenPosition <= numberOfEntries)){

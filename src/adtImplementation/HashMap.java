@@ -108,7 +108,7 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         rehash(newTable);
     }
 
-    private void findEntryByNext(Entry<K, V> entry,ArrayList<Entry<K, V>> list ) {
+    private void findEntryByNext(Entry<K, V> entry,ListInterface<Entry<K, V>> list ) {
         if (entry != null && entry.next != null) {
             list.add(entry);
             //call recursive function
@@ -121,7 +121,7 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     //the process of rehash
     private void rehash(Entry<K,V>[] newTable) {
         //create a list to store all the entry objects in the hashmap
-        ArrayList<Entry<K, V>> list = new ArrayList<Entry<K, V>>();
+        ListInterface<Entry<K, V>> list = new ArrayList<Entry<K, V>>();
 
         //traverse the array
         for(int i=0; i<table.length;i++) {
@@ -140,12 +140,12 @@ public class HashMap<K,V> implements MapInterface<K,V> {
                 table = newTable;
                 
                 for(int j=0;j<list.size();i++) {
-                    if (list.getElementValue(j) != null) {
+                    if (list.retrieve(j) != null) {
                         //set next pointer of all entries to null
-                        list.getElementValue(j).next = null;
+                        list.retrieve(j).next = null;
                     }
                     //rehash new table
-                    put(list.getElementValue(j).getKey(), list.getElementValue(j).getValue());
+                    put(list.retrieve(j).getKey(), list.retrieve(j).getValue());
                 }
             }
         }
@@ -171,5 +171,6 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return entry.getValue();
     }
 
-    
 }
+
+
