@@ -167,7 +167,6 @@ public class HashMap<K,V> implements MapInterface<K,V> {
             if (entry.next != null) {
                 return findValueByEqualKey(k, entry.next);
             }
-    
         }
         return entry.getValue();
     }
