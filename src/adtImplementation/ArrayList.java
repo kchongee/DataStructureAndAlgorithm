@@ -2,7 +2,7 @@ package adtImplementation;
 
 import adtInterfaces.ListInterface;
 
-public class ArrayList<T> implements ListInterface<T> {
+public class ArrayList<T> implements ListInterface<T> {    
     private T[] listArray;
     //private Account[] accountList;
     private int numberOfEntries;

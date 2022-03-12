@@ -3,44 +3,45 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import adtImplementation.Account;
 // import Customer;
 // import adtInterfaces.ArrayList;
 import adtInterfaces.ListInterface;
 
 public class Comment {
-    // private String text;
-    // private Customer customer;    
-    // private LocalDateTime dateTimePosted;    
+    private String text;
+    private Account account;
+    private LocalDateTime dateTimePosted;
 
-    // public Comment(Customer customer,String text,LocalDateTime dateTimePosted){
-    //     this.customer = customer;
-    //     this.text = text;
-    //     this.dateTimePosted = dateTimePosted;
-    // }
+    public Comment(Account acc, String text){
+        this.account = acc;
+        this.text = text;
+        this.dateTimePosted = LocalDateTime.now();
+    }
 
-    // public String getText() {
-    //     return text;
-    // }
+    public String getText() {
+        return text;
+    }
 
-    // public void setText(String text) {
-    //     this.text = text;
-    // }
+    public void setText(String text) {
+        this.text = text;
+    }
 
-    // public Customer getCustomer() {
-    //     return customer;
-    // }
+    public Account getAccount() {
+        return this.account;
+    }
 
-    // public void setCustomer(Customer customer) {
-    //     this.customer = customer;
-    // }
+    public void setAccount(Account acc) {
+        this.account = acc;
+    }
 
-    // public LocalDateTime getdateTimePosted() {
-    //     return dateTimePosted;
-    // }
+    public LocalDateTime getdateTimePosted() {
+        return dateTimePosted;
+    }
 
-    // public void setdateTimePosted(LocalDateTime dateTimePosted) {
-    //     this.dateTimePosted = dateTimePosted;
-    // }
-
+    public void setdateTimePosted(LocalDateTime dateTimePosted) {
+        this.dateTimePosted = dateTimePosted;
+    }
+    
     
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 import java.util.InputMismatchException;
+import java.util.function.Consumer;
 
 import adtImplementation.ArrayListEe;
 import application.App;
@@ -16,20 +17,11 @@ public class ConsoleMenu<T>{
     private String title;
     private ListInterfaceEe<ConsoleMenuOption> options;
     private ListInterfaceEe<T> additionalDetails;
+    private Consumer<T> customPrinting;
+    private int customPrintingOrder;
 
     public ConsoleMenu(){
         reset();
-    }
-
-    public ConsoleMenu(String title,ConsoleMenuOption... options){
-        this();
-        this.title = title;        
-        this.options.addAll(options);
-    }
-
-    public ConsoleMenu(String title, T[] additionalDetails, ConsoleMenuOption... options){
-        this(title, options);
-        this.additionalDetails.addAll(additionalDetails);
     }
 
     public ConsoleMenu(String title){
@@ -37,30 +29,84 @@ public class ConsoleMenu<T>{
         this.title = title;                
     }
 
-    public void setTitle(String title) {
+    public ConsoleMenu(ConsoleMenuOption... options){
+        this();
+        this.options.addAll(options);
+    }
+
+    public ConsoleMenu(String title,ConsoleMenuOption... options){
+        this();
+        this.title = title;        
+        this.options.addAll(options);
+    }    
+
+    public ConsoleMenu(String title, T[] additionalDetails, ConsoleMenuOption... options){
+        this(title, options);
+        this.additionalDetails.addAll(additionalDetails);
+    }
+
+    public ConsoleMenu(String title, ListInterfaceEe<T> additionalDetails, ConsoleMenuOption... options){
+        this(title, options);
+        this.additionalDetails = additionalDetails;
+    }
+
+    public ConsoleMenu<T> reset(){
+        this.title = null;        
+        this.options = new ArrayListEe<ConsoleMenuOption>();
+        this.additionalDetails = new ArrayListEe<T>();        
+        this.customPrinting = null;
+        this.customPrintingOrder = 1;
+        return this;
+    }
+
+    public ConsoleMenu<T> setTitle(String title) {
         this.title = title;
+        return this;
     }    
 
     public ListInterfaceEe<ConsoleMenuOption> getOptions() {
         return options;
-    }
+    }    
 
-    public int askUserInput(String title){
-        System.out.println(title);
-        userInput = App.scanner.nextInt();
-        return userInput;
+    public ConsoleMenu<T> setCustomPrintingAtOrder(Consumer<T> customPrinting, int order) {
+        this.customPrinting = customPrinting;
+        this.customPrintingOrder = order;
+        return this;
     }
 
     public void printAPage(){   
-        clearScreen();
+        clearScreen();        
 
-        System.out.println(title);                
+        if(title!=null){
+            System.out.println(title);
+            System.out.println();
+        }
+        
+        if(customPrinting!=null && customPrintingOrder==1){
+            customPrinting.accept((T)customPrinting);
+            System.out.println();
+        }
 
         printAdditionalDetails();
+
+        if(customPrinting!=null && customPrintingOrder==2){
+            customPrinting.accept((T)customPrinting);
+            System.out.println();
+        }
 
         printMenu();        
 
         promptUserInputOption();
+    }
+
+    public ConsoleMenu<T> printAdditionalDetails() {
+        if(!this.additionalDetails.isEmpty()){
+            for (int i=0;i<this.additionalDetails.size();i++) {        
+                System.out.printf("%2d.   %s\n",i+1,additionalDetails.retrieve(i).toString());
+            }            
+        }    
+        System.out.println();         
+        return this;
     }
     
     public ConsoleMenu<T> printMenu() {           
@@ -73,17 +119,7 @@ public class ConsoleMenu<T>{
         System.out.printf("%2d    %s\n",0,(App.history.isEmpty()?"Exit":"Back"));                          
         System.out.println("========================");
         return this;
-    }
-    
-    public ConsoleMenu<T> printAdditionalDetails() {
-        if(!this.additionalDetails.isEmpty()){
-            for (int i=0;i<this.additionalDetails.size();i++) {        
-                System.out.printf("%2d.   %s\n",i+1,additionalDetails.retrieve(i).toString());
-            }            
-        }    
-        System.out.println();         
-        return this;
-    }
+    }            
     
     public ConsoleMenu<T> promptUserInputOption() {     
         System.out.print("Enter your option: ");
@@ -100,14 +136,7 @@ public class ConsoleMenu<T>{
         return this;
     }
 
-    public void goToUserOption(int optionNum){
-        // System.out.println("user option: "+optionNum);
-        // System.out.println("option size: "+this.options.size());
-        // try {
-        //     Thread.sleep(1000);
-        // } catch (InterruptedException e1) {        
-        //     e1.printStackTrace();
-        // }
+    public void goToUserOption(int optionNum){        
         if(optionNum<0 || optionNum>this.options.size()){
             System.out.println("Invalid numbering! Please enter the numbering provided.");
             System.out.println();
@@ -132,11 +161,37 @@ public class ConsoleMenu<T>{
         }
     }
 
-    public ConsoleMenu reset(){
-        this.title="";
-        this.options = new ArrayListEe<ConsoleMenuOption>();
-        this.additionalDetails = new ArrayListEe<T>();
-        return this;
+    public int promptUserInputOptionBasedOnAdditionalDetails() {     
+        System.out.print("Enter your option: ");
+        int inputOption = -1;
+        try {
+            inputOption = App.scanner.nextInt();
+        } catch (InputMismatchException ime) {
+            App.scanner.next();
+            System.out.println("Invalid input! Please enter number only.");
+            System.out.println();
+            promptUserInputOptionBasedOnAdditionalDetails();
+        }        
+        return inputOption;
+    }
+
+    public int askUserInput(String title){
+        System.out.println(title);
+        userInput = App.scanner.nextInt();
+        return userInput;
+    }    
+
+    public String promptStringInput(String text){
+        System.out.print(text);
+        String inputStr = "";
+        try {
+            inputStr = App.scanner.nextLine();
+        } catch (InputMismatchException ime) {            
+            System.out.println("Invalid input! Please enter string only.");
+            System.out.println();
+            promptStringInput(text);
+        }        
+        return inputStr;
     }
     
     public Integer promptIntInput(String text){
@@ -198,6 +253,21 @@ public class ConsoleMenu<T>{
         }                                
         return time;
     }    
+
+    // public String confirmQuitFromInput(){
+    //     System.out.print("Are you sure you want to quit the progress? (Y|N): ");
+    //     String inputStr = App.scanner.nextLine();
+    //     if(inputStr=="Y"){
+    //         goToUserOption(0);
+    //     }else if(inputStr=="N"){
+
+    //     }else{
+    //         System.out.println("Invalid input! Please enter Y or N only.");
+    //         System.out.println();
+    //         confirmQuitFromInput();            
+    //     }        
+    //     return inputStr;
+    // }
 
     public void clearScreen(){
         System.out.print("\033[H\033[2J");  
