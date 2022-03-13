@@ -1,11 +1,12 @@
 package adtInterfaces;
 
 public interface ListInterface<T> {
-    public boolean add (T inputElement);
-    public boolean remove (int givenPosition);
-    public boolean contains(T inputElement); 
-    public boolean replace(int givenPosition, T inputElement);
-    public T get(int givenPosition);
+    public boolean add (T element);
+    public boolean remove (int index);
+    public boolean contains(T element);     
+    public T get(int index);
+    public boolean replace(int index, T element);
+    boolean isEmpty();
     public int size();
     public void clear();
 }

@@ -3,9 +3,8 @@ package adtImplementation;
 import adtInterfaces.ListInterface;
 
 public class ArrayList<T> implements ListInterface<T> {    
-    private T[] listArray;
-    //private Account[] accountList;
-    private int numberOfEntries;
+    private T[] arr;    
+    private int size;
     private static final int DEFAULT_CAPACITY=50;
 
     public ArrayList(){
@@ -13,54 +12,73 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     public ArrayList(int inputCapacity) {
-        listArray = (T[]) new Object[inputCapacity];
-        numberOfEntries=0;
+        arr = (T[]) new Object[inputCapacity];
+        size=0;
     }
 
     @Override
-    public int size() {
-        // TODO Auto-generated method stub
-        return this.numberOfEntries;
+    public int size() {        
+        return this.size;
     }
 
     @Override
-    public boolean add(T inputElement) {
-        // TODO Auto-generated method stub
+    public boolean add(T element) {        
         if (isArrayFull()){
-            doubleArray();
+            expandArray();
         }
-        listArray[numberOfEntries]=inputElement;
-        numberOfEntries++;
+        arr[size]=element;
+        size++;
         return true;
     }
 
+    // @Override
+    // public boolean add(int newIndex, T newElement) {
+    //     boolean isSuccessful = false;
+    
+    //     if ((newIndex >= 1) && (newIndex <= size + 1)) {
+    //         addAGap(newIndex);
+    //         arr[newIndex] = newElement;
+    //         size++;
+    //     } 
+    
+    //     return isSuccessful;
+    // }
+
     @Override
-    public boolean remove(int givenPosition) {
-        // TODO Auto-generated method stub
+    public boolean remove(int index) {        
+        if ((index >= 1) && (index <= size)) {
+            arr[index - 1]=null;
 
-        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)) {
-            listArray[givenPosition - 1]=null;
-
-            if (givenPosition < numberOfEntries) {
-                removeGap(givenPosition);
+            if (index < size) {
+                removeGap(index);
             }
-            numberOfEntries--;
+            size--;
         }else{
             return false;
         }
         return true;
     }
 
+    public boolean remove(T element) {
+        for(int i=0;i<arr.length;i++){
+            if(element.equals(arr[i])){
+                remove(i);
+                return true;
+            }
+        }
+        return false;
+    }  
+
     @Override
     public void clear(){
-        this.numberOfEntries=0;
+        this.size=0;
     }
     
     @Override
-    public boolean contains(T inputElement){
+    public boolean contains(T element){
         boolean found=true;
-        for(int i=0;i<this.numberOfEntries;i++){
-            if (inputElement.equals(listArray[i])){
+        for(int i=0;i<this.size;i++){
+            if (element.equals(arr[i])){
                 found=true;
                 break;
             } else{
@@ -71,45 +89,81 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public T get(int givenPosition) {
-        // TODO Auto-generated method stub
+    public T get(int index) {        
         T returned = null;
-        if((givenPosition>=1) && (givenPosition <= numberOfEntries)){
-            returned = listArray[givenPosition];
+        if((index>=1) && (index <= size)){
+            returned = arr[index];
         }
         return returned;
     }
 
+    public int get(T anEntry) {    
+        if(!isEmpty()){
+            for (int index = 0; index < size; index++) {
+                if (anEntry.equals(arr[index])) {
+                  return index;
+                }
+            }
+        }
+        return -1;                
+      }
+
     @Override
-    public boolean replace(int givenPosition, T inputElement){
-        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)){
-            listArray[givenPosition]=inputElement;
+    public boolean replace(int index, T newElement){        
+        if ((index >= 1) && (index <= size)){
+            arr[index]=newElement;
         } else{
             return false;
         }
         return true;
     }
-    
-    private void doubleArray() {
-        T[] oldArray=listArray;
-        int oldsize=oldArray.length;
-        listArray = (T[]) new Object[2*oldsize];
 
-        System.arraycopy(oldArray, 0, listArray, 0, oldsize);
+    public boolean addAll(T[] elements) {
+        boolean isSuccessful = true;
+    
+        if(arr.length < elements.length){
+          expandArray();
+        }
+        System.arraycopy(elements, 0, arr, 0, elements.length);
+        size = elements.length;
+    
+        return isSuccessful;
+    }
+
+    @Override
+    public boolean isEmpty() {        
+        return size==0;
+    }
+    
+    private void expandArray() {
+        T[] oldArray=arr;
+        int oldsize=oldArray.length;
+        arr = (T[]) new Object[2*oldsize];
+
+        System.arraycopy(oldArray, 0, arr, 0, oldsize);
     }
 
     private boolean isArrayFull() {
-        return this.numberOfEntries==listArray.length;
+        return this.size==arr.length;
     }
 
-    private void removeGap(int givenPosition) {
+    private void removeGap(int index) {
         // move each entry to next lower position starting at entry after the
         // one removed and continuing until end of array
-        //int removedIndex = givenPosition - 1;
-        //int lastIndex = numberOfEntries - 1;
-        for (int i = givenPosition; givenPosition<this.numberOfEntries; givenPosition++) {
-          listArray[i] = listArray[i+1];
+        //int removedIndex = index - 1;
+        //int lastIndex = size - 1;
+        for (int i = index; index<this.size; index++) {
+          arr[i] = arr[i+1];
         }
-    }
+    }    
+
+    // private void addAGap(int index) {
+    //     int newIndex = index;
+    //     int lastIndex = size-1;
+    
+    //     for (int i = lastIndex; i >= newIndex; i--) {
+    //         arr[index + 1] = arr[index];
+    //     }
+    // }
 
 }

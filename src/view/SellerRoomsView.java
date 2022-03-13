@@ -1,13 +1,13 @@
 package view;
 
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
 
 public class SellerRoomsView {    
 
-    public static ListInterfaceEe<Option> menuOptions = new ArrayListEe<Option>();
+    public static ListInterface<Option> menuOptions = new ArrayList<Option>();
 
     static{
          menuOptions.add(new Option("Create Room", i -> System.out.println("Here is gg")));
@@ -16,9 +16,7 @@ public class SellerRoomsView {
 
     public static void main() {        
         printTitle("Rooms");    
-        
-       
-        
+
         App.menuHandler(menuOptions);
     }
     
