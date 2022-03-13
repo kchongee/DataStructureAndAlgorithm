@@ -1,5 +1,6 @@
-package adtImplementation;
+package entity;
 
+import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
 public class AccountList {

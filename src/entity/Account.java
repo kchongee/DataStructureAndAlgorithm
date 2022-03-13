@@ -45,6 +45,15 @@ public class Account {
         this.isSeller=isSeller;
     }
 
+    public Account(Object userName, Object userPwd,Object name, Object address, Object email, Object isSeller){
+        this.name=(String)name;
+        this.address=(String)address;
+        this.email=(String)email;
+        this.userName=(String)userName;
+        this.userName=(String)userPwd;
+        this.isSeller=(int)isSeller;
+    }
+
     public String getUserName() {
         return userName;
     }

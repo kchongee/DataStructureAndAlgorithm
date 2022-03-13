@@ -7,7 +7,11 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
+import UtilityClasses.jdbcUtil;
 import entity.Account;
+import entity.AccountList;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
 import entity.Option;
@@ -17,9 +21,26 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
     public static Account currentUser = new Account();
+    public static AccountList accountList = new AccountList(100);
+    public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
+
     public static void main(String[] args) throws Exception {                
         WelcomeView.main();
-    }        
+    }     
+    
+    public static void retrieveAccounts(){
+        hashList = jdbcUtil.readAll("SELECT * FROM Account;");
+
+        for(int i=0;i<hashList.size();i++){      
+            Account a = new Account(hashList.get(i).get("userName"),
+            hashList.get(i).get("userPwd"),
+            hashList.get(i).get("name"),
+            hashList.get(i).get("address"),
+            hashList.get(i).get("email"),
+            hashList.get(i).get("isSeller"));         
+            accountList.addAccount(a);
+        } 
+    }
 
     public static boolean promptYesOrNo(String promptText){
         System.out.println(promptText);

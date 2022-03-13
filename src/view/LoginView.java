@@ -9,16 +9,12 @@ import entity.Seller;
 public class LoginView{     
     public static void main() {
         printTitle("Login");
-
-        AccountList accountList = new AccountList(100);
-        Account newAcc = new Account("nathan","nathan");
-        System.out.println(accountList.addAccount(newAcc));
                      
         String uname = App.promptStringInput("Enter username: ");
         String pwd = App.promptStringInput("Enter password: ");
 
         
-        if(accountList.checkAccount(new Account(uname, pwd))){
+        if(App.accountList.checkAccount(new Account(uname, pwd))){
             System.out.println("Login Successful");
             App.currentUser = new Account(uname,pwd);
             if(App.currentUser.getIsSeller()==1){

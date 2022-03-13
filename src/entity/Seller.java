@@ -1,14 +1,8 @@
 package entity;
 
-<<<<<<< HEAD
-
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
-=======
-import adtImplementation.Account;
+import entity.Account;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
->>>>>>> 41f3895930fd6306188614898f4984633d1627a9
 
 public class Seller extends Account{
 
