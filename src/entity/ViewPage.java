@@ -11,105 +11,64 @@ import application.App;
 // import adtInterfaces.ListInterface;
 import adtInterfaces.ListInterfaceEe;
 
-public class ConsoleMenu<T>{    
-    public final int DEFAULT_INT_VALUE = -1;
-    private int userInput = DEFAULT_INT_VALUE;
+public abstract class ViewPage{        
     private String title;
-    private ListInterfaceEe<ConsoleMenuOption> options;
-    private ListInterfaceEe<T> additionalDetails;
-    private Consumer<T> customPrinting;
-    private int customPrintingOrder;
+    private ListInterfaceEe<Option> options;    
 
-    public ConsoleMenu(){
+    public ViewPage(){
         reset();
     }
 
-    public ConsoleMenu(String title){
+    public ViewPage(String title){
         this();
-        this.title = title;                
+        this.title = title;
     }
 
-    public ConsoleMenu(ConsoleMenuOption... options){
-        this();
-        this.options.addAll(options);
-    }
-
-    public ConsoleMenu(String title,ConsoleMenuOption... options){
+    public ViewPage(String title,Option... options){
         this();
         this.title = title;        
-        this.options.addAll(options);
-    }    
-
-    public ConsoleMenu(String title, T[] additionalDetails, ConsoleMenuOption... options){
-        this(title, options);
-        this.additionalDetails.addAll(additionalDetails);
+        this.options.addAll(options);        
     }
 
-    public ConsoleMenu(String title, ListInterfaceEe<T> additionalDetails, ConsoleMenuOption... options){
-        this(title, options);
-        this.additionalDetails = additionalDetails;
-    }
-
-    public ConsoleMenu<T> reset(){
-        this.title = null;        
-        this.options = new ArrayListEe<ConsoleMenuOption>();
-        this.additionalDetails = new ArrayListEe<T>();        
-        this.customPrinting = null;
-        this.customPrintingOrder = 1;
-        return this;
-    }
-
-    public ConsoleMenu<T> setTitle(String title) {
+    public ViewPage setTitle(String title) {
         this.title = title;
         return this;
-    }    
+    }
 
-    public ListInterfaceEe<ConsoleMenuOption> getOptions() {
-        return options;
-    }    
-
-    public ConsoleMenu<T> setCustomPrintingAtOrder(Consumer<T> customPrinting, int order) {
-        this.customPrinting = customPrinting;
-        this.customPrintingOrder = order;
+    public ViewPage setOptions(ListInterfaceEe<Option> options) {
+        this.options = options;
         return this;
     }
+
+    public ViewPage addOption(Option menuOption){
+        this.options.add(menuOption);
+        return this;
+    }   
+
+    public ViewPage reset(){
+        this.title = null;        
+        this.options = new ArrayListEe<Option>();
+        return this;
+    }    
 
     public void printAPage(){   
         clearScreen();        
-
-        if(title!=null){
-            System.out.println(title);
-            System.out.println();
-        }
         
-        if(customPrinting!=null && customPrintingOrder==1){
-            customPrinting.accept((T)customPrinting);
-            System.out.println();
-        }
-
-        printAdditionalDetails();
-
-        if(customPrinting!=null && customPrintingOrder==2){
-            customPrinting.accept((T)customPrinting);
-            System.out.println();
-        }
+        printTitle();                        
 
         printMenu();        
 
         promptUserInputOption();
     }
 
-    public ConsoleMenu<T> printAdditionalDetails() {
-        if(!this.additionalDetails.isEmpty()){
-            for (int i=0;i<this.additionalDetails.size();i++) {        
-                System.out.printf("%2d.   %s\n",i+1,additionalDetails.retrieve(i).toString());
-            }            
-        }    
-        System.out.println();         
-        return this;
-    }
+    public void printTitle(){
+        if(title!=null){
+            System.out.println(title);
+            System.out.println();
+        }
+    }    
     
-    public ConsoleMenu<T> printMenu() {           
+    public ViewPage printMenu() {           
         System.out.println("========= Menu =========");
         if(!this.options.isEmpty()){
             for (int i=0;i<this.options.size();i++) {        
@@ -119,9 +78,9 @@ public class ConsoleMenu<T>{
         System.out.printf("%2d    %s\n",0,(App.history.isEmpty()?"Exit":"Back"));                          
         System.out.println("========================");
         return this;
-    }            
+    }              
     
-    public ConsoleMenu<T> promptUserInputOption() {     
+    public ViewPage promptUserInputOption() {     
         System.out.print("Enter your option: ");
         int inputOption = -1;
         try {
@@ -140,7 +99,7 @@ public class ConsoleMenu<T>{
         if(optionNum<0 || optionNum>this.options.size()){
             System.out.println("Invalid numbering! Please enter the numbering provided.");
             System.out.println();
-            promptUserInputOption();   
+            promptUserInputOption();
         }else if(optionNum==0){
             if(App.history.isEmpty()){        
                 System.out.println();        
@@ -161,25 +120,30 @@ public class ConsoleMenu<T>{
         }
     }
 
-    public int promptUserInputOptionBasedOnAdditionalDetails() {     
-        System.out.print("Enter your option: ");
-        int inputOption = -1;
-        try {
-            inputOption = App.scanner.nextInt();
-        } catch (InputMismatchException ime) {
-            App.scanner.next();
-            System.out.println("Invalid input! Please enter number only.");
+    public void goToUserOptionBasedOnList(int optionNum,ListInterfaceEe<Option> list){        
+        if(optionNum<0 || optionNum>list.size()){
+            System.out.println("Invalid numbering! Please enter the numbering provided.");
             System.out.println();
-            promptUserInputOptionBasedOnAdditionalDetails();
-        }        
-        return inputOption;
-    }
-
-    public int askUserInput(String title){
-        System.out.println(title);
-        userInput = App.scanner.nextInt();
-        return userInput;
-    }    
+            promptUserInputOption();   
+        }else if(optionNum==0){
+            if(App.history.isEmpty()){        
+                System.out.println();        
+                System.out.println("Thanks for using our sales system! Come again :)");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {                    
+                    e.printStackTrace();
+                }
+                clearScreen();
+                System.exit(0);
+            }
+            App.history.pop().accept("Back to previous page");
+        }else{
+            App.history.push(i -> this.printAPage());
+            System.out.println(this.options.size());
+            list.retrieve(optionNum-1).execFunction();
+        }
+    }     
 
     public String promptStringInput(String text){
         System.out.print(text);
@@ -252,35 +216,29 @@ public class ConsoleMenu<T>{
             promptTimeInput(text);
         }                                
         return time;
-    }    
+    }        
 
-    // public String confirmQuitFromInput(){
-    //     System.out.print("Are you sure you want to quit the progress? (Y|N): ");
-    //     String inputStr = App.scanner.nextLine();
-    //     if(inputStr=="Y"){
-    //         goToUserOption(0);
-    //     }else if(inputStr=="N"){
+    public boolean promptTryAgain(){
+        System.out.print("Do you want to try again? (Y|N): ");
+        String input = App.scanner.next();             
+        return checkPromptAgain(input);
+    }
 
-    //     }else{
-    //         System.out.println("Invalid input! Please enter Y or N only.");
-    //         System.out.println();
-    //         confirmQuitFromInput();            
-    //     }        
-    //     return inputStr;
-    // }
+    public boolean checkPromptAgain(String input){
+        if(input.toLowerCase().equals("y")){
+            System.out.println();
+            return true;
+        }else if(input.toLowerCase().equals("n")){            
+            return false;
+        }
+        System.out.println("Please enter Y or N only.");                
+        System.out.println();
+        promptTryAgain();                    
+        return false;
+    }
 
     public void clearScreen(){
         System.out.print("\033[H\033[2J");  
         System.out.flush();
-    }
-
-    // public ConsoleMenu addLastOption(ConsoleMenuOption option){
-    //     this.options.addLast(option);
-    //     return this;
-    // }
-
-    // public ConsoleMenu removeLastOption(ConsoleMenuOption option){
-    //     this.options.removeLast();
-    //     return this;
-    // }
+    }    
 }

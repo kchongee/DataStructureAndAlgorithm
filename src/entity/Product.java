@@ -1,5 +1,5 @@
 package entity;
-public class Product {
+public class Product implements DetailShowable{
 
     String title;
     double price;
@@ -38,7 +38,13 @@ public class Product {
 
     @Override
     public String toString() {
-        return String.format("Title: %s\nPrice: %.2f\nDescription: %s",title,price,description);
+        return String.format("%s\nPrice: %.2f\n",title,price);
+    }
+
+    @Override
+    public String toDetailString() {
+        // TODO Auto-generated method stub
+        return String.format("Title: %s\nPrice: %.2f\nDescription: %s\n",title,price,description);
     }
             
 }

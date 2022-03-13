@@ -8,14 +8,16 @@ public class Room{
     private String roomId,roomTitle;
     private int roomMemberCount;        
     private ListInterfaceEe<Buyer> likes;
+    private ListInterfaceEe<Buyer> buyers;
     private QueueInterface<Comment> comments;
     private Catalog catalog;
+    private boolean isOpen;
     private static int id = 0;
-    // private ListInterface<Customer> customers;
 
     public Room(){
         this.roomId = String.format("ROOM%4s", id).replace(' ', '0');
         this.roomMemberCount = 0;
+        this.isOpen = false;
         id++;
     }
 
@@ -26,7 +28,7 @@ public class Room{
 
     public String getRoomId() {
         return roomId;
-    }
+    }    
 
     public boolean addLike(Buyer buyer){
         int buyerIndex = likes.retrieve(buyer);
@@ -50,5 +52,17 @@ public class Room{
         Comment comment = new Comment(acc, text);
         comments.add(comment);
         return false;
+    }
+
+    public void openRoom(){
+        this.isOpen = true;
+    }
+
+    public void addBuyerIntoRoom(Buyer buyer){
+        buyers.add(buyer);
+    }
+
+    public void removeBuyerFromRoom(Buyer buyer){
+        buyers.remove(buyer);
     }
 }

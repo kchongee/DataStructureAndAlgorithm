@@ -12,90 +12,99 @@ import adtImplementation.Account;
 import adtImplementation.ArrayListEe;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterfaceEe;
-import entity.ConsoleMenu;
-import entity.ConsoleMenuOption;
 import entity.Follower;
+import entity.Option;
 import entity.Order;
 import entity.OrderProduct;
 import entity.Product;
 import entity.Room;
+import view.WelcomeView;
 
 public class App {
     public static Scanner scanner = new Scanner(System.in);
     public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
-    public static void main(String[] args) throws Exception {        
-        // ConsoleMenuOption backMenuOption = new ConsoleMenuOption("Back", i -> goBack());
-        Account currentUser = new Account();
+    public static Account currentUser = new Account();
+    public static void main(String[] args) throws Exception {                
+        WelcomeView.main();
+    }        
 
-        //#region : Seller Home page
-        ListInterfaceEe<ConsoleMenuOption> homeMenuOptions = new ArrayListEe<ConsoleMenuOption>();
-        Consumer<String> homePage = i -> {
-            clearScreen();
-            printMenuOption(homeMenuOptions);
-            promptUserInputOptionAndGo(homeMenuOptions);
-        };
-        //#endregion : Seller Home page
-        
-        //#region : Welcome page
-        ListInterfaceEe<ConsoleMenuOption> welcomeMenuOptions = new ArrayListEe<ConsoleMenuOption>();
-        Consumer<String> welcomePage = i -> {
-            clearScreen();
-            printMenuOption(welcomeMenuOptions);
-            promptUserInputOptionAndGo(welcomeMenuOptions);
-        };
-        welcomeMenuOptions.add(new ConsoleMenuOption("Login", i -> {
-            history.push(welcomePage);
-            boolean tryAgain = true;
-            do{
-                String id = promptStringInput("Username: ");
-                String password = promptStringInput("Password: ");
-                if(id.equals(password)){ 
-                    // homePage.accept("t");
-                }else{
-                    tryAgain = promptTryAgain();   
-                }
-            }while(tryAgain==true);         
-            goBack();
-        }));
-        welcomeMenuOptions.add(new ConsoleMenuOption("Register", i -> {            
-            history.push(welcomePage);            
-            boolean tryAgain = true;
-            do{
-                String id = promptStringInput("Username: ");
-                String password = promptStringInput("Password: ");
-                if(id.equals(password)){
-                    // homePage.accept("t");                  
-                }else{
-                    tryAgain = promptTryAgain();   
-                }                    
-            }while(tryAgain==true);
-            goBack();        
-        }));        
-        //#endregion : Welcome page
-                
-        welcomePage.accept("t");
-    }
-    
-    
-
-    public static void promptContinue(){
-        System.out.println("Do you want to ");
-    }
-
-    public static boolean promptTryAgain(){
-        System.out.print("Do you want to try again? (Y|N): ");
+    public static boolean promptYesOrNo(String promptText){
+        System.out.println(promptText);
         String input = scanner.next();             
         if(input.toLowerCase().equals("y")){
             System.out.println();
             return true;
         }else if(input.toLowerCase().equals("n")){            
             return false;
-        }
-        System.out.println("Please enter Y or N only.");                
-        System.out.println();
-        promptTryAgain();                    
-        return false;
+        }else{
+            System.out.println("Please enter Y or N only.");                
+            System.out.println();
+            return promptYesOrNo(promptText);
+        }  
     }
+
+    public static boolean promptTryAgain(){
+        return promptYesOrNo("Do you want to try again? (Y|N): ");
+    }    
+
+    public static void nextLine() {  
+        System.out.println();
+    }  
+
+    public static void clearScreen() {  
+        System.out.print("\033[H\033[2J");  
+        System.out.flush();  
+    }
+
+    public static void menuHandler(ListInterfaceEe<Option> options){
+        printMenuOption(options);
+        promptUserInputOptionAndGo(options);
+    }
+
+    public static void printThroughList(ListInterfaceEe<?> list) {                
+        if(!list.isEmpty()){
+            for (int i=0;i<list.size();i++) {        
+                System.out.printf("%2d    %s\n",i+1,list.retrieve(i).toString());
+            }            
+        }            
+    }  
+
+    public static void printMenuOption(ListInterfaceEe<Option> options) {        
+        System.out.println("========= Menu =========");
+        if(!options.isEmpty()){
+            for (int i=0;i<options.size();i++) {        
+                System.out.printf("%2d    %s\n",i+1,options.retrieve(i).getText());
+            }            
+        }    
+        System.out.printf("%2d    %s\n",0,(history.isEmpty()?"Exit":"Back"));                          
+        System.out.println("========================");        
+    }    
+
+    public static void promptUserInputOptionAndGo(ListInterfaceEe<Option> options) {     
+        System.out.print("Enter your option: ");
+        int inputOption = -1;
+        try {
+            inputOption = scanner.nextInt();            
+            goToUserOption(inputOption,options);         
+        } catch (InputMismatchException ime) {
+            scanner.next();
+            System.out.println("Invalid input! Please enter number only.");
+            System.out.println();
+            promptUserInputOptionAndGo(options);
+        }        
+    }          
+
+    public static void goToUserOption(int optionNum,ListInterfaceEe<Option> options){
+        if(optionNum<0 || optionNum>options.size()){
+            System.out.println("Invalid numbering! Please enter the numbering provided.");
+            System.out.println();
+            promptUserInputOptionAndGo(options);
+        }else if(optionNum==0){
+            goBack();
+        }else{
+            options.retrieve(optionNum-1).execFunction();
+        }
+    }   
 
     public static void goBack(){        
         if(history.isEmpty()){        
@@ -110,91 +119,6 @@ public class App {
             System.exit(0);
         }
         history.pop().accept("Back to previous page");
-    }
-
-    public static void nextLine() {  
-        System.out.println();
-    }  
-
-    public static void clearScreen() {  
-        System.out.print("\033[H\033[2J");  
-        System.out.flush();  
-    }
-
-    public static void printAndPromptAndGoToUserMenuOption(ListInterfaceEe<ConsoleMenuOption> options) {
-        printMenuOption(options);
-        promptUserInputOptionAndGo(options);        
-    }
-
-    public static int printAndPromptUserMenuOption(ListInterfaceEe<ConsoleMenuOption> options) {
-        printMenuOption(options);
-        return promptUserInputOption();
-    }
-
-    public static void printMenuOption(ListInterfaceEe<ConsoleMenuOption> options) {        
-        System.out.println("========= Menu =========");
-        if(!options.isEmpty()){
-            for (int i=0;i<options.size();i++) {        
-                System.out.printf("%2d    %s\n",i+1,options.retrieve(i).getText());
-            }            
-        }    
-        System.out.printf("%2d    %s\n",0,(history.isEmpty()?"Exit":"Back"));                          
-        System.out.println("========================");        
-    }
-
-    public static int promptUserInputOption() {        
-        System.out.print("Enter your option: ");
-        int inputOption = -1;
-        try {
-            inputOption = scanner.nextInt();            
-        } catch (InputMismatchException ime) {
-            scanner.next();
-            System.out.println("Invalid input! Please enter number only.");
-            System.out.println();
-            promptUserInputOption();
-        }       
-        return inputOption;         
-    }
-
-    public static int promptUserInputOption(ListInterfaceEe<ConsoleMenuOption> options) {
-        System.out.print("Enter your option: ");
-        int inputOption = -1;
-        try {
-            inputOption = scanner.nextInt();            
-        } catch (InputMismatchException ime) {
-            scanner.next();
-            System.out.println("Invalid input! Please enter number only.");
-            System.out.println();
-            promptUserInputOption(options);
-        }     
-        return inputOption;           
-    }
-
-    public static void promptUserInputOptionAndGo(ListInterfaceEe<ConsoleMenuOption> options) {     
-        System.out.print("Enter your option: ");
-        int inputOption = -1;
-        try {
-            inputOption = scanner.nextInt();
-            clearScreen();
-            goToUserOption(inputOption,options);         
-        } catch (InputMismatchException ime) {
-            scanner.next();
-            System.out.println("Invalid input! Please enter number only.");
-            System.out.println();
-            promptUserInputOptionAndGo(options);
-        }        
-    }        
-
-    public static void goToUserOption(int optionNum,ListInterfaceEe<ConsoleMenuOption> options){
-        if(optionNum<0 || optionNum>options.size()){
-            System.out.println("Invalid numbering! Please enter the numbering provided.");
-            System.out.println();
-            promptUserInputOption();
-        }else if(optionNum==0){
-            goBack();
-        }else{
-            options.retrieve(optionNum-1).execFunction();
-        }
     }
     
     public static Integer promptIntInput(String text){

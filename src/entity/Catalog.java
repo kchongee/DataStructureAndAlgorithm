@@ -1,28 +1,21 @@
 package entity;
 import adtImplementation.ArrayListEe;
+import adtImplementation.HashMap;
 // import adtInterfaces.ListInterface;
 import adtInterfaces.ListInterfaceEe;
+import adtInterfaces.MapInterface;
 
 public class Catalog{
-    private ListInterfaceEe<Product> productList = new ArrayListEe<Product>();    
-    private int[] numbering = new int[2];
-    // private Function[] functions  = new Function()[2];
+    // private ListInterfaceEe<Product> productList = new ArrayListEe<Product>();    
+    private MapInterface<String,Product> numberingProduct;
 
-    void add(){
-        
+    public Catalog(){
+        this.numberingProduct = new HashMap<>();
     }
 
-    void edit(int index){
-
+    void add(String keyword,Product product){
+        this.numberingProduct.put(keyword, product);
     }
-
-    void search(int index){
-
-    }    
-
-    void searchForIndex(Product p){
-
-    }    
 
     void delete(){
 
