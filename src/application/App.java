@@ -8,7 +8,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-import adtImplementation.Account;
+import entity.Account;
 import adtImplementation.ArrayListEe;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterfaceEe;

@@ -1,4 +1,4 @@
-package adtImplementation;
+package entity;
 
 public class Account {
     private String userName;
@@ -6,6 +6,7 @@ public class Account {
     private String name;
     private String address;
     private String email;
+    private int isSeller;
     
 
     public Account(){
@@ -13,7 +14,17 @@ public class Account {
         this.userPwd="";
         this.name=""; 
         this.address="";
-        this.email="";   
+        this.email=""; 
+        this.isSeller=0;  
+    }
+
+    public Account(String userName){
+        this.userName=userName;
+        this.userPwd="";
+        this.name=""; 
+        this.address="";
+        this.email=""; 
+        this.isSeller=0;  
     }
 
     public Account(String userName, String userPwd){
@@ -22,14 +33,16 @@ public class Account {
         this.name="";
         this.address="";
         this.email="";
+        this.isSeller=0;
     }
 
-    public Account(String userName, String userPwd,String name, String address, String email){
+    public Account(String userName, String userPwd,String name, String address, String email, int isSeller){
         this.name=name;
         this.address=address;
         this.email=email;
         this.userName=userName;
         this.userName=userPwd;
+        this.isSeller=isSeller;
     }
 
     public String getUserName() {
@@ -70,6 +83,14 @@ public class Account {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getIsSeller() {
+        return isSeller;
+    }
+
+    public void setIsSeller(int isSeller) {
+        this.isSeller = isSeller;
     }
 
     @Override

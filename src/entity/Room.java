@@ -1,5 +1,5 @@
 package entity;
-import adtImplementation.Account;
+
 import adtInterfaces.ListInterface;
 import adtInterfaces.ListInterfaceEe;
 import adtInterfaces.QueueInterface;
