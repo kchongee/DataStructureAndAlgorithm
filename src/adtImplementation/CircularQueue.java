@@ -2,34 +2,37 @@ package adtImplementation;
 
 import adtInterfaces.QueueInterface;
 
+import java.util.NoSuchElementException;
+
+
 public class CircularQueue<T> implements QueueInterface<T> {
     T elements[];
     int starting;
-    int ending;
+    int nextInsertion;
     int size;
     int elementQty;
 
-    public CircularQueue(int size) 
+    public CircularQueue(int size)
     {
         this.starting = 0;
-        this.ending = 0;
+        this.nextInsertion = 0;
         this.elementQty = 0;
         this.elements = (T[]) new Object[size];
         this.size = size;
     }
 
-    @Override
+
     public int size() {
         return elementQty;
     }
 
-    @Override
+
     public boolean isEmpty() {
         return elementQty == 0;
     }
 
-    @Override
-    public boolean contains(T e) 
+
+    public boolean contains(T e)
     {
         for(T element : elements)
         {
@@ -40,66 +43,83 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return false;
     }
 
-    @Override
-    public T[] toArray() {
+
+    public T[] toArray()
+    {
         int queueSize = size();
         T[] arr = (T[]) new Object[queueSize];
         return arr;
     }
 
     @Override
-    public boolean remove(final Object o) {
-        return false;
+    public T remove(final Object o) {
+        return null;
     }
 
-    // @Override
-    // public boolean remove(Object o) {
-    //     // TODO Auto-generated method stub
-    //     return false;
-    // }
 
-    @Override
+    public T remove() {
+        if (!isEmpty())
+        {
+            T returnElement = elements[starting];
+            elements[starting] = null;
+            starting = getNewStart(starting);
+            --elementQty;
+            return returnElement;
+        }
+        else
+        {
+            throw new NoSuchElementException("Queue is empty");
+        }
+    }
+
+
     public void clear()
     {
         this.starting = 0;
-        this.ending = 0;
+        this.nextInsertion = 0;
         this.elementQty = 0;
         this.elements = (T[]) new Object[size];
     }
 
-    @Override
+
     public boolean add(T e)
     {
         if (!isFull())
         {
             elements[getNextInsertionIndex()] = e;
-            ending = ending+1 >= size? 0 : ending+1;
+            updateNextInsertionIndex();
+            ++elementQty;
+            return true;
+        }
+        else
+        {
+            throw new IllegalStateException("Exceeded queue limitations");
+        }
+    }
+
+
+    public boolean isFull(){
+        return elementQty >= size;
+    }
+
+
+    public boolean offer(final T e)
+    {
+        if (!isFull())
+        {
+            elements[getNextInsertionIndex()] = e;
+            updateNextInsertionIndex();
             ++elementQty;
             return true;
         }
         return false;
     }
 
-    private int getNextInsertionIndex() {
-        return ending == size? 0:ending;
-    }
 
-
-    @Override
-    public boolean isFull(){
-        return elementQty >= size;
-    }
-
-    @Override
-    public boolean offer(final T e) {
-        return false;
-    }
-
-    @Override
     public T poll()
     {
         T returnElement = null;
-        if (elementQty > 0)
+        if (!isEmpty())
         {
             returnElement = elements[starting];
             elements[starting] = null;
@@ -109,6 +129,27 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return returnElement;
     }
 
+
+    public T element() {
+        if (!isEmpty()){
+            return elements[starting];
+        }else {
+            throw new NoSuchElementException("Queue is empty");
+        }
+    }
+
+
+    public T peek()
+    {
+        T headElement = null;
+        if (!isEmpty()){
+            headElement = elements[starting];
+        }
+        return headElement;
+    }
+
+
+    // utility
     private int getNewStart(int oldStartingPoint)
     {
         int newStart = oldStartingPoint + 1;
@@ -118,30 +159,30 @@ public class CircularQueue<T> implements QueueInterface<T> {
         return newStart;
     }
 
-    @Override
-    public T element() {
-        return null;
+
+    private int getNextInsertionIndex() {
+        return nextInsertion == size? 0:nextInsertion;
     }
 
-    @Override
-    public T peek() {
-        return null;
+
+    private void updateNextInsertionIndex(){
+        nextInsertion = nextInsertion+1 >= size? 0 : nextInsertion+1;
     }
 
+    // Debug
     public void printLogicalQueue(){
         int start = starting;
         boolean endNotReached = true;
         System.out.println("Logical : ");
-        int count = 0;
         while (endNotReached)
         {
-            ++count;
             T element = elements[start];
             System.out.print(element + ", ");
             start = getNewStart(start);
-            endNotReached = start != ending;
+            endNotReached = start != nextInsertion;
         }
     }
+
 
     public void printActualQueue(){
         System.out.print("Actual : ");
@@ -149,33 +190,147 @@ public class CircularQueue<T> implements QueueInterface<T> {
             System.out.print(e + ", ");
         }
     }
+
+
+    public void printSize(){
+        System.out.println("Size = " + size());
+    }
+
+
+    public void printEndingAndStarting(){
+        System.out.println("Ending = " + nextInsertion);
+        System.out.println("Starting = " + starting);
+    }
 }
 
 class TestMyCircularQueue{
     public static void main(String[] args) {
         CircularQueue cq = new CircularQueue<Integer>(5);
         cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
 
         cq.add(1);
-        cq.add(2);
-
         cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.add(2);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.add(2);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
 
         cq.add(3);
-        cq.add(4);
-
         cq.printActualQueue();
-        cq.poll();
-        cq.printActualQueue();
-
-        cq.add(6);
-        cq.printActualQueue();
-
-        cq.add(9);
-        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
 
         cq.poll();
         cq.printActualQueue();
         cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.add(3);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.add(4);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.remove();
+
+        cq.add(5);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.add(7);
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
+
+        cq.poll();
+        cq.printActualQueue();
+        cq.printLogicalQueue();
+        cq.printSize();
+        cq.printEndingAndStarting();
     }
 }

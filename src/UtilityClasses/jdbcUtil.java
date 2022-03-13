@@ -11,8 +11,15 @@ public final class jdbcUtil
     private static String user = "liveSale";
     private static String pwrd = "liveSale";
     private static Statement SQL;
+    private final static jdbcUtil INSTANCE = new jdbcUtil();
+
+
 
     private jdbcUtil() {}
+
+    public static jdbcUtil getInstance(){
+        return INSTANCE;
+    }
 
     private static void openConnection() {
         try
