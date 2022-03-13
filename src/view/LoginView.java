@@ -4,7 +4,6 @@ import adtImplementation.Account;
 import application.App;
 import entity.Buyer;
 import entity.Seller;
-import test.SellerHomeView;
 
 public class LoginView{     
     public static void main() {

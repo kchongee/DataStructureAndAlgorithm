@@ -1,8 +1,8 @@
 package view;
 
-import adtImplementation.ArrayListEe;
+import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-import adtInterfaces.ListInterfaceEe;
+import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import application.App;
 import entity.Option;
@@ -10,9 +10,9 @@ import entity.Product;
 import entity.Seller;
 
 public class SellerCreateRoomView {
-    private static ListInterfaceEe<Option> menuOptions = new ArrayListEe<Option>();
-    private static ListInterfaceEe<Option> productOptions = new ArrayListEe<Option>();    
-    private static ListInterfaceEe<Product> products = new ArrayListEe<Product>();    
+    private static ListInterface<Option> menuOptions = new ArrayList<Option>();
+    private static ListInterface<Option> productOptions = new ArrayList<Option>();    
+    private static ListInterface<Product> products = new ArrayList<Product>();    
     private static MapInterface<String,Product> catalogProduct = new HashMap<>();
     private static Product tempProduct = null;
 
@@ -49,7 +49,7 @@ public class SellerCreateRoomView {
         products = ((Seller) App.currentUser).getProducts();
         if(!products.isEmpty()){
             for(int i=0;i<products.size();i++){
-                Product currProduct = products.retrieve(i);
+                Product currProduct = products.get(i);
                 productOptions.add(new Option(currProduct.getTitle(), ii -> {
                     tempProduct = currProduct;
                 }));

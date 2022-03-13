@@ -3,21 +3,14 @@ package application;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
-import java.time.LocalDateTime;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
 import adtImplementation.Account;
-import adtImplementation.ArrayListEe;
 import adtImplementation.StackLinkedList;
-import adtInterfaces.ListInterfaceEe;
-import entity.Follower;
+import adtInterfaces.ListInterface;
 import entity.Option;
-import entity.Order;
-import entity.OrderProduct;
-import entity.Product;
-import entity.Room;
 import view.WelcomeView;
 
 public class App {
@@ -56,31 +49,31 @@ public class App {
         System.out.flush();  
     }
 
-    public static void menuHandler(ListInterfaceEe<Option> options){
+    public static void menuHandler(ListInterface<Option> options){
         printMenuOption(options);
         promptUserInputOptionAndGo(options);
     }
 
-    public static void printThroughList(ListInterfaceEe<?> list) {                
+    public static void printThroughList(ListInterface<?> list) {                
         if(!list.isEmpty()){
             for (int i=0;i<list.size();i++) {        
-                System.out.printf("%2d    %s\n",i+1,list.retrieve(i).toString());
+                System.out.printf("%2d    %s\n",i+1,list.get(i).toString());
             }            
         }            
     }  
 
-    public static void printMenuOption(ListInterfaceEe<Option> options) {        
+    public static void printMenuOption(ListInterface<Option> options) {        
         System.out.println("========= Menu =========");
         if(!options.isEmpty()){
             for (int i=0;i<options.size();i++) {        
-                System.out.printf("%2d    %s\n",i+1,options.retrieve(i).getText());
+                System.out.printf("%2d    %s\n",i+1,options.get(i).getText());
             }            
         }    
         System.out.printf("%2d    %s\n",0,(history.isEmpty()?"Exit":"Back"));                          
         System.out.println("========================");        
     }    
 
-    public static void promptUserInputOptionAndGo(ListInterfaceEe<Option> options) {     
+    public static void promptUserInputOptionAndGo(ListInterface<Option> options) {     
         System.out.print("Enter your option: ");
         int inputOption = -1;
         try {
@@ -94,7 +87,7 @@ public class App {
         }        
     }          
 
-    public static void goToUserOption(int optionNum,ListInterfaceEe<Option> options){
+    public static void goToUserOption(int optionNum,ListInterface<Option> options){
         if(optionNum<0 || optionNum>options.size()){
             System.out.println("Invalid numbering! Please enter the numbering provided.");
             System.out.println();
@@ -102,7 +95,7 @@ public class App {
         }else if(optionNum==0){
             goBack();
         }else{
-            options.retrieve(optionNum-1).execFunction();
+            options.get(optionNum-1).execFunction();
         }
     }   
 

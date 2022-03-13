@@ -1,17 +1,15 @@
 package view;
 
 import java.util.function.Consumer;
-import java.util.function.IntToDoubleFunction;
 
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
-import entity.ViewPage;
 
 public class WelcomeView{
 
-    public static ListInterfaceEe<Option> menuOptions = new ArrayListEe<Option>();
+    public static ListInterface<Option> menuOptions = new ArrayList<Option>();
     
     static{
         menuOptions.add(new Option("Login", i -> goToPage(ii -> LoginView.main())));

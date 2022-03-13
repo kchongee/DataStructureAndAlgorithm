@@ -1,19 +1,20 @@
 package entity;
 
 import adtImplementation.Account;
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 
 public class Seller extends Account{
 
-    ListInterfaceEe<Product> products;
-    ListInterfaceEe<Room> rooms;
+    ListInterface<Product> products;
+    ListInterface<Room> rooms;
+    ListInterface<Buyer> followers;
 
     public Seller(){
-        rooms = new ArrayListEe<Room>();
+        rooms = new ArrayList<Room>();
     }
 
-    public ListInterfaceEe<Room> getRooms(){
+    public ListInterface<Room> getRooms(){
         return rooms;
     }
 
@@ -21,8 +22,12 @@ public class Seller extends Account{
         return rooms.add(newRoom);
     }
 
+    public boolean addFollower(Buyer buyer){
+        return followers.add(buyer);
+    }
 
-    public ListInterfaceEe<Product> getProducts(){
+
+    public ListInterface<Product> getProducts(){
         return products;
     }
 
