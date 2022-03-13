@@ -9,6 +9,7 @@ create table Account(
     primary key(accountID)
 );
 
+
 -- MUST PUT BELOW AccountTable If applicable
 drop table Comment;
 create table Comment(
@@ -21,8 +22,6 @@ create table Comment(
     isOrder      binary      not null,
     primary key(commentSeq, accountID, commentDate, commentTime) 
 );
-
-
 
 
 

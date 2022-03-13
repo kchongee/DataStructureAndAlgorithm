@@ -21,24 +21,6 @@ public class CommentDisplayer
 
 
     // region 002 : public methods
-    public Queue<Comment> getCommentQueueAndUpdateLatestCommentFetched()
-    {
-        ArrayList<HashMap<String, Object>> commentsMap = get50LatestCommentFromDB();
-        Queue<Comment> commentQueue = new LinkedList<Comment>();
-        this.latestCommentFetched = new Comment(commentsMap.get(0));
-
-        for (int i = commentsMap.size()-1 ; i > 0 ; i--)
-        {
-            Comment tempComment = new Comment(commentsMap.get(i));
-
-            // debug
-            // System.out.println(tempComment.toString());
-
-            commentQueue.add(tempComment);
-        }
-        return commentQueue;
-    }
-
     public Comment fetchLatestCommentFromDB()
     {
         String subquery = String.format
@@ -124,37 +106,37 @@ public class CommentDisplayer
 }
 
 //testers
-class get50LatestCommentFromDB
-{
-    public static void main(String[] args)
-    {
-        CommentDisplayer cd = new CommentDisplayer("roomA");
-        Queue<Comment> cq = cd.getCommentQueueAndUpdateLatestCommentFetched();
-        for (Comment c : cq){
-            System.out.println(c.toString());
-        }
-    }
-}
-
-
-class getLatestComment
-{
-    public static void main(String[] args)
-    {
-        CommentDisplayer cd = new CommentDisplayer("roomA");
-        System.out.println(cd.latestCommentFetched.toString());
-        System.out.println(cd.fetchLatestCommentFromDB().toString());
-    }
-}
-
-
-class compareCommentTest
-{
-    public static void main(String[] args)
-    {
-        CommentDisplayer cd = new CommentDisplayer("roomA");
-        Comment a = cd.latestCommentFetched;
-        Comment b = cd.fetchLatestCommentFromDB();
-        System.out.println(a.compareTo(b));
-    }
-}
+//class get50LatestCommentFromDB
+//{
+//    public static void main(String[] args)
+//    {
+//        CommentDisplayer cd = new CommentDisplayer("roomA");
+//        Queue<Comment> cq = cd.getCommentQueueAndUpdateLatestCommentFetched();
+//        for (Comment c : cq){
+//            System.out.println(c.toString());
+//        }
+//    }
+//}
+//
+//
+//class getLatestComment
+//{
+//    public static void main(String[] args)
+//    {
+//        CommentDisplayer cd = new CommentDisplayer("roomA");
+//        System.out.println(cd.latestCommentFetched.toString());
+//        System.out.println(cd.fetchLatestCommentFromDB().toString());
+//    }
+//}
+//
+//
+//class compareCommentTest
+//{
+//    public static void main(String[] args)
+//    {
+//        CommentDisplayer cd = new CommentDisplayer("roomA");
+//        Comment a = cd.latestCommentFetched;
+//        Comment b = cd.fetchLatestCommentFromDB();
+//        System.out.println(a.compareTo(b));
+//    }
+//}

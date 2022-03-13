@@ -140,12 +140,12 @@ public class HashMap<K,V> implements MapInterface<K,V> {
                 table = newTable;
                 
                 for(int j=0;j<list.size();i++) {
-                    if (list.retrieve(j) != null) {
+                    if (list.get(j) != null) {
                         //set next pointer of all entries to null
-                        list.retrieve(j).next = null;
+                        list.get(j).next = null;
                     }
                     //rehash new table
-                    put(list.retrieve(j).getKey(), list.retrieve(j).getValue());
+                    put(list.get(j).getKey(), list.get(j).getValue());
                 }
             }
         }
@@ -167,7 +167,6 @@ public class HashMap<K,V> implements MapInterface<K,V> {
             if (entry.next != null) {
                 return findValueByEqualKey(k, entry.next);
             }
-    
         }
         return entry.getValue();
     }

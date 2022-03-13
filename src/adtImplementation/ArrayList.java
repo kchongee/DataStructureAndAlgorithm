@@ -2,7 +2,7 @@ package adtImplementation;
 
 import adtInterfaces.ListInterface;
 
-public class ArrayList<T> implements ListInterface<T> {
+public class ArrayList<T> implements ListInterface<T> {    
     private T[] listArray;
     //private Account[] accountList;
     private int numberOfEntries;
@@ -71,7 +71,7 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public T retrieve(int givenPosition) {
+    public T get(int givenPosition) {
         // TODO Auto-generated method stub
         T returned = null;
         if((givenPosition>=1) && (givenPosition <= numberOfEntries)){
@@ -80,6 +80,16 @@ public class ArrayList<T> implements ListInterface<T> {
         return returned;
     }
 
+    @Override
+    public boolean replace(int givenPosition, T inputElement){
+        if ((givenPosition >= 1) && (givenPosition <= numberOfEntries)){
+            listArray[givenPosition]=inputElement;
+        } else{
+            return false;
+        }
+        return true;
+    }
+    
     private void doubleArray() {
         T[] oldArray=listArray;
         int oldsize=oldArray.length;

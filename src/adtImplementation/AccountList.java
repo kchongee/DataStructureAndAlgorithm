@@ -11,7 +11,7 @@ public class AccountList {
 
     public boolean addAccount(Account inputAccount){
         for(int i=0;i<accountList.size();i++){
-            if(inputAccount.getUserName().equals(accountList.retrieve(i).getUserName())){
+            if(inputAccount.getUserName().equals(accountList.get(i).getUserName())){
                 return false;
             }
         }
@@ -29,7 +29,7 @@ public class AccountList {
         boolean found=true;
         int givenPosition=0;
         for(int i=0;i<accountList.size();i++){
-            if(inputAccount.getUserName().equals(accountList.retrieve(i).getUserName())){
+            if(inputAccount.getUserName().equals(accountList.get(i).getUserName())){
                 givenPosition=i;
                 found=true;
                 accountList.remove(givenPosition);
@@ -43,9 +43,9 @@ public class AccountList {
 
     public boolean checkAccount(Account inputAccount){
         for (int i=0;i<accountList.size();i++){
-            if (inputAccount.getUserName().equals(accountList.retrieve(i).getUserName())){
+            if (inputAccount.getUserName().equals(accountList.get(i).getUserName())){
                 System.out.println(inputAccount.getUserName());
-                if (inputAccount.getUserPwd().equals(accountList.retrieve(i).getUserPwd())){
+                if (inputAccount.getUserPwd().equals(accountList.get(i).getUserPwd())){
                     System.out.println(inputAccount.getUserPwd());
                     return true;
                 }
@@ -57,8 +57,8 @@ public class AccountList {
     public boolean changePassword(Account inputAccount, String newPwd){
         boolean pwdChanged=true;
         for(int i=0;i<accountList.size();i++){
-            if(inputAccount.getUserName().equals(accountList.retrieve(i).getUserName())){
-                accountList.retrieve(i).setUserPwd(newPwd);
+            if(inputAccount.getUserName().equals(accountList.get(i).getUserName())){
+                accountList.get(i).setUserPwd(newPwd);
                 pwdChanged=true;
                 break;
             } else{

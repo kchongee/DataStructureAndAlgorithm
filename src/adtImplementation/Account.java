@@ -24,7 +24,7 @@ public class Account {
         this.email="";
     }
 
-    public Account(String name, String address, String email, String userName, String userPwd){
+    public Account(String userName, String userPwd,String name, String address, String email){
         this.name=name;
         this.address=address;
         this.email=email;
