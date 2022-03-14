@@ -2,16 +2,15 @@ package view;
 
 import java.util.function.Consumer;
 
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
 import entity.Seller;
-import entity.ViewPage;
 
 public class SellerFollowersView{
 
-    public static ListInterfaceEe<Option> menuOptions = new ArrayListEe<Option>();
+    public static ListInterface<Option> menuOptions = new ArrayList<Option>();
     
     public static void main() {        
         printTitle("Followers");                
