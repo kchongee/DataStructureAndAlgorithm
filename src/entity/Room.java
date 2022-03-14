@@ -48,11 +48,11 @@ public class Room{
         return false;
     }
 
-    public boolean addComment(Account acc, String text){
-        Comment comment = new Comment(acc, text);
-        comments.add(comment);
-        return false;
-    }
+//    public boolean addComment(Account acc, String text){
+//        Comment comment = new Comment(acc, text);
+//        comments.add(comment);
+//        return false;
+//    }
 
     public void openRoom(){
         this.isOpen = true;

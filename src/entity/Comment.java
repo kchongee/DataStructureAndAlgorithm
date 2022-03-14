@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.HashMap;
 
+import SubSystem.CommentDisplayer.CommentFormatter;
 import adtImplementation.Account;
 // import Customer;
 // import adtInterfaces.ArrayList;
@@ -21,6 +22,8 @@ public class Comment implements Comparable<Comment>
     String roomID;
     String content;
     String accountType;
+    CommentFormatter formatter;
+
 
     // region 001 : constructors
     public Comment(String accountID, String username, LocalTime commentTime, LocalDate commentDate, String roomID, String content, String accountType)
@@ -32,6 +35,7 @@ public class Comment implements Comparable<Comment>
         this.roomID = roomID;
         this.content = content;
         this.accountType = accountType;
+        this.formatter = new CommentFormatter(this);
     }
 
     public Comment(HashMap<String, Object> commentEntry)
@@ -43,6 +47,7 @@ public class Comment implements Comparable<Comment>
         this.roomID = (String) commentEntry.get("roomID");
         this.content = (String) commentEntry.get("content");
         this.accountType = (String) commentEntry.get("accountType");
+        this.formatter = new CommentFormatter(this);
     }
     // endregion
 
@@ -56,6 +61,67 @@ public class Comment implements Comparable<Comment>
                 (commentDate.toString().equals(comment.commentDate.toString()));
         return identical? 1 : 0;
     }
+    // endregion
+
+
+    // region 003 : getter setter
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(String accountID) {
+        this.accountID = accountID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public LocalTime getCommentTime() {
+        return commentTime;
+    }
+
+    public void setCommentTime(LocalTime commentTime) {
+        this.commentTime = commentTime;
+    }
+
+    public LocalDate getCommentDate() {
+        return commentDate;
+    }
+
+    public void setCommentDate(LocalDate commentDate) {
+        this.commentDate = commentDate;
+    }
+
+    public String getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
+    }
+
+    public CommentFormatter getFormatter(){ return formatter; }
     // endregion
 
 

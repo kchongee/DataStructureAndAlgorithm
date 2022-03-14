@@ -1,4 +1,9 @@
-
+drop table RoomStatus;
+create table RoomStatus(
+	roomID  varchar(50) not null,
+    status  varchar(50) not null,
+    primary key(roomID)
+);
 
 -- can replace withYour table script here but pkey field name must same
 drop table Account;
@@ -24,7 +29,8 @@ create table Comment(
 );
 
 
-
+insert into RoomStatus values('RoomA', "active");
+insert into RoomStatus values('RoomB', "ended");
 
 -- Account Table Data
 
@@ -59,10 +65,9 @@ insert into Account (accountID, accountType, username) values ('A83266', 'buyer'
 insert into Account (accountID, accountType, username) values ('A48771', 'buyer', 'vwithefords');
 insert into Account (accountID, accountType, username) values ('A06853', 'buyer', 'lworsnupt');
 
+
+
 -- Comment Table Data
-
-
-
 
 INSERT INTO comment VALUES (1,'A89421','5/4/2021','0:01:38','roomB','lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum',TRUE);
 INSERT INTO comment VALUES (2,'accountID','15/6/2021','0:02:17','roomB','turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus',FALSE);

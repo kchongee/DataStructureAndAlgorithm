@@ -31,7 +31,12 @@ public final class ProjectCompileUtil
     {
         String sourcePath = wrapQuotes(getSourceFilePath());
         String classMain = wrapQuotes(getFilePath(obj));
-//        System.out.println("javac -cp " +  sourcePath + " " + classMain);
+
+
+        // debug
+        // System.out.println("javac -cp " +  sourcePath + " " + classMain);
+
+
         return "javac -cp " +  sourcePath + " " + classMain;
     }
 
