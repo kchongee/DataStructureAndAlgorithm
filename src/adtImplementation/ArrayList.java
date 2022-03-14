@@ -91,7 +91,7 @@ public class ArrayList<T> implements ListInterface<T> {
     @Override
     public T get(int index) {        
         T returned = null;
-        if((index>=1) && (index <= size)){
+        if((index>=0) && (index <= size)){
             returned = arr[index];
         }
         return returned;
