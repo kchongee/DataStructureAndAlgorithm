@@ -2,23 +2,30 @@ package SubSystem.CommentDisplayer;
 
 import UtilityClasses.ConsoleFormatter;
 import UtilityClasses.ProjectCompileUtil;
+import adtImplementation.ArrayList;
+import adtImplementation.CircularQueue;
+import adtImplementation.HashMap;
+import entity.Account;
 import entity.Comment;
-import java.util.*;
+import entity.Launchable;
+import entity.Room;
 import static UtilityClasses.jdbcUtil.*;
 
 
-public class CommentDisplayer
+public class CommentDisplayer implements Launchable
 {
-    String roomID;
+    Room room;
+    Account account;
     CommentData commentData;
 
 
     // region 001 : constructor
     public CommentDisplayer(){}
 
-    public CommentDisplayer(String roomID)
+    public CommentDisplayer(Room room, Account account)
     {
-        this.roomID = roomID;
+        this.room = room;
+        this.account = account;
         this.commentData = new CommentData();
     }
     // endregion
@@ -44,21 +51,13 @@ public class CommentDisplayer
         String query =
                 "SELECT status\n"   +
                 "FROM RoomStatus\n" +
-                "WHERE roomID='" + roomID +"';";
+                "WHERE roomID='" + room.getRoomId() +"';";
         return ((String)readOne(query).get("status")).toUpperCase().equals("ACTIVE");
     }
     // endregion
 
 
     // region 003 : getters setters
-    public String getRoomID() {
-        return roomID;
-    }
-
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
-
     public CommentData getCommentData() {
         return commentData;
     }
@@ -73,14 +72,14 @@ public class CommentDisplayer
     public class CommentData
     {
         ArrayList<HashMap<String, Object>> commentsMap;
-        Queue<Comment> commentQueue;
+        CircularQueue<Comment> commentQueue;
         Comment latestComment;
 
 
         // constructor
         public CommentData()
         {
-            commentQueue = new ArrayDeque<Comment>();
+            commentQueue = new CircularQueue<Comment>(50);
             updateData();
         }
 
@@ -94,11 +93,11 @@ public class CommentDisplayer
             this.commentsMap = commentsMap;
         }
 
-        public Queue<Comment> getCommentQueue() {
+        public CircularQueue<Comment> getCommentQueue() {
             return commentQueue;
         }
 
-        public void setCommentQueue(Queue<Comment> commentQueue) {
+        public void setCommentQueue(CircularQueue<Comment> commentQueue) {
             this.commentQueue = commentQueue;
         }
 
@@ -142,7 +141,30 @@ public class CommentDisplayer
         {
             for (int i = commentsMap.size()-1 ; i > 0 ; i--)
             {
-                Comment tempComment = new Comment(commentsMap.get(i));
+
+                /*
+                * Problem
+                * Discuss   : Nathan
+                * Statement :  Account constructor for, username,
+                *
+                */
+
+
+                /*
+                * Problem
+                * Discuss : Nathan
+                * Statement : request Account schema
+                * Data generation
+                *
+                */
+
+
+                Account account = new Account();
+
+                account.setUserName((String) commentsMap.get(i).get("username"));
+                account.setIsSeller((int) commentsMap.get(i).get("isSeller"));
+
+                Comment tempComment = new Comment(account, room, commentsMap.get(i));
 
                 // debug
                 // System.out.println(tempComment.toString());
@@ -152,12 +174,19 @@ public class CommentDisplayer
         }
 
 
+        /*
+         * Problem
+         * Discuss : Nathan
+         * Statement : Account Table "accountType" field schema
+         * Data generation
+         *
+         */
         private void fillMap50Comment()
         {
             String query =
                     "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
                     "FROM Account acc, Comment comm\n" +
-                    String.format("WHERE acc.accountID = comm.accountID AND roomID='%s' \n", roomID) +
+                    String.format("WHERE acc.accountID = comm.accountID AND roomID='%s' \n", room.getRoomId()) +
                     "ORDER BY commentSeq desc\n" +
                     "LIMIT 50;\n";
 
@@ -171,67 +200,100 @@ public class CommentDisplayer
 
 
         private void trackLatestComment() {
-            latestComment = new Comment(commentsMap.get(0));
+            latestComment = new Comment(account, room, commentsMap.get(0));
         }
 
 
+        /*
+         * Problem
+         * Discuss : Nathan
+         * Statement : Account Table "accountType" field schema
+         * Data generation
+         *
+         */
         private Comment fetchLatestCommentFromDB()
         {
             String subquery = String.format
                     (
                             "(SELECT max(commentSeq)\n" +
                             "FROM   Comment\n" +
-                            "WHERE  roomID='%s')", roomID
+                            "WHERE  roomID='%s')", room.getRoomId()
                     );
 
             String query = String.format
                     (
                             "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
                             "FROM Account acc, Comment comm\n" +
-                            "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", roomID, subquery
+                            "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomId(), subquery
                     );
 
             // debug
             // System.out.println(query);
 
-            return new Comment(readOne(query));
+            return new Comment(account, room, readOne(query));
         }
         // endregion
     }
+
+
+    private static class Args
+    {
+        Account account;
+        Room room;
+
+        Args(String[]args)
+        {
+            if (args.length != 2)
+            {
+                String errMsg =
+
+                """
+                Please provide following arguments:\n
+                1. accountID\n
+                2. roomID\n
+                """;
+
+                throw new IllegalArgumentException(errMsg);
+            }
+
+
+            /*
+             * Problem
+             * Discuss : Nathan && ChongEE
+             * Statement : Constructor for account of (AccountID, username)
+             *             Constructor for seller of(sellerID) only
+             *
+             */
+            this.account = new Account();
+            this.room = new Room();
+            account.setAccountID(args[0]);
+            room.setRoomId(args[1]);
+        }
+    }
     // endregion
 
+
+
     // driver
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException
+    {
         ProjectCompileUtil.compileAndGenerate(new CommentDisplayer());
-        String roomID = "";
-
-        if (args.length > 0) {
-            roomID = args[0];
-
-            // Debug
-            System.out.println(roomID);
-        }
-        else
-        {
-            System.out.println("Please pass roomID");
-            roomID = "roomA";
-        }
-
-        CommentDisplayer cPlayer = new CommentDisplayer(roomID);
-
+        Args arg = new Args(args);
+        CommentDisplayer cPlayer = new CommentDisplayer(arg.room, arg.account);
         ConsoleFormatter.cls();
         cPlayer.displayComments();
-
         while (cPlayer.roomActive())
         {
+
             // debug
             // System.out.println("Loop");
 
             Thread.sleep(1000);
             if (cPlayer.getCommentData().newCommentDetected())
             {
+
                 // debug
-                System.out.println("IN IF");
+                //System.out.println("IN IF");
 
                 ConsoleFormatter.cls();
                 cPlayer.displayComments();

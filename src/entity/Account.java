@@ -1,6 +1,7 @@
 package entity;
 
 public class Account {
+    private String accountID;
     private String userName;
     private String userPwd;
     private String name;
@@ -100,6 +101,14 @@ public class Account {
 
     public void setIsSeller(int isSeller) {
         this.isSeller = isSeller;
+    }
+
+    public String getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(String accountID) {
+        this.accountID = accountID;
     }
 
     @Override

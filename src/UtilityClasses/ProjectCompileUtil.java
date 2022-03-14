@@ -34,7 +34,7 @@ public final class ProjectCompileUtil
 
 
         // debug
-        // System.out.println("javac -cp " +  sourcePath + " " + classMain);
+         System.out.println("javac -sourcepath " +  sourcePath + " " + classMain);
 
 
         return "javac -cp " +  sourcePath + " " + classMain;
@@ -175,4 +175,8 @@ public final class ProjectCompileUtil
     // region : Others
     private static String wrapQuotes(String str){ return "\"" + str + "\"";}
     // endregion
+
+    public static void main(String[] args) {
+        ProjectCompileUtil.compileAndGenerate(new ProjectCompileUtil());
+    }
 }

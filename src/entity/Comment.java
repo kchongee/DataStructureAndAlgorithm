@@ -1,62 +1,70 @@
 package entity;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.HashMap;
-
 import SubSystem.CommentDisplayer.CommentFormatter;
-import adtImplementation.Account;
-// import Customer;
-// import adtInterfaces.ArrayList;
 import UtilityClasses.DateTimeUtil;
-import adtInterfaces.ListInterface;
+import adtImplementation.HashMap;
 
 
 public class Comment implements Comparable<Comment>
 {
-    String accountID;
-    String username;
+    Account account;
+    Room room;
+    String username, content, accountType;
     LocalTime commentTime;
     LocalDate commentDate;
-    String roomID;
-    String content;
-    String accountType;
     CommentFormatter formatter;
 
 
     // region 001 : constructors
-    public Comment(String accountID, String username, LocalTime commentTime, LocalDate commentDate, String roomID, String content, String accountType)
+    public Comment(Account account, Room room, LocalTime commentTime, LocalDate commentDate, String content)
     {
-        this.accountID = accountID;
-        this.username = username;
+        this.account = account;
         this.commentTime = commentTime;
         this.commentDate = commentDate;
-        this.roomID = roomID;
+        this.room = room;
         this.content = content;
-        this.accountType = accountType;
         this.formatter = new CommentFormatter(this);
     }
 
-    public Comment(HashMap<String, Object> commentEntry)
+    public Comment(Account account, Room room, HashMap<String, Object> commentEntry)
     {
-        this.accountID = (String) commentEntry.get("accountID");
-        this.username = (String) commentEntry.get("username");
+        this.account = account;
+        this.room = room;
         this.commentTime = DateTimeUtil.sqlTimeToLocalTime(commentEntry.get("commentTime"));
         this.commentDate = DateTimeUtil.stringObjToLocalDate(commentEntry.get("commentDate"));
-        this.roomID = (String) commentEntry.get("roomID");
         this.content = (String) commentEntry.get("content");
-        this.accountType = (String) commentEntry.get("accountType");
         this.formatter = new CommentFormatter(this);
     }
     // endregion
 
 
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public void setFormatter(CommentFormatter formatter) {
+        this.formatter = formatter;
+    }
+
     // region 002 : comparable interface
     public int compareTo(Comment comment)
     {
+        // hidden problem pk issue (accountID vs username as pk)
         boolean identical =
-                (accountID.equals(comment.accountID)) &&
+                (account.getUserName().equals(comment.getAccount().getUserName())) &&
                 (commentTime.toString().equals(comment.commentTime.toString())) &&
                 (commentDate.toString().equals(comment.commentDate.toString()));
         return identical? 1 : 0;
@@ -65,13 +73,11 @@ public class Comment implements Comparable<Comment>
 
 
     // region 003 : getter setter
-    public String getAccountID() {
-        return accountID;
-    }
 
-    public void setAccountID(String accountID) {
-        this.accountID = accountID;
-    }
+    // (issue : username VS accountID)
+
+    // public String getAccountID() {return accountID;}
+    // public void setAccountID(String accountID) {this.accountID = accountID;}
 
     public String getUsername() {
         return username;
@@ -97,13 +103,10 @@ public class Comment implements Comparable<Comment>
         this.commentDate = commentDate;
     }
 
-    public String getRoomID() {
-        return roomID;
-    }
 
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
+    // public String getRoomID() { return roomID;}
+    //public void setRoomID(String roomID) {this.roomID = roomID;}
+
 
     public String getContent() {
         return content;
@@ -129,12 +132,20 @@ public class Comment implements Comparable<Comment>
     public String toString()
     {
         return
-                "accountID='" + accountID + '\'' + "\n\n" +
+                account.toString() + "\n" +
                 "username='" + username + '\'' + '\n' +
                 "commentTime=" + DateTimeUtil.localTimeToString(commentTime) + '\n' +
                 ",commentDate=" + DateTimeUtil.localDateToString(commentDate) + '\n' +
-                "roomID='" + roomID + '\'' + '\n' +
+                "roomID='" + room.toString() + '\'' + '\n' +
                 "content='" + content + '\'' + '\n' +
                 "accountType='" + accountType + '\'' +'\n';
     }
+
+
+//    public boolean isOrderComment()
+//    {
+//
+//    }
+
+
 }

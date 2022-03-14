@@ -31,6 +31,25 @@ public class ArrayList<T> implements ListInterface<T> {
         return true;
     }
 
+    public boolean add(int index, T element)
+    {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException("please insert with range");
+        }
+        else {
+            if (isArrayFull()) {
+                expandArray();
+            }
+            int lastEmptyIndex = size;
+            for (int i = lastEmptyIndex ; i >= index ; i--) {
+                arr[i] = arr[i-1];
+            }
+            arr[index] = element;
+            size++;
+            return true;
+        }
+    }
+
     // @Override
     // public boolean add(int newIndex, T newElement) {
     //     boolean isSuccessful = false;
