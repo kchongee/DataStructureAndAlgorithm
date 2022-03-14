@@ -24,7 +24,8 @@ public class App {
     public static AccountList accountList = new AccountList(100);
     public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
 
-    public static void main(String[] args) throws Exception {                
+    public static void main(String[] args) throws Exception {    
+        retrieveAccounts();            
         WelcomeView.main();
     }     
     
@@ -32,7 +33,8 @@ public class App {
         hashList = jdbcUtil.readAll("SELECT * FROM Account;");
 
         for(int i=0;i<hashList.size();i++){      
-            Account a = new Account(hashList.get(i).get("userName"),
+            Account a = new Account(hashList.get(i).get("accountID"),
+            hashList.get(i).get("userName"),
             hashList.get(i).get("userPwd"),
             hashList.get(i).get("name"),
             hashList.get(i).get("address"),

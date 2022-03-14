@@ -46,9 +46,10 @@ public class RegisterView {
 
         }while(!valid);
 
-        App.accountList.addAccount(new Account(uname, pwd, name, address, email, isSeller));
+        Account newAcc = new Account(uname, pwd, name, address, email, isSeller);
+        App.accountList.addAccount(newAcc);
 
-        jdbcUtil.executeCUD(String.format("INSERT INTO Account VALUES(%s,%s,%s,%s,%s,%s);", uname, pwd, name, address, email, isSeller));
+        jdbcUtil.executeCUD(String.format("INSERT INTO Account VALUES(%s,%s,%s,%s,%s,%s,%s);", newAcc.getAccountID(), uname, pwd, name, address, email, isSeller));
     }    
 
     public static void printTitle(String title){
