@@ -3,19 +3,26 @@ package view;
 import java.util.function.Consumer;
 
 import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
-import entity.Seller;
+import entity.Product;
+import entity.Room;
 
-public class SellerFollowersView{
-
-    public static ListInterface<Option> menuOptions = new ArrayList<Option>();
+public class RoomView {
+    public static HashMap<String,Product> catalog = new HashMap<>();
     
-    public static void main() {        
-        printTitle("Followers");                
+    static{
         
-        App.menuHandler(menuOptions);
+    }
+
+    public static void main() {         
+        printTitle("");        
+
+        System.out.println("print all the room");
+        
+        // App.menuHandler(catalog);    
     }
 
     public static void printTitle(String title){
@@ -27,5 +34,5 @@ public class SellerFollowersView{
     public static void goToPage(Consumer<String> page){
         App.history.push(i -> main());
         page.accept("t");
-    }
+    }    
 }

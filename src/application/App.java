@@ -8,6 +8,8 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 import adtImplementation.Account;
+import adtImplementation.HashMap;
+import adtImplementation.HashMapEe;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
 import entity.Option;
@@ -17,13 +19,26 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
     public static Account currentUser = new Account();
-    public static void main(String[] args) throws Exception {                
+    public static void main(String[] args) throws Exception {
         WelcomeView.main();
+        // HashMapEe<Integer,String> a = new HashMapEe<>();
+        // a.put(1, "k");
+        // a.put(2, "o");
+        // a.put(3, "u");
+        // System.out.println(a.get(1));
+        // System.out.println(a.get(2));
+        // System.out.println(a.get(3));
+        // a.remove(1);
+        // System.out.println(a.get(1));
+        // a.put(1, "u");
+        // System.out.println(a.get(1));
+        // System.out.println(a.get(2)+"-->"+a.get(1));
     }        
 
-    public static boolean promptYesOrNo(String promptText){
-        System.out.println(promptText);
-        String input = scanner.next();             
+    public static boolean promptYesOrNo(String promptText){        
+        System.out.print(promptText);
+        String input = scanner.next();
+        scanner.nextLine();           
         if(input.toLowerCase().equals("y")){
             System.out.println();
             return true;
@@ -78,6 +93,7 @@ public class App {
         int inputOption = -1;
         try {
             inputOption = scanner.nextInt();            
+            scanner.nextLine();
             goToUserOption(inputOption,options);         
         } catch (InputMismatchException ime) {
             scanner.next();
@@ -97,7 +113,57 @@ public class App {
         }else{
             options.get(optionNum-1).execFunction();
         }
-    }   
+    }
+    
+    // public static void menuHandler(HashMap<String, Product> catalog){
+    //     printMenuOption(catalog);
+    //     promptUserInputOptionAndGo();
+    // }
+
+    // public static void printThroughList(ListInterface<?> list) {                
+    //     if(!list.isEmpty()){
+    //         for (int i=0;i<list.size();i++) {        
+    //             System.out.printf("%2d    %s\n",i+1,list.get(i).toString());
+    //         }            
+    //     }            
+    // }  
+
+    // public static void printMenuOption(HashMap<String, Product> catalog) {        
+    //     System.out.println("========= Menu =========");
+    //     if(!catalog.getKey()){
+    //         for (int i=0;i<catalog.size();i++) {        
+    //             System.out.printf("%2d    %s\n",i+1,catalog.get(i).getText());
+    //         }            
+    //     }    
+    //     System.out.printf("%2d    %s\n",0,(history.isEmpty()?"Exit":"Back"));                          
+    //     System.out.println("========================");        
+    // }    
+
+    // public static void promptUserInputOptionAndGo(ListInterface<Option> options) {     
+    //     System.out.print("Enter your option: ");
+    //     int inputOption = -1;
+    //     try {
+    //         inputOption = scanner.nextInt();            
+    //         goToUserOption(inputOption,options);         
+    //     } catch (InputMismatchException ime) {
+    //         scanner.next();
+    //         System.out.println("Invalid input! Please enter number only.");
+    //         System.out.println();
+    //         promptUserInputOptionAndGo(options);
+    //     }        
+    // }          
+
+    // public static void goToUserOption(int optionNum,ListInterface<Option> options){
+    //     if(optionNum<0 || optionNum>options.size()){
+    //         System.out.println("Invalid numbering! Please enter the numbering provided.");
+    //         System.out.println();
+    //         promptUserInputOptionAndGo(options);
+    //     }else if(optionNum==0){
+    //         goBack();
+    //     }else{
+    //         options.get(optionNum-1).execFunction();
+    //     }
+    // }
 
     public static void goBack(){        
         if(history.isEmpty()){        
@@ -119,6 +185,7 @@ public class App {
         int inputInt = -1;
         try {
             inputInt = scanner.nextInt();                                    
+            scanner.nextLine();                                 
         } catch (InputMismatchException ime) {
             scanner.next();            
             System.out.println("Invalid input! Please enter number only.");
@@ -133,6 +200,7 @@ public class App {
         double inputDouble = -1;                
         try {
             inputDouble = scanner.nextDouble();            
+            scanner.nextLine();          
         } catch (InputMismatchException ime) {   
             scanner.next();         
             System.out.println("Invalid input! Please enter (decimal) number only.");
@@ -178,7 +246,7 @@ public class App {
         System.out.print(text);
         String inputStr = "";
         try {            
-            inputStr = scanner.next();
+            inputStr = scanner.nextLine();
         } catch (InputMismatchException ime) {            
             System.out.println("Invalid input! Please enter string only.");
             System.out.println();
