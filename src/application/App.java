@@ -7,9 +7,13 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-import adtImplementation.Account;
 import adtImplementation.HashMap;
 import adtImplementation.HashMapEe;
+import UtilityClasses.jdbcUtil;
+import entity.Account;
+import entity.AccountList;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
 import entity.Option;
@@ -19,21 +23,28 @@ public class App {
     public static Scanner scanner = new Scanner(System.in);
     public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
     public static Account currentUser = new Account();
-    public static void main(String[] args) throws Exception {
+    public static AccountList accountList = new AccountList(100);
+    public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
+
+    public static void main(String[] args) throws Exception {    
+        retrieveAccounts();            
         WelcomeView.main();
-        // HashMapEe<Integer,String> a = new HashMapEe<>();
-        // a.put(1, "k");
-        // a.put(2, "o");
-        // a.put(3, "u");
-        // System.out.println(a.get(1));
-        // System.out.println(a.get(2));
-        // System.out.println(a.get(3));
-        // a.remove(1);
-        // System.out.println(a.get(1));
-        // a.put(1, "u");
-        // System.out.println(a.get(1));
-        // System.out.println(a.get(2)+"-->"+a.get(1));
-    }        
+    }     
+    
+    public static void retrieveAccounts(){
+        hashList = jdbcUtil.readAll("SELECT * FROM Account;");
+
+        for(int i=0;i<hashList.size();i++){      
+            Account a = new Account(hashList.get(i).get("accountID"),
+            hashList.get(i).get("userName"),
+            hashList.get(i).get("userPwd"),
+            hashList.get(i).get("name"),
+            hashList.get(i).get("address"),
+            hashList.get(i).get("email"),
+            hashList.get(i).get("isSeller"));         
+            accountList.addAccount(a);
+        } 
+    }
 
     public static boolean promptYesOrNo(String promptText){        
         System.out.print(promptText);

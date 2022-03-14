@@ -1,6 +1,7 @@
 package view;
 
-import adtImplementation.Account;
+import entity.Account;
+import entity.AccountList;
 import application.App;
 import entity.Buyer;
 import entity.Seller;
@@ -12,12 +13,13 @@ public class LoginView{
         String uname = App.promptStringInput("Enter username: ");
         String pwd = App.promptStringInput("Enter password: ");
 
-        if(uname.equals(pwd)){
+        
+        if(App.accountList.checkAccount(new Account(uname, pwd))){
             System.out.println("Login Successful");
-            App.currentUser = new Account("name", "address", "email", "userName", "userPwd");
-            if(App.currentUser instanceof Seller){
+            App.currentUser = new Account(uname,pwd);
+            if(App.currentUser.getIsSeller().intValue()==1){
                 SellerHomeView.main();
-            }else if(App.currentUser instanceof Buyer){
+            }else if(App.currentUser.getIsSeller().intValue()==0){
                 BuyerHomeView.main();
             }else{
                 SellerHomeView.main();

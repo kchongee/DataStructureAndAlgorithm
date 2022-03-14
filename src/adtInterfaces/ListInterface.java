@@ -11,7 +11,5 @@ public interface ListInterface<T> {
     boolean contains(T element);
     boolean isEmpty();
     int size();
-    void clear();    
-    
-    
+    void clear();
 }

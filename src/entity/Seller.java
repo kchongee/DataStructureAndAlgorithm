@@ -1,6 +1,6 @@
 package entity;
 
-import adtImplementation.Account;
+import entity.Account;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 

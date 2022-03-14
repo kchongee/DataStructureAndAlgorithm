@@ -1,7 +1,7 @@
 package UtilityClasses;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 
 public final class jdbcUtil
 {

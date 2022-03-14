@@ -47,7 +47,7 @@ public class ArrayList<T> implements ListInterface<T> {
     @Override
     public boolean remove(int index) {        
         if ((index >= 0) && (index < size)) {
-            arr[index - 1]=null;
+            arr[index]=null;
 
             if (index < size) {
                 removeGap(index);
@@ -63,6 +63,7 @@ public class ArrayList<T> implements ListInterface<T> {
         for(int i=0;i<arr.length;i++){
             if(element.equals(arr[i])){
                 remove(i);
+                size--;
                 return true;
             }
         }
@@ -109,13 +110,12 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public boolean replace(int index, T newElement){        
-        if ((index >= 1) && (index <= size)){
+    public boolean replace(int index, T newElement){                
+        if ((index >= 0) && (index < size) && arr[index]!=null){
             arr[index]=newElement;
-        } else{
-            return false;
-        }
-        return true;
+            return true;
+        }        
+        return false;
     }
 
     public boolean addAll(T[] elements) {
