@@ -16,6 +16,11 @@ public class ArrayList<T> implements ListInterface<T> {
         size=0;
     }
 
+    public ArrayList(T arr[]) {
+        this.arr = arr;
+        size= arr.length;
+    }
+
     @Override
     public int size() {        
         return this.size;

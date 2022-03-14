@@ -18,7 +18,7 @@ public class Catalog
         this.formatter = new CatalogFormatter();
     }
 
-    public void add(String keyword,Product product) {
+    public void add(Product product) {
         this.productList.add(product);
     }
 
@@ -44,6 +44,8 @@ public class Catalog
         else
         {
             System.out.println(formatter.lineStr());
+            System.out.println(formatter.strTableHead());
+            System.out.println(formatter.lineStr());
             for (int i = 0 ; i < productList.size() ; i++)
             {
                 Product tempProduct = productList.get(i);
@@ -57,8 +59,10 @@ public class Catalog
         System.out.println(formatter.strActionPane());
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         Catalog catalog = new Catalog();
         catalog.displayCatalog();
+        catalog.displayActionPane();
     }
 }

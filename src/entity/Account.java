@@ -139,13 +139,6 @@ public class Account {
         this.isSeller = isSeller;
     }
 
-    public String getAccountID() {
-        return accountID;
-    }
-
-    public void setAccountID(String accountID) {
-        this.accountID = accountID;
-    }
 
     @Override
     public String toString() {

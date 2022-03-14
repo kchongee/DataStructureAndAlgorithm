@@ -4,7 +4,7 @@ import entity.Product;
 
 public class CatalogFormatter
 {
-    String noColF = "| %-3d |";
+    String noColF = "| %-3s |";
     String nameColF = " %-33s |";
     String priceColF = " %-7s |";
     String descColF = " %-54s |";
@@ -27,7 +27,7 @@ public class CatalogFormatter
     {
         return String.format(
                 noColF+nameColF+priceColF+descColF,
-                rowNo, product.getTitle(), product.getPrice(),
+                Integer.toString(rowNo), product.getTitle(), product.getPrice(),
                 product.getDescription());
     }
 
@@ -45,6 +45,6 @@ public class CatalogFormatter
     }
 
     public String strActionPane(){
-        return String.format("%22%22%22%22%22","[1]Add","[2]Delete","[3]Insert Below","[4]Edit","[5]Quit");
+        return String.format("%-22s%-22s%22s%22s%22s","[1]Add","[2]Delete","[3]Insert Below","[4]Edit","[5]Quit");
     }
 }

@@ -34,7 +34,7 @@ public final class ProjectCompileUtil
 
 
         // debug
-         System.out.println("javac -sourcepath " +  sourcePath + " " + classMain);
+        // System.out.println("javac -sourcepath " +  sourcePath + " " + classMain);
 
 
         return "javac -cp " +  sourcePath + " " + classMain;
