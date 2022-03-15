@@ -36,6 +36,12 @@ public class ArrayList<T> implements ListInterface<T> {
         return true;
     }
 
+    /*
+    * Problem
+    * Discuss : Nathan
+    * Statement : default add method = overwrite
+    * */
+
     public boolean add(int index, T element, boolean hold)
     {
         if (index >= size) {
@@ -46,7 +52,7 @@ public class ArrayList<T> implements ListInterface<T> {
                 expandArray();
             }
             int lastEmptyIndex = size;
-            for (int i = lastEmptyIndex ; i >= index ; i--) {
+            for (int i = lastEmptyIndex ; i > index ; i--) {
                 arr[i] = arr[i-1];
             }
             arr[index] = element;
@@ -200,5 +206,26 @@ public class ArrayList<T> implements ListInterface<T> {
         for (int i = lastIndex; i >= newIndex; i--) {
             arr[index + 1] = arr[index];
         }
-    }    
+    }
+
+
+    public String toString()
+    {
+        String str = "";
+        for (T element : arr)
+        {
+            str = str + (String) element + " ";
+        }
+        return str;
+    }
+
+    public static void main(String[] args) {
+        ArrayList<String> a = new ArrayList<String>();
+        a.add("1");
+        System.out.println(a.toString());
+        a.add("2");
+        System.out.println(a.toString());
+        a.add(1, "4", true);
+        System.out.println(a.toString());
+    }
 }

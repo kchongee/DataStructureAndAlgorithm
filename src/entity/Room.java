@@ -23,9 +23,10 @@ public class Room{
         id++;
     }
 
-    public Room(String roomId, String roomTitle){
+    public Room(String roomId, String roomTitle) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
+    }
  
     public Room(String roomTitle, MapInterface<String,Product> catalog) {
         this();
@@ -79,50 +80,16 @@ public class Room{
 
     public void setRoomTitle(String roomTitle) {
         this.roomTitle = roomTitle;
-    }    
-
-    public boolean isOpen() {
-        return isOpen;
     }
 
-    private void setOpen(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public static int getId() {
-        return id;
-    }
-
-    private static void setId(int id) {
-        Room.id = id;
-    }
-
-    public ListInterface<Buyer> getLikes() {
-        return likes;
-    }
 
     public void setLikes(ListInterface<Buyer> likes) {
         this.likes = likes;
     }
 
-    public ListInterface<Buyer> getBuyers() {
-        return buyers;
-    }
 
     public void setBuyers(ListInterface<Buyer> buyers) {
         this.buyers = buyers;
-    }
-
-    public QueueInterface<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(QueueInterface<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public MapInterface<String,Product> getCatalog() {
-        return catalog;
     }
 
     public void setCatalog(MapInterface<String,Product> catalog) {
@@ -133,45 +100,10 @@ public class Room{
         this.catalog.put(keywordProduct, product);
     }
 
-    public int getRoomMemberCount() {
-        return buyers.size();
-    }
-
     public void setRoomId(String roomId) {
         this.roomId = roomId;
     }
 
-    public String getRoomTitle() {
-        return roomTitle;
-    }
-
-    public void setRoomTitle(String roomTitle) {
-        this.roomTitle = roomTitle;
-    }
-
-    public int getRoomMemberCount() {
-        return roomMemberCount;
-    }
-
-    public void setRoomMemberCount(int roomMemberCount) {
-        this.roomMemberCount = roomMemberCount;
-    }
-
-    public ListInterfaceEe<Buyer> getLikes() {
-        return likes;
-    }
-
-    public void setLikes(ListInterfaceEe<Buyer> likes) {
-        this.likes = likes;
-    }
-
-    public ListInterfaceEe<Buyer> getBuyers() {
-        return buyers;
-    }
-
-    public void setBuyers(ListInterfaceEe<Buyer> buyers) {
-        this.buyers = buyers;
-    }
 
     public QueueInterface<Comment> getComments() {
         return comments;
@@ -179,14 +111,6 @@ public class Room{
 
     public void setComments(QueueInterface<Comment> comments) {
         this.comments = comments;
-    }
-
-    public Catalog getCatalog() {
-        return catalog;
-    }
-
-    public void setCatalog(Catalog catalog) {
-        this.catalog = catalog;
     }
 
     public boolean isOpen() {
