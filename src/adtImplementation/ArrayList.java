@@ -219,7 +219,8 @@ public class ArrayList<T> implements ListInterface<T> {
         return str;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         ArrayList<String> a = new ArrayList<String>();
         a.add("1");
         System.out.println(a.toString());

@@ -4,10 +4,11 @@ import entity.Product;
 
 public class CatalogFormatter
 {
-    String noColF = "| %-3s |";
-    String nameColF = " %-33s |";
-    String priceColF = " %-7s |";
-    String descColF = " %-54s |";
+    private final static int TOTAL_LENGTH = 110;
+    private final String noColF = "| %-3s |";
+    private final String nameColF = " %-33s |";
+    private final String priceColF = " %-7s |";
+    private final String descColF = " %-54s |";
 
 
     public String lineStr()
@@ -36,9 +37,18 @@ public class CatalogFormatter
         return String.format(noColF+nameColF+priceColF+descColF,"No.","Product Name","Price","Description");
     }
 
-    public String emptyTable()
+    public String strTableTitle(String title)
+    {
+        int titleChar = title.length();
+        String padding = Integer.toString((TOTAL_LENGTH - titleChar) / 2);
+        String format = "%"+padding+"s" + "%"+titleChar+"s" + "%"+padding+"s";
+        return String.format(format, " ",title," ");
+    }
+
+    public String headStr()
     {
         return
+        strTableTitle("Live Sale Product Catalog") + "\n" +
         lineStr() + "\n" +
         strTableHead() + "\n"+
         lineStr();

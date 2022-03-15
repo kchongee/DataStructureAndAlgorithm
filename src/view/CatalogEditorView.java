@@ -12,7 +12,10 @@ public class CatalogEditorView
 {
     private Catalog catalog;
     private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]{
-            new Option(i->displayAddForm())
+            new Option(i->displayAddForm()),
+            new Option(i->deleteProduct()),
+            new Option(i->insertBelow()),
+            new Option(i->editProduct())
     });
 
     public CatalogEditorView(){}
@@ -23,25 +26,71 @@ public class CatalogEditorView
     }
 
 
+    // region : user options
     public void displayAddForm()
     {
         boolean userWantAddProduct = true;
         while (userWantAddProduct)
         {
-            ConsoleFormatter.cls();
             catalog.displayCatalog();
-            catalog.add(productData());
-
+            catalog.add(sellerProductData());
             catalog.displayCatalog();
-
             userWantAddProduct = App.promptYesOrNo("Successfully added! add again? (y/n) >>> ");
         }
         App.clearScreen();
         this.main();
     }
 
+    public void deleteProduct()
+    {
+        boolean userWantDeleteProduct = true;
+        while (userWantDeleteProduct)
+        {
+            /*
+            Problem
+            Statement : Input exeption handling
+             */
+            catalog.displayCatalog();
+            catalog.delete(productNoToDelete()-1);
+            catalog.displayCatalog();
+            userWantDeleteProduct = App.promptYesOrNo("Successfully deleted! delete again? (y/n) >>> ");
+        }
+        App.clearScreen();
+        this.main();
+    }
 
-    public Product productData()
+    public void insertBelow()
+    {
+        boolean userWantInsertData = true;
+        while (userWantInsertData)
+        {
+            catalog.displayCatalog();
+            catalog.insertBelow(productNoToInsertBelow()-1, sellerProductData());
+            catalog.displayCatalog();
+            userWantInsertData = App.promptYesOrNo("Successfully inserted! insert again? (y/n) >>> ");
+        }
+        App.clearScreen();
+        this.main();
+    }
+
+    public void editProduct()
+    {
+        boolean userWantEditData = true;
+        while (userWantEditData)
+        {
+            catalog.displayCatalog();
+            catalog.replace(productNoToDelete()-1, sellerProductData());
+            catalog.displayCatalog();
+            userWantEditData = App.promptYesOrNo("Successfully edited! edit again? (y/n) >>> ");
+        }
+        App.clearScreen();
+        this.main();
+    }
+    // endregion
+
+
+    // region : utility
+    private Product sellerProductData()
     {
         /*
          * Problem
@@ -55,6 +104,36 @@ public class CatalogEditorView
         return new Product(productName, Double.parseDouble(productPrice), productDesc);
     }
 
+
+    private int productNoToDelete() {
+        /*
+         * Problem
+         * Statement input type error
+         *
+         */
+
+        return App.promptIntInput("Enter product number : ");
+    }
+
+
+    private int productNoToInsertBelow() {
+        /*
+         * Problem
+         * Statement input type error
+         *
+         */
+
+        return App.promptIntInput("Put below which product? : ");
+    }
+
+
+    private int productNoToEdit(){
+        return App.promptIntInput("Edit which product? : ");
+    }
+    // endregion
+
+
+    // region : main
     public void main()
     {
         this.catalog.displayCatalog();
@@ -72,4 +151,5 @@ public class CatalogEditorView
         CatalogEditorView editor = new CatalogEditorView(new Catalog());
         editor.main();
     }
+    // endregion
 }

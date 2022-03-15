@@ -12,41 +12,45 @@ public class Catalog
     private ArrayList<Product> productList;
     private CatalogFormatter formatter;
 
+
+    // region : constructor
     public Catalog()
     {
         this.productList = new ArrayList<Product>();
         this.formatter = new CatalogFormatter();
     }
+    // endregion
 
+    // region : list manipulation
     public void add(Product product) {
         this.productList.add(product);
     }
 
     public void delete(int number) {
-        productList.remove(number-1);
+        productList.remove(number);
     }
 
     public void insertBelow(int number, Product product)
     {
-        int index = number -1;
-        productList.add(index, product);
+        int index = number;
+        if (index == productList.size()-1) {
+            productList.add(product);
+        }else {
+            productList.add(index+1, product);
+        }
     }
 
     public void replace(int number, Product product){
-        productList.replace(number-1, product);
+        productList.replace(number, product);
     }
 
     public void displayCatalog()
     {
         ConsoleFormatter.cls();
-        if (productList.isEmpty()){
-            System.out.println(formatter.emptyTable());
-        }
-        else
+        System.out.println(formatter.headStr());
+
+        if(!productList.isEmpty())
         {
-            System.out.println(formatter.lineStr());
-            System.out.println(formatter.strTableHead());
-            System.out.println(formatter.lineStr());
             for (int i = 0 ; i < productList.size() ; i++)
             {
                 Product tempProduct = productList.get(i);
