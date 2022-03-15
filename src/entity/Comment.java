@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import SubSystem.CommentDisplayer.CommentFormatter;
 import UtilityClasses.DateTimeUtil;
+import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 
 
@@ -37,8 +39,6 @@ public class Comment implements Comparable<Comment>
         this.formatter = new CommentFormatter(this);
     }
     // endregion
-
-
     public Account getAccount() {
         return account;
     }

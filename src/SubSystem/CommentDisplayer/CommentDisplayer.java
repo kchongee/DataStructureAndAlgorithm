@@ -145,7 +145,7 @@ public class CommentDisplayer implements Launchable
                 /*
                 * Problem
                 * Discuss   : Nathan
-                * Statement :  Account constructor for, username,
+                * Statement :  Account constructor for, accountID,
                 *
                 */
 
