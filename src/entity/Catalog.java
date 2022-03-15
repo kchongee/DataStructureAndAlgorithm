@@ -4,7 +4,6 @@ import UtilityClasses.ConsoleFormatter;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 // import adtInterfaces.ListInterface;
-import adtInterfaces.ListInterfaceEe;
 import adtInterfaces.MapInterface;
 
 public class Catalog

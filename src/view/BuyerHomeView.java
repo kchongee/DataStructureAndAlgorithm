@@ -1,5 +1,7 @@
 package view;
 
+import java.util.function.Consumer;
+
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
@@ -24,5 +26,10 @@ public class BuyerHomeView{
     
     public static void printTitle() {
         App.clearScreen();        
+    }
+
+    public static void goToPage(Consumer<String> page){
+        App.history.push(i -> main());
+        page.accept("t");
     }
 }

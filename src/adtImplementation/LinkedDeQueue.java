@@ -65,7 +65,7 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
         Node frontNode = firstNode;
         Node rearNode = lastNode;
         T[] arr = (T[]) new Object[nodeCount];
-        for(int i = 0, j = nodeCount; i < nodeCount && j > 0; i++, j--){
+        for(int i = 0, j = nodeCount; i < nodeCount && j >= 0; i++, j--){
             arr[i] = firstNode.element;
             arr[j-1] = lastNode.element;
             if(i == j){
@@ -203,14 +203,18 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
     @Override
     public T pollFirst() {        
         T elementGet = peekFirst();
-        removeFirst();
+        if(elementGet!=null){
+            removeFirst();
+        }        
         return elementGet;
     }
 
     @Override
-    public T pollLast() {        
+    public T pollLast() {                
         T elementGet = peekLast();
-        removeLast();
+        if(elementGet!=null){
+            removeLast();
+        }
         return elementGet;
     }
 
