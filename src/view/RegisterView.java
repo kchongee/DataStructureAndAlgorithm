@@ -1,6 +1,10 @@
 package view;
 
+import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 import java.util.regex.Pattern;
+
+import com.mysql.cj.jdbc.exceptions.SQLError;
 
 import UtilityClasses.jdbcUtil;
 import application.App;
@@ -30,7 +34,7 @@ public class RegisterView {
             uname = App.promptStringInput("Enter username: ");
             pwd = App.promptStringInput("Enter password: ");
 
-            if (!App.accountList.checkAccount(new Account(uname))){
+            if (!App.accountList.checkAccount(uname)){
                 valid=true;
             } else{
                 App.clearScreen();
@@ -50,7 +54,7 @@ public class RegisterView {
                 App.clearScreen();
                 System.out.println("This email is invalid, please try again");
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {                    
                     e.printStackTrace();
                 }
@@ -64,6 +68,19 @@ public class RegisterView {
         App.accountList.addAccount(newAcc);
 
         jdbcUtil.executeCUD(String.format("INSERT INTO Account VALUES('%s','%s','%s','%s','%s','%s',%s);", newAcc.getAccountID(), uname, pwd, name, address, email, isSeller));
+
+        System.out.println("You will now be redirected to proceed to log in to your new account");
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        App.clearScreen();
+        App.retrieveAccounts();
+        WelcomeView.main();
     }    
 
     public static void printTitle(String title){

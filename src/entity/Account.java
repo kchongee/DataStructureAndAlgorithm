@@ -90,7 +90,7 @@ public class Account {
         this.email=(String)email;
         this.userName=(String)userName;
         this.userPwd=(String)userPwd;
-        this.isSeller=(int)isSeller;
+        this.isSeller=(Integer)isSeller;
         Account.counter++;
     }
 
@@ -143,12 +143,20 @@ public class Account {
         this.email = email;
     }
 
-    public int getIsSeller() {
+    public Integer getIsSeller() {
         return isSeller;
     }
 
-    public void setIsSeller(int isSeller) {
+    public void setIsSeller(Integer isSeller) {
         this.isSeller = isSeller;
+    }
+
+    public String getAccountType(){
+        if (this.isSeller==1){
+            return "Seller";
+        }else{
+            return "Buyer";
+        }
     }
 
 
@@ -160,6 +168,7 @@ public class Account {
         "\nEmail: "+email+
         "\nUsername: "+userName+
         "\nPassword: "+userPwd+
+        "\nisSeller: "+isSeller+
         "\nYour account has been created. You can proceed to login now.";
     }
 }
