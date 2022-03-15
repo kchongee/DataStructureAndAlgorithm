@@ -1,10 +1,11 @@
 package entity;
 import SubSystem.CatalogEditor.CatalogFormatter;
-import UtilityClasses.ConsoleFormatter;
+import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 // import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class Catalog
 {
@@ -17,6 +18,12 @@ public class Catalog
     public Catalog()
     {
         this.productList = new ArrayList<Product>();
+        this.formatter = new CatalogFormatter();
+    }
+
+    public Catalog(ArrayList<Product> productList)
+    {
+        this.productList = productList;
         this.formatter = new CatalogFormatter();
     }
     // endregion
@@ -44,21 +51,45 @@ public class Catalog
         productList.replace(number, product);
     }
 
-    public void displayCatalog()
-    {
-        ConsoleFormatter.cls();
-        System.out.println(formatter.headStr());
+    /*
+    * Problem
+    * Statement : Catalog can't be zero product list
+    **/
 
+    public String catalogStr()
+    {
+        String head = formatter.headStr();
+        String content = "";
         if(!productList.isEmpty())
         {
             for (int i = 0 ; i < productList.size() ; i++)
             {
                 Product tempProduct = productList.get(i);
-                System.out.println(formatter.toRow(i+1, tempProduct));
+                content = content + (formatter.toRow(i+1, tempProduct)) + "\n";
             }
-            System.out.println(formatter.lineStr());
+            content = content + formatter.lineStr();
         }
+        return head + "\n" + content;
     }
+
+
+    public void displayCatalog()
+    {
+        CMD.cls();
+        System.out.println(catalogStr());
+    }
+
+
+    public void displayCatalogOptionPane()
+    {
+        String catalogHTML = catalogStr().replace("\n", "<br>");
+        catalogHTML = catalogHTML.replace(" ", "&nbsp;");
+        catalogHTML= "<html>" + catalogHTML +"</html>";
+        JLabel label = new JLabel(catalogHTML);
+        label.setFont(new Font("Consolas", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(null, label);
+    }
+
 
     public void displayActionPane() {
         System.out.println(formatter.strActionPane());

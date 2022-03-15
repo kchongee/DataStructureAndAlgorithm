@@ -1,6 +1,6 @@
 package view;
 
-import UtilityClasses.ConsoleFormatter;
+import UtilityClasses.CMD;
 import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.ArrayList;
 import application.App;
@@ -140,14 +140,14 @@ public class CatalogEditorView
         this.catalog.displayActionPane();
         System.out.println("\n");
         int number = App.promptIntInput("Select an action >>> ");
-        ConsoleFormatter.cls();
+        CMD.cls();
         App.goToUserOption(number, this.EDIT_OPTIONS);
     }
 
     public static void main(String[] args)
     {
         ProjectCompileUtil.compileAndGenerate(new CatalogEditorView());
-        ConsoleFormatter.cls();
+        CMD.cls();
         CatalogEditorView editor = new CatalogEditorView(new Catalog());
         editor.main();
     }

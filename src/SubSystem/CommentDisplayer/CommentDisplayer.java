@@ -1,6 +1,6 @@
 package SubSystem.CommentDisplayer;
 
-import UtilityClasses.ConsoleFormatter;
+import UtilityClasses.CMD;
 import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.CircularQueue;
@@ -280,7 +280,7 @@ public class CommentDisplayer implements Launchable
         ProjectCompileUtil.compileAndGenerate(new CommentDisplayer());
         Args arg = new Args(args);
         CommentDisplayer cPlayer = new CommentDisplayer(arg.room, arg.account);
-        ConsoleFormatter.cls();
+        CMD.cls();
         cPlayer.displayComments();
         while (cPlayer.roomActive())
         {
@@ -295,14 +295,14 @@ public class CommentDisplayer implements Launchable
                 // debug
                 //System.out.println("IN IF");
 
-                ConsoleFormatter.cls();
+                CMD.cls();
                 cPlayer.displayComments();
             }
         }
 
         if (!cPlayer.roomActive())
         {
-            ConsoleFormatter.cls();
+            CMD.cls();
             System.out.println("Session ended");
         }
     }
