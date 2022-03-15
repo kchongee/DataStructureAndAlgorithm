@@ -22,6 +22,11 @@ public class Room{
         this.catalog = new HashMap<>();
         id++;
     }
+
+    public Room(String roomId, String roomTitle) {
+        this.roomId = roomId;
+        this.roomTitle = roomTitle;
+    }
  
     public Room(String roomTitle, MapInterface<String,Product> catalog) {
         this();
@@ -51,11 +56,11 @@ public class Room{
         return false;
     }
 
-    public boolean addComment(Account acc, String text){
-        Comment comment = new Comment(acc, text);
-        comments.add(comment);
-        return false;
-    }
+//    public boolean addComment(Account acc, String text){
+//        Comment comment = new Comment(acc, text);
+//        comments.add(comment);
+//        return false;
+//    }
 
     public void openRoom(){
         this.setOpen(true);
@@ -75,50 +80,16 @@ public class Room{
 
     public void setRoomTitle(String roomTitle) {
         this.roomTitle = roomTitle;
-    }    
-
-    public boolean isOpen() {
-        return isOpen;
     }
 
-    private void setOpen(boolean isOpen) {
-        this.isOpen = isOpen;
-    }
-
-    public static int getId() {
-        return id;
-    }
-
-    private static void setId(int id) {
-        Room.id = id;
-    }
-
-    public ListInterface<Buyer> getLikes() {
-        return likes;
-    }
 
     public void setLikes(ListInterface<Buyer> likes) {
         this.likes = likes;
     }
 
-    public ListInterface<Buyer> getBuyers() {
-        return buyers;
-    }
 
     public void setBuyers(ListInterface<Buyer> buyers) {
         this.buyers = buyers;
-    }
-
-    public QueueInterface<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(QueueInterface<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public MapInterface<String,Product> getCatalog() {
-        return catalog;
     }
 
     public void setCatalog(MapInterface<String,Product> catalog) {
@@ -129,7 +100,32 @@ public class Room{
         this.catalog.put(keywordProduct, product);
     }
 
-    public int getRoomMemberCount() {
-        return buyers.size();
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+
+    public QueueInterface<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(QueueInterface<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public void setOpen(boolean open) {
+        isOpen = open;
+    }
+
+    public static int getId() {
+        return id;
+    }
+
+    public static void setId(int id) {
+        Room.id = id;
     }
 }

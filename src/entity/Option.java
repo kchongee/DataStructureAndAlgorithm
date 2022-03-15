@@ -9,7 +9,12 @@ public class Option{
     public Option(String text, Consumer<String> func){
         this.text = text;
         this.function = func;
-    }    
+    }
+
+    public Option(Consumer<String> func){
+        this.text = "";
+        this.function = func;
+    }
 
     public String getText() {
         return text;
