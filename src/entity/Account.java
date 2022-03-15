@@ -7,7 +7,7 @@ public class Account {
     private String name;
     private String address;
     private String email;
-    private int isSeller;
+    private Integer isSeller;
     static int counter=1;
     
 
@@ -18,10 +18,10 @@ public class Account {
         this.name=""; 
         this.address="";
         this.email=""; 
-        this.isSeller=0;  
+        this.isSeller = null;  
     }
 
-    public Account(String userName){
+    /*public Account(String userName){
         this.accountID="";
         this.userName=userName;
         this.userPwd="";
@@ -29,6 +29,16 @@ public class Account {
         this.address="";
         this.email=""; 
         this.isSeller=0;  
+    }*/
+
+    public Account(String accountID){
+        this.accountID=accountID;
+        this.userName="";
+        this.userPwd="";
+        this.name=""; 
+        this.address="";
+        this.email=""; 
+        this.isSeller=null;  
     }
 
     public Account(String userName, String userPwd){
@@ -38,7 +48,7 @@ public class Account {
         this.name="";
         this.address="";
         this.email="";
-        this.isSeller=0;
+        this.isSeller=null;
     }
 
     public Account(String userName, String userPwd,String name, String address, String email, int isSeller){
@@ -60,6 +70,7 @@ public class Account {
         this.userName=(String)userName;
         this.userName=(String)userPwd;
         this.isSeller=(int)isSeller;
+        
     }
 
     public Account(String accountID, String userName, String userPwd,String name, String address, String email, int isSeller){
@@ -80,6 +91,7 @@ public class Account {
         this.userName=(String)userName;
         this.userPwd=(String)userPwd;
         this.isSeller=(int)isSeller;
+        Account.counter++;
     }
 
 

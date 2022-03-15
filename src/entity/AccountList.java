@@ -55,10 +55,24 @@ public class AccountList {
         return false;
     }
 
-    public boolean changePassword(Account inputAccount, String newPwd){
+    /*public boolean changePassword(Account inputAccount, String newPwd){
         boolean pwdChanged=true;
         for(int i=0;i<accountList.size();i++){
             if(inputAccount.getUserName().equals(accountList.get(i).getUserName())){
+                accountList.get(i).setUserPwd(newPwd);
+                pwdChanged=true;
+                break;
+            } else{
+                pwdChanged=false;
+            }
+        }
+        return pwdChanged;
+    }*/
+
+    public boolean changePassword(String userName, String newPwd){
+        boolean pwdChanged=true;
+        for(int i=0;i<accountList.size();i++){
+            if(userName.equals(accountList.get(i).getUserName())){
                 accountList.get(i).setUserPwd(newPwd);
                 pwdChanged=true;
                 break;
