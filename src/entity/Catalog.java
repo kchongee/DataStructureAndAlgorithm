@@ -1,5 +1,6 @@
 package entity;
 import SubSystem.CatalogEditor.CatalogFormatter;
+import UtilityClasses.ConsoleFormatter;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 // import adtInterfaces.ListInterface;
@@ -38,6 +39,7 @@ public class Catalog
 
     public void displayCatalog()
     {
+        ConsoleFormatter.cls();
         if (productList.isEmpty()){
             System.out.println(formatter.emptyTable());
         }

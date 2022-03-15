@@ -10,16 +10,18 @@ import entity.Product;
 
 public class CatalogEditorView
 {
-    Catalog catalog;
-    ArrayList<Option> options = new ArrayList(new Option[]{
+    private Catalog catalog;
+    private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]{
             new Option(i->displayAddForm())
     });
 
     public CatalogEditorView(){}
 
+
     public CatalogEditorView(Catalog catalog) {
         this.catalog = catalog;
     }
+
 
     public void displayAddForm()
     {
@@ -28,23 +30,29 @@ public class CatalogEditorView
         {
             ConsoleFormatter.cls();
             catalog.displayCatalog();
+            catalog.add(productData());
 
-            /*
-            * Problem
-            * Statement input type error
-            * */
-
-
-            String productName  = App.promptStringInput("Enter product name        : ");
-            String productPrice = App.promptStringInput("Enter product price       : ");
-            String productDesc  = App.promptStringInput("Enter product description : ");
-            catalog.add(new Product(productName, Double.parseDouble(productPrice), productDesc));
-            ConsoleFormatter.cls();
             catalog.displayCatalog();
+
             userWantAddProduct = App.promptYesOrNo("Successfully added! add again? (y/n) >>> ");
         }
         App.clearScreen();
         this.main();
+    }
+
+
+    public Product productData()
+    {
+        /*
+         * Problem
+         * Statement input type error
+         *
+         */
+
+        String productName  = App.promptStringInput("Enter product name        : ");
+        String productPrice = App.promptStringInput("Enter product price       : ");
+        String productDesc  = App.promptStringInput("Enter product description : ");
+        return new Product(productName, Double.parseDouble(productPrice), productDesc);
     }
 
     public void main()
@@ -54,7 +62,7 @@ public class CatalogEditorView
         System.out.println("\n");
         int number = App.promptIntInput("Select an action >>> ");
         ConsoleFormatter.cls();
-        App.goToUserOption(number, this.options);
+        App.goToUserOption(number, this.EDIT_OPTIONS);
     }
 
     public static void main(String[] args)
