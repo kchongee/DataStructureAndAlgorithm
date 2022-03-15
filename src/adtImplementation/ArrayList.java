@@ -31,23 +31,23 @@ public class ArrayList<T> implements ListInterface<T> {
         return true;
     }
 
-    // @Override
-    // public boolean add(int newIndex, T newElement) {
-    //     boolean isSuccessful = false;
+    @Override
+    public boolean add(int newIndex, T newElement) {
+        boolean isSuccessful = false;
     
-    //     if ((newIndex >= 1) && (newIndex <= size + 1)) {
-    //         addAGap(newIndex);
-    //         arr[newIndex] = newElement;
-    //         size++;
-    //     } 
+        if ((newIndex >= 0) && (newIndex < size)) {
+            addAGap(newIndex);
+            arr[newIndex] = newElement;
+            size++;
+        } 
     
-    //     return isSuccessful;
-    // }
+        return isSuccessful;
+    }
 
     @Override
     public boolean remove(int index) {        
-        if ((index >= 1) && (index <= size)) {
-            arr[index - 1]=null;
+        if ((index >= 0) && (index < size)) {
+            arr[index]=null;
 
             if (index < size) {
                 removeGap(index);
@@ -63,6 +63,7 @@ public class ArrayList<T> implements ListInterface<T> {
         for(int i=0;i<arr.length;i++){
             if(element.equals(arr[i])){
                 remove(i);
+                size--;
                 return true;
             }
         }
@@ -91,7 +92,7 @@ public class ArrayList<T> implements ListInterface<T> {
     @Override
     public T get(int index) {        
         T returned = null;
-        if((index>=0) && (index <= size)){
+        if((index>=0) && (index < size)){
             returned = arr[index];
         }
         return returned;
@@ -106,16 +107,15 @@ public class ArrayList<T> implements ListInterface<T> {
             }
         }
         return -1;                
-      }
+    }
 
     @Override
-    public boolean replace(int index, T newElement){        
-        if ((index >= 1) && (index <= size)){
+    public boolean replace(int index, T newElement){                
+        if ((index >= 0) && (index < size) && arr[index]!=null){
             arr[index]=newElement;
-        } else{
-            return false;
-        }
-        return true;
+            return true;
+        }        
+        return false;
     }
 
     public boolean addAll(T[] elements) {
@@ -134,6 +134,11 @@ public class ArrayList<T> implements ListInterface<T> {
     public boolean isEmpty() {        
         return size==0;
     }
+
+    // @Override
+    // public T[] toArray() {
+    //     return (T[])arr;    
+    // }
     
     private void expandArray() {
         T[] oldArray=arr;
@@ -157,13 +162,16 @@ public class ArrayList<T> implements ListInterface<T> {
         }
     }    
 
-    // private void addAGap(int index) {
-    //     int newIndex = index;
-    //     int lastIndex = size-1;
-    
-    //     for (int i = lastIndex; i >= newIndex; i--) {
-    //         arr[index + 1] = arr[index];
-    //     }
-    // }
+    private void addAGap(int index) {
+        int newIndex = index;
+        int lastIndex = size-1;
 
+        if(isArrayFull()){
+            expandArray();
+        }
+    
+        for (int i = lastIndex; i >= newIndex; i--) {
+            arr[index + 1] = arr[index];
+        }
+    }    
 }

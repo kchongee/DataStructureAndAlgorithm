@@ -1,7 +1,6 @@
 package entity;
 import adtImplementation.HashMap;
 // import adtInterfaces.ListInterface;
-import adtInterfaces.ListInterfaceEe;
 import adtInterfaces.MapInterface;
 
 public class Catalog{
@@ -16,7 +15,7 @@ public class Catalog{
         this.numberingProduct.put(keyword, product);
     }
 
-    void delete(){
-
-    }
+    // void delete(String keyword){
+    //     this.numberingProduct.remove(keyword);        
+    // }
 }
