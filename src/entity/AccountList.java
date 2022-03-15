@@ -1,6 +1,7 @@
 package entity;
 
 import UtilityClasses.DateTimeUtil;
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
@@ -43,7 +44,7 @@ public class AccountList {
         return found;
     }
 
-    public boolean checkAccount(Account inputAccount){
+    public boolean loginAccount(Account inputAccount){
         for (int i=0;i<accountList.size();i++){
             if (inputAccount.getUserName().equals(accountList.get(i).getUserName())){
                 System.out.println(inputAccount.getUserName());
@@ -56,7 +57,7 @@ public class AccountList {
         return false;
     }
 
-    public boolean changePassword(Account inputAccount, String newPwd){
+    /*public boolean changePassword(Account inputAccount, String newPwd){
         boolean pwdChanged=true;
         for(int i=0;i<accountList.size();i++){
             if(inputAccount.getUserName().equals(accountList.get(i).getUserName())){
@@ -68,6 +69,38 @@ public class AccountList {
             }
         }
         return pwdChanged;
+    }*/
+
+    public boolean checkAccount(String userName){
+        for (int i=0;i<accountList.size();i++){
+            if (userName.equals(accountList.get(i).getUserName())){
+                return true;
+            }
+        }  
+        return false;
+    }
+
+    public boolean changePassword(String userName, String newPwd){
+        boolean pwdChanged=true;
+        for(int i=0;i<accountList.size();i++){
+            if(userName.equals(accountList.get(i).getUserName())){
+                accountList.get(i).setUserPwd(newPwd);
+                pwdChanged=true;
+                break;
+            } else{
+                pwdChanged=false;
+            }
+        }
+        return pwdChanged;
     }
     
+    public Account grabAccount(String userName){
+        Account grabbed = null;
+        for(int i=0;i<accountList.size();i++){
+            if(userName.equals(accountList.get(i).getUserName())){
+                grabbed = accountList.get(i);
+            }
+        }
+        return grabbed;
+    }
 }
