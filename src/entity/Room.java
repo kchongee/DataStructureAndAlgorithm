@@ -1,5 +1,6 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 import adtImplementation.ReviewList;
@@ -17,7 +18,6 @@ public class Room{
     private static int id = 0;
     private LikeList likeList;
     private ReviewList reviewList;
-
 
     /*Problem
      * Statement : likeArr vs likes array??
@@ -182,6 +182,31 @@ public class Room{
 
     public static void setId(int id) {
         Room.id = id;
+    }
+
+
+    public Catalog fetchCatalogFromDB()
+    {
+
+        ArrayList<Product> productList = new ArrayList<>();
+        String query =
+                String.format(
+                """
+                SELECT title, productDesc, price
+                FROM   product p, roomCatalog rc
+                WHERE  p.productID = rc.productID AND rc.roomID=%s
+                ORDER BY productID;
+                """,roomId
+                );
+
+
+        ArrayList<HashMap<String, Object>> products = jdbcUtil.readAll(query);
+
+        for (int i = 0 ; i < products.size() ; i++) {
+            productList.add(new Product(products.get(i)));
+        }
+
+        return new Catalog(productList);
     }
     // endregion
 

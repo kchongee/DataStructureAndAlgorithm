@@ -28,6 +28,8 @@ public class Catalog
     }
     // endregion
 
+
+
     // region : list manipulation
     public void add(Product product) {
         this.productList.add(product);
@@ -51,11 +53,16 @@ public class Catalog
         productList.replace(number, product);
     }
 
+    // endregion
+
+
     /*
     * Problem
     * Statement : Catalog can't be zero product list
     **/
 
+
+    // region : public methods
     public String catalogStr()
     {
         String head = formatter.headStr();
@@ -94,6 +101,9 @@ public class Catalog
     public void displayActionPane() {
         System.out.println(formatter.strActionPane());
     }
+    // endregion
+
+
 
     public static void main(String[] args)
     {
@@ -101,4 +111,23 @@ public class Catalog
         catalog.displayCatalog();
         catalog.displayActionPane();
     }
+
+
+    // region : getters setters
+    public ArrayList<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(ArrayList<Product> productList) {
+        this.productList = productList;
+    }
+
+    public CatalogFormatter getFormatter() {
+        return formatter;
+    }
+
+    public void setFormatter(CatalogFormatter formatter) {
+        this.formatter = formatter;
+    }
+    // endregion
 }
