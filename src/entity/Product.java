@@ -1,10 +1,10 @@
 package entity;
-public class Product implements DetailShowable{
+public class Product{
 
     String title;
     double price;
     String description;    
-    // String category;
+    String category;
 
     public Product(String title, double price, String description){
         this.title = title;
@@ -38,13 +38,7 @@ public class Product implements DetailShowable{
 
     @Override
     public String toString() {
-        return String.format("%s\nPrice: %.2f\n",title,price);
-    }
-
-    @Override
-    public String toDetailString() {
-        // TODO Auto-generated method stub
-        return String.format("Title: %s\nPrice: %.2f\nDescription: %s\n",title,price,description);
+        return String.format("Title: %s\nPrice: %.2f\nDescription: %s",title,price,description);
     }
             
 }

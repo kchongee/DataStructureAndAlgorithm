@@ -1,6 +1,5 @@
 package entity;
 
-import entity.Account;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
@@ -11,7 +10,9 @@ public class Seller extends Account{
     ListInterface<Buyer> followers;
 
     public Seller(){
+        products = new ArrayList<Product>();
         rooms = new ArrayList<Room>();
+        followers = new ArrayList<Buyer>();
     }
 
     public ListInterface<Room> getRooms(){
@@ -26,7 +27,6 @@ public class Seller extends Account{
         return followers.add(buyer);
     }
 
-
     public ListInterface<Product> getProducts(){
         return products;
     }
@@ -35,4 +35,15 @@ public class Seller extends Account{
         return products.add(product);
     }
 
+    public boolean removeProduct(Product product){
+        return products.remove(product);
+    }
+
+    public boolean removeProductByIndex(int index){
+        return products.remove(index);
+    }
+
+    public void clearProducts(){
+        products = new ArrayList<>();
+    }
 }

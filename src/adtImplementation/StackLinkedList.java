@@ -1,5 +1,7 @@
 package adtImplementation;
 
+import java.util.Iterator;
+
 import adtInterfaces.StackInterface;
 
 public class StackLinkedList<T> implements StackInterface<T>{    
@@ -57,7 +59,46 @@ public class StackLinkedList<T> implements StackInterface<T>{
     public int size() {        
         return nodeCount;
     }
+
+    @Override
+    public void clear() { 
+        nodeCount = 0;       
+        topNode = null;
+    }
     
+    @Override    
+    public String toString() {
+        String outputStr = "";
+        Node currentNode = topNode;
+        while (currentNode != null) {
+            outputStr += currentNode.element + "\n";
+            currentNode = currentNode.nextNode;
+        }
+        return outputStr;
+    }
+
+    public Iterator<T> iterator(){
+        return new LinkedIterator();
+    }
+
+    private class LinkedIterator implements Iterator<T>{   
+        private Node currentNode = topNode;
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+        }
+
+        @Override
+        public T next() {
+            if(hasNext()){
+                T data = currentNode.element;
+                currentNode = currentNode.nextNode;
+                return data;
+            }      
+            return null;
+        }        
+    }
     private class Node{
         private T element;        
         private Node nextNode;
@@ -70,12 +111,5 @@ public class StackLinkedList<T> implements StackInterface<T>{
             this.element = element;            
             this.nextNode = nextNode;
         }
-    }    
-
-    @Override
-    public void clear() { 
-        nodeCount = 0;       
-        topNode = null;
     }
-    
 }

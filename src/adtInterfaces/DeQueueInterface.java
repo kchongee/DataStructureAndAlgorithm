@@ -1,6 +1,8 @@
 package adtInterfaces;
 
-public interface DeQueueInterface<T> extends QueueInterfaceEe<T>{    
+import java.util.Iterator;
+
+public interface DeQueueInterface<T>{
     void addFirst(T element);
     void addLast(T element);
     void removeFirst();
@@ -9,6 +11,12 @@ public interface DeQueueInterface<T> extends QueueInterfaceEe<T>{
     T peekLast();
     T pollFirst();
     T pollLast();
-    // boolean offerFirst(T element);
-    // boolean offerLast(T element);
+    boolean contains(T element);
+    int size();
+    boolean isEmpty();
+    void clear();
+    void addAll(T[] elements);
+    String toString();
+    T[] toArray();    
+    Iterator<T> iterator();
 }

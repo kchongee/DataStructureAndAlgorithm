@@ -1,5 +1,7 @@
 package adtInterfaces;
 
+import java.util.Iterator;
+
 public interface ListInterface<T> {
     boolean add (T element);
     boolean add (int index, T element);
@@ -12,4 +14,6 @@ public interface ListInterface<T> {
     boolean isEmpty();
     int size();
     void clear();
+    String toString();
+    Iterator<T> iterator();
 }
