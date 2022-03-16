@@ -17,14 +17,22 @@ import adtImplementation.HashMap;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
 import entity.Option;
+import entity.Product;
+import entity.Seller;
 import view.WelcomeView;
 
 public class App {
     public static Scanner scanner = new Scanner(System.in);
     public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
-    public static Account currentUser = new Account();
+    public static Account currentUser = new Seller();
     public static AccountList accountList = new AccountList(100);
     public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
+
+    static{
+        ((Seller)currentUser).addProduct(new Product("title1", 20, "description1"));
+        ((Seller)currentUser).addProduct(new Product("title2", 30, "description2"));
+        ((Seller)currentUser).addProduct(new Product("title3", 40, "description3"));
+    }
 
     public static void main(String[] args) throws Exception {    
         retrieveAccounts();            
@@ -191,9 +199,9 @@ public class App {
         history.pop().accept("Back to previous page");
     }
     
-    public static Integer promptIntInput(String text){
+    public static int promptIntInput(String text){
         System.out.print(text);
-        int inputInt = -1;
+        int inputInt = -1;                
         try {
             inputInt = scanner.nextInt();                                    
             scanner.nextLine();                                 
@@ -201,12 +209,30 @@ public class App {
             scanner.next();            
             System.out.println("Invalid input! Please enter number only.");
             System.out.println();            
-            promptIntInput(text);
+            return promptIntInput(text);
         }        
-        return inputInt;
+        return inputInt;        
+    }
+
+    public static int promptIntInputSkippable(String text){
+        System.out.print(text);
+        int inputInt = -1;
+        String inputIntStr = scanner.nextLine();
+        if(checkIsNextLine(inputIntStr)){
+            App.goBack();
+        }else{
+            try {
+                inputInt = Integer.parseInt(inputIntStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter number only.");
+                System.out.println();                
+                return promptIntInput(text);
+            }            
+        } 
+        return inputInt; 
     }
     
-    public static Double promptDoubleInput(String text){
+    public static double promptDoubleInput(String text){
         System.out.print(text);
         double inputDouble = -1;                
         try {
@@ -214,10 +240,28 @@ public class App {
             scanner.nextLine();          
         } catch (InputMismatchException ime) {   
             scanner.next();         
-            System.out.println("Invalid input! Please enter (decimal) number only.");
-            System.out.println();
+            System.out.println("Invalid input! Please enter (decimal) number only.");                            
+                System.out.println();                
             promptDoubleInput(text);
         }
+        return inputDouble;
+    }
+
+    public static double promptDoubleInputSkippable(String text){
+        System.out.print(text);
+        double inputDouble = -1;                        
+        String inputDoubleStr = scanner.nextLine();
+        if(checkIsNextLine(inputDoubleStr)){
+            App.goBack();
+        }else{                     
+            try {
+                inputDouble = Double.parseDouble(inputDoubleStr);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input! Please enter (decimal) number only.");
+                System.out.println();                
+                return promptDoubleInput(text);
+            }            
+        }                    
         return inputDouble;
     }
 
@@ -232,7 +276,7 @@ public class App {
         } catch (DateTimeParseException dtpe) {
             System.out.println("Invalid format inserted, please follow the format given "+format);
             System.out.println();
-            promptDateInput(text);
+            return promptDateInput(text);
         }                               
         return date;
     }
@@ -248,7 +292,7 @@ public class App {
         } catch (DateTimeParseException dtpe) {            
             System.out.println("Invalid format inserted, please follow the format given "+format);
             System.out.println();
-            promptTimeInput(text);
+            return promptTimeInput(text);
         }                                
         return time;
     }    
@@ -261,8 +305,16 @@ public class App {
         } catch (InputMismatchException ime) {            
             System.out.println("Invalid input! Please enter string only.");
             System.out.println();
-            promptStringInput(text);
+            return promptStringInput(text);
         }        
         return inputStr;
+    }
+
+    public static boolean checkIsNextLine(String str){
+        if(str.replaceAll("[\\r\\n]+\\s", "").equals("")){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
