@@ -2,15 +2,16 @@ package view;
 
 import java.util.function.Consumer;
 
-import adtImplementation.ArrayListEe;
-import adtInterfaces.ListInterfaceEe;
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 import application.App;
+import entity.Invoice;
 import entity.Option;
+import entity.Payment;
 import entity.Seller;
-import entity.ViewPage;
 
 public class CartSystemView {
-    public static ListInterfaceEe<Option> menuOptions = new ArrayListEe<Option>();  
+    public static ListInterface<Option> menuOptions = new ArrayList<Option>();  
 
     static {
         menuOptions.add(new Option("Choose payment method", i -> goToPage(ii->Payment.main())));
