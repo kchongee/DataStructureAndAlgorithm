@@ -1,16 +1,50 @@
 package entity;
 
+import adtImplementation.HashMap;
+
 import javax.swing.*;
 import java.awt.event.ActionListener;
+import java.time.LocalTime;
 
-public class Like
+public class Like implements Comparable<Like>
 {
     /* Problem
     *  Statement : database accountID
     * */
+    private static final HashMap<String,Integer> RANK = new HashMap<>();
+    static
+    {
+        RANK.put("LIKE",1);
+        RANK.put("NO COMMENT",2);
+        RANK.put("UNLIKE", 3);
+    }
 
+    Account buyer;
     String value;
+    LocalTime likeTime;
 
+
+
+    // region : constructor
+    Like() {  }
+
+    public Like(Account buyer)
+    {
+        this.buyer = buyer;
+        this.value = "NO COMMENT";
+    }
+
+    public Like(Account buyer, String value, LocalTime likeTime) {
+        this.buyer = buyer;
+        this.value = value;
+        this.likeTime = likeTime;
+    }
+
+    // endregionss
+
+
+
+    // region : public method
     public void like() {
         this.value = "LIKE";
     }
@@ -22,6 +56,8 @@ public class Like
     public void noComment(){
         this.value ="NO COMMENT";
     }
+    // endregion
+
 
 
     // region : static method
@@ -49,6 +85,7 @@ public class Like
     // endregion
 
 
+
     // region : ui utility function
     private static void ensureSelectOnlyOne(JRadioButton[]btn)
     {
@@ -73,6 +110,7 @@ public class Like
     // endregion
 
 
+
     // region : public static method
     public static void showDiscourage() {
         JOptionPane.showMessageDialog(null, "We are so sorry about that \uD83D\uDE2D");
@@ -89,5 +127,21 @@ public class Like
     public static void main(String[] args) {
         System.out.println(Like.showOptions());
     }
+
     // endregion
+
+
+    public int compareTo(Like like)
+    {
+        int othersRank = Like.RANK.get(like.value);
+        int thisRank = Like.RANK.get(value);
+
+        if (thisRank > othersRank) {
+            return 1;
+        } else if (thisRank == othersRank){
+            return 0;
+        } else {
+            return -1;
+        }
+    }
 }
