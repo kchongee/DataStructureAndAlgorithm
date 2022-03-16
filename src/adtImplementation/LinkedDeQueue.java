@@ -1,5 +1,7 @@
 package adtImplementation;
 
+import java.util.Iterator;
+
 import adtInterfaces.DeQueueInterface;
 
 public class LinkedDeQueue<T> implements DeQueueInterface<T>{
@@ -14,22 +16,7 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
     public LinkedDeQueue(T... elements){
         this();
         addAll(elements);
-    }    
-
-    private class Node{
-        private T element;        
-        private Node prevNode,nextNode;
-
-        private Node(T element){
-            this.element = element;
-        }
-
-        private Node(T element, Node prevNode, Node nextNode){
-            this.element = element;
-            this.prevNode = prevNode;
-            this.nextNode = nextNode;
-        }
-    }    
+    }        
 
     @Override
     public int size() {        
@@ -47,9 +34,7 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
         Node rearNode = lastNode;
         
         while (true){
-            if (element.equals(frontNode.element)) {                
-                return true;
-            }else if(element.equals(rearNode.element)){
+            if (element.equals(frontNode.element) || element.equals(rearNode.element)) {
                 return true;
             }else if(frontNode.equals(rearNode)){
                 break;
@@ -89,42 +74,7 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
         for (T element : elements) {
             addLast(element);
         }
-    }
-    
-    // @Override
-    // public boolean remove(Object o) {        
-    //     return false;
-    // }
-
-    // @Override
-    // public boolean add(T e) {        
-    //     // if(nodeCount==0){
-    //     //     Node newNode = new Node();
-    //     //     firstNode = newNode;
-    //     //     lastNode = newNode;
-    //     // }
-    //     return false;
-    // }
-
-    // @Override
-    // public boolean offer(T e) {        
-    //     return false;
-    // }
-
-    // @Override
-    // public T poll() {        
-    //     return null;
-    // }
-
-    // @Override
-    // public T peek() {        
-    //     return null;
-    // }
-
-    // @Override
-    // public T element() {        
-    //     return null;
-    // }
+    }        
 
     @Override
     public void addFirst(T element) {  
@@ -216,17 +166,66 @@ public class LinkedDeQueue<T> implements DeQueueInterface<T>{
             removeLast();
         }
         return elementGet;
+    }    
+    
+    @Override
+    public String toString() {        
+        String outputStrFront = "";
+        String outputStrRear = "";
+        Node frontNode = firstNode;
+        Node rearNode = lastNode;        
+        boolean isEven = size()%2==0;
+        while (frontNode!=null){                        
+            outputStrFront += frontNode.element + "\n\n";                            
+            if(isEven){
+                outputStrRear = rearNode.element + "\n" + outputStrRear;
+            }
+            if (firstNode.equals(rearNode) ){                
+                return outputStrFront+"\n"+outputStrRear;
+            }            
+            frontNode = frontNode.nextNode;
+            lastNode = lastNode.prevNode;
+        }
+        return outputStrFront;
     }
 
-    // @Override
-    // public boolean offerFirst(T element) {        
-    //     return false;
-    // }
+    @Override
+    public Iterator<T> iterator() {        
+        return new LinkedIterator();
+    }
 
-    // @Override
-    // public boolean offerLast(T element) {        
-    //     return false;
-    // }
-    
+    private class Node{
+        private T element;        
+        private Node prevNode,nextNode;
+
+        private Node(T element){
+            this.element = element;
+        }
+
+        private Node(T element, Node prevNode, Node nextNode){
+            this.element = element;
+            this.prevNode = prevNode;
+            this.nextNode = nextNode;
+        }
+    }    
+
+    private class LinkedIterator implements Iterator<T>{   
+        private Node currentNode = firstNode;
+
+        @Override
+        public boolean hasNext() {
+            return currentNode != null;
+        }
+
+        @Override
+        public T next() {
+            if(hasNext()){
+                T element = currentNode.element;
+                currentNode = currentNode.nextNode;
+                return element;
+            }      
+            return null;
+        }        
+    }
 }
 

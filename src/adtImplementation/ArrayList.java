@@ -1,5 +1,7 @@
 package adtImplementation;
 
+import java.util.Iterator;
+
 import adtInterfaces.ListInterface;
 
 public class ArrayList<T> implements ListInterface<T> {    
@@ -80,8 +82,6 @@ public class ArrayList<T> implements ListInterface<T> {
     @Override
     public boolean remove(int index) {        
         if ((index >= 0) && (index < size)) {
-            arr[index]=null;
-
             if (index < size) {
                 removeGap(index);
             }
@@ -169,9 +169,18 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     // @Override
-    // public T[] toArray() {
-    //     return (T[])arr;    
-    // }
+    // public <T> T[] toArray(T[] a) {
+    //     Object[] newArr = new Object[size()];
+    //     System.out.println(newArr.length);
+    //     System.arraycopy(arr, 0, newArr, 0, size());
+    //     return (T[])newArr;
+    // }    
+
+    public Object[] toArray(){
+        Object[] newArr = new Object[size()];        
+        System.arraycopy(arr, 0, newArr, 0, size());        
+        return newArr;
+    }
     
     private void expandArray() {
         T[] oldArray=arr;
@@ -189,8 +198,8 @@ public class ArrayList<T> implements ListInterface<T> {
         // move each entry to next lower position starting at entry after the
         // one removed and continuing until end of array
         //int removedIndex = index - 1;
-        //int lastIndex = size - 1;
-        for (int i = index; index<this.size; index++) {
+        //int lastIndex = size - 1;        
+        for (int i = index; i<this.size; i++) {
           arr[i] = arr[i+1];
         }
     }    
@@ -219,6 +228,39 @@ public class ArrayList<T> implements ListInterface<T> {
         return str;
     }
 
+    // @Override
+    // public String toString(){
+    //     int index = 0;
+    //     String str = "";
+    //     while(index<size()){
+    //         str += String.format("%s\n",arr[index]);
+    //         System.out.println();
+    //         index++;
+    //     }
+    //     return str;
+    // }
+
+    public Iterator<T> iterator(){
+        return new ListIterator();
+    }
+    private class ListIterator implements Iterator<T>{   
+        private int currIndex = 0;     
+
+        @Override
+        public boolean hasNext() {
+            return currIndex < size;
+        }
+
+        @Override
+        public T next() {
+        if(hasNext()){
+            T data = arr[currIndex];
+            currIndex++;
+            return data;
+        }      
+        return null;
+        }    
+    }    
     public static void main(String[] args)
     {
         ArrayList<String> a = new ArrayList<String>();

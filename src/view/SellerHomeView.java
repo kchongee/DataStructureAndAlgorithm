@@ -18,6 +18,10 @@ public class SellerHomeView{
         menuOptions.add(new Option("Orders", i -> goToPage(ii->SellerOrdersView.main())));
         menuOptions.add(new Option("Followers", i -> goToPage(ii->SellerFollowersView.main())));
     }
+
+    public static void main(String[] args) {
+        main();
+    }
     
     public static void main() {                
         printTitle("Home");                
