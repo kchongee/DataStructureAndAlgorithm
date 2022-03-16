@@ -13,7 +13,8 @@ public class ReviewList implements Comparable<ReviewList>
 
 
     // region : constructors
-    public ReviewList(Room room) {
+    public ReviewList(Room room)
+    {
         this.room = room;
         updateData();
     }
@@ -61,12 +62,13 @@ public class ReviewList implements Comparable<ReviewList>
 
         return max;
     }
-    // endregion
-
 
     public String getMajorityStarStr(){
         return new String(new char[getMajorityReview()]).replace("\0","*");
     }
+    // endregion
+
+
 
     // region : utility method
     private void fetchReviewDataFromDb()
@@ -127,6 +129,33 @@ public class ReviewList implements Comparable<ReviewList>
     }
     // endregion
 
+
+
+    // region : getter setter
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
+    }
+
+    public HashMap<Integer, ArrayList<Review>> getClassifiedReview() {
+        return classifiedReview;
+    }
+
+    public void setClassifiedReview(HashMap<Integer, ArrayList<Review>> classifiedReview) {
+        this.classifiedReview = classifiedReview;
+    }
+
+    public ArrayList<HashMap<String, Object>> getReviewDBdata() {
+        return reviewDBdata;
+    }
+
+    public void setReviewDBdata(ArrayList<HashMap<String, Object>> reviewDBdata) {
+        this.reviewDBdata = reviewDBdata;
+    }
+    // endregion
 
 
     public int compareTo(ReviewList otherList)

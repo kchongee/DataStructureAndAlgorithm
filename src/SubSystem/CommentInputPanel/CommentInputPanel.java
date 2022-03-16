@@ -52,7 +52,7 @@ public class CommentInputPanel implements Launchable
 
         Args(String[]arg)
         {
-            if (arg.length != 3)
+            if (arg.length != 2)
             {
                 String errMsg =
 
@@ -64,17 +64,8 @@ public class CommentInputPanel implements Launchable
 
                 throw new IllegalArgumentException(errMsg);
             }
-
-            /* Problem
-             * Nathan : Account constructor for (accountID)
-             * ChongEe : Room constructor for (roomID)
-             * */
-
-            this.account = new Account();
-            this.room = new Room();
-            account.setAccountID(arg[0]);
-            account.setUserName(arg[1]);
-            room.setRoomId(arg[2]);
+            this.account = new Account(arg[0]);
+            this.room = new Room(arg[1]);
         }
     }
     // endregion

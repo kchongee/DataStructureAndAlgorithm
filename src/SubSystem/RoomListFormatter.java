@@ -23,7 +23,7 @@ public class RoomListFormatter
 
 
     public String strTableHead(){
-        return String.format(rowFormat(), "No","Room Title","Like","Most People Reviewed");
+        return lineStr()+"\n"+String.format(rowFormat(), "No","Room Title","Like","Most People Reviewed")+"\n"+lineStr();
     }
 
     public String toRow(int rowNo, Room room)

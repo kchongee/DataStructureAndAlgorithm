@@ -5,17 +5,17 @@ public class BubbleSort<T extends Comparable<T>>
     T[] arr;
 
 
-    public BubbleSort(T[] arr)
-    {
+    public BubbleSort(T[] arr) {
         this.arr = arr;
     }
 
-    public void sort(Boolean ascending)
+    public T[] sort(Boolean ascending)
     {
         boolean canStopSwap = false;
         while (!canStopSwap) {
             canStopSwap = !swappedWhileTraverse(ascending);
         }
+        return arr;
     }
 
     public boolean swappedWhileTraverse(Boolean ascending)

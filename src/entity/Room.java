@@ -33,6 +33,10 @@ public class Room{
         id++;
     }
 
+    public Room(String roomId){
+        this.roomId = roomId;
+    }
+
     public Room(String roomId, String roomTitle) {
         this.roomId = roomId;
         this.roomTitle = roomTitle;
