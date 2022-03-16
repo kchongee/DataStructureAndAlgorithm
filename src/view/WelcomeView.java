@@ -14,6 +14,7 @@ public class WelcomeView{
     static{
         menuOptions.add(new Option("Login", i -> goToPage(ii -> LoginView.main())));
         menuOptions.add(new Option("Register", i -> goToPage(ii -> RegisterView.main())));
+        menuOptions.add(new Option("Forgot My Password", i -> goToPage(ii -> PasswordView.main())));
     }
 
     public static void main() {         

@@ -14,12 +14,12 @@ public class LoginView{
         String pwd = App.promptStringInput("Enter password: ");
 
         
-        if(App.accountList.checkAccount(new Account(uname, pwd))){
+        if(App.accountList.loginAccount(new Account(uname, pwd))){
             System.out.println("Login Successful");
-            App.currentUser = new Account(uname,pwd);
-            if(App.currentUser.getIsSeller().intValue()==1){
+            App.currentUser = App.accountList.grabAccount(uname);
+            if(App.currentUser.getIsSeller()==1){
                 SellerHomeView.main();
-            }else if(App.currentUser.getIsSeller().intValue()==0){
+            }else if(App.currentUser.getIsSeller()==0){
                 BuyerHomeView.main();
             }else{
                 SellerHomeView.main();

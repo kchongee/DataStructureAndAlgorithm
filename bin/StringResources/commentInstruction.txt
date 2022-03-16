@@ -1,0 +1,30 @@
+  How to make order using comment?
+  ********************************
+  
+  =================================
+  |Step1 | KNOWING PRODUCT NUMBER |
+  |------|------------------------|
+  |how?  |  Use "show catalog"    |
+  |      |  feature, system will  |
+  |      |  pop up catalog for    |
+  |      |  you.                  |
+  |      |                        |
+  =================================
+  |Step2 | DECIDE QUANTITY        |
+  |------|------------------------|
+  |how?  | decide on yourself.    |
+  |      |                        |
+  |      |                        |
+  =================================
+  |STEP3 | type them out          |
+  |-------------------------------|
+  |how? | EXAMPLE SYNTAX:         |
+  |     | product4 x5             |
+  |     | x5 product5             |
+  |     |                         |
+  =================================
+
+  The order should send to your
+  inbox as well as your cart :)
+  
+  Thanks :)

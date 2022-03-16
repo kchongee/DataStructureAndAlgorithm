@@ -18,6 +18,11 @@ public class ArrayList<T> implements ListInterface<T> {
         size=0;
     }
 
+    public ArrayList(T arr[]) {
+        this.arr = arr;
+        size= arr.length;
+    }
+
     @Override
     public int size() {        
         return this.size;
@@ -33,6 +38,34 @@ public class ArrayList<T> implements ListInterface<T> {
         return true;
     }
 
+    /*
+    * Problem
+    * Discuss : Nathan
+    * Statement : default add method = overwrite
+    * */
+
+    public boolean add(int index, T element, boolean hold)
+    {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException("please insert with range");
+        }
+        else {
+            if (isArrayFull()) {
+                expandArray();
+            }
+            int lastEmptyIndex = size;
+            for (int i = lastEmptyIndex ; i > index ; i--) {
+                arr[i] = arr[i-1];
+            }
+            arr[index] = element;
+            size++;
+            return true;
+        }
+    }
+
+    // @Override
+    // public boolean add(int newIndex, T newElement) {
+    //     boolean isSuccessful = false;
     @Override
     public boolean add(int newIndex, T newElement) {
         boolean isSuccessful = false;
@@ -182,19 +215,30 @@ public class ArrayList<T> implements ListInterface<T> {
         for (int i = lastIndex; i >= newIndex; i--) {
             arr[index + 1] = arr[index];
         }
-    }    
-    
-    @Override
-    public String toString(){
-        int index = 0;
+    }
+
+
+    public String toString()
+    {
         String str = "";
-        while(index<size()){
-            str += String.format("%s\n",arr[index]);
-            System.out.println();
-            index++;
+        for (T element : arr)
+        {
+            str = str + (String) element + " ";
         }
         return str;
     }
+
+    // @Override
+    // public String toString(){
+    //     int index = 0;
+    //     String str = "";
+    //     while(index<size()){
+    //         str += String.format("%s\n",arr[index]);
+    //         System.out.println();
+    //         index++;
+    //     }
+    //     return str;
+    // }
 
     public Iterator<T> iterator(){
         return new ListIterator();
@@ -215,6 +259,16 @@ public class ArrayList<T> implements ListInterface<T> {
             return data;
         }      
         return null;
-        }        
+        }    
+    }    
+    public static void main(String[] args)
+    {
+        ArrayList<String> a = new ArrayList<String>();
+        a.add("1");
+        System.out.println(a.toString());
+        a.add("2");
+        System.out.println(a.toString());
+        a.add(1, "4", true);
+        System.out.println(a.toString());
     }
 }

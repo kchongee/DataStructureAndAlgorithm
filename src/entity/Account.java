@@ -7,7 +7,7 @@ public class Account {
     private String name;
     private String address;
     private String email;
-    private Number isSeller;
+    private Integer isSeller;
     static int counter=1;
     
 
@@ -18,10 +18,10 @@ public class Account {
         this.name=""; 
         this.address="";
         this.email=""; 
-        this.isSeller=0;  
+        this.isSeller = null;  
     }
 
-    public Account(String userName){
+    /*public Account(String userName){
         this.accountID="";
         this.userName=userName;
         this.userPwd="";
@@ -29,6 +29,16 @@ public class Account {
         this.address="";
         this.email=""; 
         this.isSeller=0;  
+    }*/
+
+    public Account(String accountID){
+        this.accountID=accountID;
+        this.userName="";
+        this.userPwd="";
+        this.name=""; 
+        this.address="";
+        this.email=""; 
+        this.isSeller=null;  
     }
 
     public Account(String userName, String userPwd){
@@ -38,10 +48,10 @@ public class Account {
         this.name="";
         this.address="";
         this.email="";
-        this.isSeller=0;
+        this.isSeller=null;
     }
 
-    public Account(String userName, String userPwd,String name, String address, String email, Number isSeller){
+    public Account(String userName, String userPwd,String name, String address, String email, int isSeller){
         this.accountID=String.format("A%d", Account.counter);
         this.name=name;
         this.address=address;
@@ -59,10 +69,11 @@ public class Account {
         this.email=(String)email;
         this.userName=(String)userName;
         this.userName=(String)userPwd;
-        this.isSeller=(Number)isSeller;
+        this.isSeller=(int)isSeller;
+        
     }
 
-    public Account(String accountID, String userName, String userPwd,String name, String address, String email, Number isSeller){
+    public Account(String accountID, String userName, String userPwd,String name, String address, String email, int isSeller){
         this.accountID=accountID;
         this.name=name;
         this.address=address;
@@ -79,7 +90,8 @@ public class Account {
         this.email=(String)email;
         this.userName=(String)userName;
         this.userPwd=(String)userPwd;
-        this.isSeller=(Number)isSeller;
+        this.isSeller=(Integer)isSeller;
+        Account.counter++;
     }
 
 
@@ -131,13 +143,22 @@ public class Account {
         this.email = email;
     }
 
-    public Number getIsSeller() {
+    public Integer getIsSeller() {
         return isSeller;
     }
 
-    public void setIsSeller(int isSeller) {
+    public void setIsSeller(Integer isSeller) {
         this.isSeller = isSeller;
     }
+
+    public String getAccountType(){
+        if (this.isSeller==1){
+            return "Seller";
+        }else{
+            return "Buyer";
+        }
+    }
+
 
     @Override
     public String toString() {
@@ -147,6 +168,7 @@ public class Account {
         "\nEmail: "+email+
         "\nUsername: "+userName+
         "\nPassword: "+userPwd+
+        "\nisSeller: "+isSeller+
         "\nYour account has been created. You can proceed to login now.";
     }
 }
