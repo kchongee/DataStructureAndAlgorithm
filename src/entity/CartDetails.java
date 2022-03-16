@@ -1,16 +1,34 @@
 package entity;
 
-public class CartDetails {
-    private String cartID;
-    String productID;
-    int productQty;
-    Product price;
+import adtInterfaces.ListInterface;
 
-    public CartDetails(String cartID, String productID, int productQty, Product price) {
+public class CartDetails {
+
+    private ListInterface<CartDetails> cartDetailsList;
+    private String cartID;
+    private String productID;
+    Product product;
+    private static int productQty;
+    private double cost;
+    Account account;
+
+    public CartDetails(ListInterface<CartDetails> cartDetailsList, String cartID, String productID, Product product,
+            int productQty, double cost, Account account) {
+        this.cartDetailsList = cartDetailsList;
         this.cartID = cartID;
         this.productID = productID;
+        this.product = product;
         this.productQty = productQty;
-        this.price=price;
+        this.cost = cost;
+        this.account = account;
+    }
+
+    public ListInterface<CartDetails> getCartDetailsList() {
+        return cartDetailsList;
+    }
+
+    public void setCartDetailsList(ListInterface<CartDetails> cartDetailsList) {
+        this.cartDetailsList = cartDetailsList;
     }
 
     public String getCartID() {
@@ -29,7 +47,15 @@ public class CartDetails {
         this.productID = productID;
     }
 
-    public double getProductQty() {
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+    public static int getProductQty() {
         return productQty;
     }
 
@@ -37,19 +63,39 @@ public class CartDetails {
         this.productQty = productQty;
     }
 
-    public Product getPrice() {
-        return price;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPrice(Product price) {
-        this.price = price;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
-    public void addToCart()
-    { 
-        
+    
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    public boolean addProduct(CartDetails inputCartDetails){
+        for (int i=0; i<cartDetailsList.size(); i++){
+            if((inputCartDetails.getProductID().equals(cartDetailsList.get(i).getProductID())) &&
+                (inputCartDetails.getAccount().equals(account.getIsSeller()))) { //isSeller
+                return false;
+            } 
+        }
+        boolean added = cartDetailsList.add(inputCartDetails);
+        System.out.println(added);
+        if(added){
+            inputCartDetails.toString();
+        } else{
+            return false;
+        }
+        return true;
     }
 
     
 }
-

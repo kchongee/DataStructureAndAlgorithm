@@ -6,20 +6,16 @@ public class Cart {
     CartDetails cartID;
     Buyer buyerID;
     Seller sellerID;
-    private boolean isCheckout;
-    Comment commentDate;
-    Comment commentTime;
-    private String paymentMethod;
+    Payment payment;
 
-    public Cart(CartDetails cartID, Buyer buyerID, Seller sellerID, boolean isCheckout, Comment commentDate,
-            Comment commentTime, String paymentMethod) {
+    public Cart(CartDetails cartID, Buyer buyerID, Seller sellerID, Payment payment) {
         this.cartID = cartID;
         this.buyerID = buyerID;
         this.sellerID = sellerID;
-        this.isCheckout = isCheckout;
-        this.commentDate = commentDate;
-        this.commentTime = commentTime;
-        this.paymentMethod = paymentMethod;
+        //this.isCheckout = isCheckout;
+        //this.commentDate = commentDate;
+        //this.commentTime = commentTime;
+        this.payment = payment;
     }
 
     public CartDetails getCartID() {
@@ -46,29 +42,15 @@ public class Cart {
         this.sellerID = sellerID;
     }
 
-    public boolean isCheckout() {
-        return isCheckout;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setCheckout(boolean isCheckout) {
-        this.isCheckout = isCheckout;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
-    public Comment getCommentDate() {
-        return commentDate;
-    }
-
-    public Comment getCommentTime() {
-        return commentTime;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
+    
     
    
     

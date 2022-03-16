@@ -2,6 +2,7 @@ package entity;
 
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
+import adtImplementation.ReviewList;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.QueueInterface;
@@ -14,13 +15,26 @@ public class Room{
     private MapInterface<String,Product> catalog;
     private boolean isOpen;
     private static int id = 0;
+    private LikeList likeList;
+    private ReviewList reviewList;
 
+
+    /*Problem
+     * Statement : likeArr vs likes array??
+     */
+
+
+    // region : constructors
     public Room(){        
         this.roomId = String.format("ROOM%4s", id).replace(' ', '0');        
         this.buyers = new ArrayList<Buyer>();
         this.isOpen = false;
         this.catalog = new HashMap<>();
         id++;
+    }
+
+    public Room(String roomId){
+        this.roomId = roomId;
     }
 
     public Room(String roomId, String roomTitle) {
@@ -33,6 +47,17 @@ public class Room{
         this.roomTitle = roomTitle;
         this.catalog = catalog;
     }
+
+    public Room(String roomId, String roomTitle, boolean isOpen)
+    {
+        this.roomId = roomId;
+        this.roomTitle = roomTitle;
+        this.isOpen = isOpen;
+        this.likeList = new LikeList(this);
+        this.reviewList = new ReviewList(this);
+    }
+    // endregion
+
 
     public String getRoomId() {
         return roomId;
@@ -73,6 +98,36 @@ public class Room{
     public void removeBuyerFromRoom(Buyer buyer){
         buyers.remove(buyer);
     }    
+
+
+    //region: getter setters
+    public ListInterface<Buyer> getLikes() {
+        return likes;
+    }
+
+    public ListInterface<Buyer> getBuyers() {
+        return buyers;
+    }
+
+    public MapInterface<String, Product> getCatalog() {
+        return catalog;
+    }
+
+    public LikeList getLikeList() {
+        return likeList;
+    }
+
+    public void setLikeList(LikeList likeList) {
+        this.likeList = likeList;
+    }
+
+    public ReviewList getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(ReviewList reviewList) {
+        this.reviewList = reviewList;
+    }
 
     public String getRoomTitle() {
         return roomTitle;
@@ -128,4 +183,9 @@ public class Room{
     public static void setId(int id) {
         Room.id = id;
     }
+    // endregion
+
+
+
+    //
 }

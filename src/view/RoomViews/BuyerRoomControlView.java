@@ -7,10 +7,12 @@ import adtImplementation.ArrayList;
 import entity.Catalog;
 import entity.Option;
 import entity.Product;
+import entity.Room;
 
 public class BuyerRoomControlView
 {
     Catalog catalog;
+    Room room;
     ArrayList<Option> BUYER_CONTROLS = new ArrayList<Option>(
         new Option[]
             {
@@ -40,6 +42,11 @@ public class BuyerRoomControlView
 
     public void showCatalog() {
         catalog.displayCatalogOptionPane();
+    }
+
+    public void likeOrUnlikeRoom()
+    {
+
     }
     // endregion
 

@@ -13,7 +13,7 @@ class displayDemo
         // (ISSUE)
         ProjectCompileUtil.compileAndGenerate(new displayDemo());
         CommentDisplayer cd = new CommentDisplayer();
-        CircularQueue<Comment> cq = cd.getCommentData().getCommentQueue();
+        CircularQueue<Comment> cq = cd.getCommentQueue().getCommentQueue();
         while (!cq.isEmpty())
         {
             System.out.println(cq.poll().getFormatter().toBlockString());

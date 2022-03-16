@@ -5,10 +5,8 @@ import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.CircularQueue;
 import adtImplementation.HashMap;
-import entity.Account;
-import entity.Comment;
-import entity.Launchable;
-import entity.Room;
+import entity.*;
+
 import static UtilityClasses.jdbcUtil.*;
 
 
@@ -16,7 +14,7 @@ public class CommentDisplayer implements Launchable
 {
     Room room;
     Account account;
-    CommentData commentData;
+    CommentQueue CommentQueue;
 
 
     // region 001 : constructor
@@ -26,7 +24,7 @@ public class CommentDisplayer implements Launchable
     {
         this.room = room;
         this.account = account;
-        this.commentData = new CommentData();
+        this.CommentQueue = new CommentQueue(room);
     }
     // endregion
 
@@ -34,11 +32,10 @@ public class CommentDisplayer implements Launchable
     // region 002 : public methods
     public void displayComments()
     {
-        while (!commentData.commentQueue.isEmpty())
+        while (!CommentQueue.getCommentQueue().isEmpty())
         {
             System.out.println(
-                    commentData
-                            .commentQueue
+                    CommentQueue.getCommentQueue()
                             .poll()
                             .getFormatter()
                             .toBlockString()
@@ -58,182 +55,18 @@ public class CommentDisplayer implements Launchable
 
 
     // region 003 : getters setters
-    public CommentData getCommentData() {
-        return commentData;
+    public entity.CommentQueue getCommentQueue() {
+        return CommentQueue;
     }
 
-    public void setCommentData(CommentData commentData) {
-        this.commentData = commentData;
+    public void setCommentQueue(CommentQueue CommentQueue) {
+        this.CommentQueue = CommentQueue;
     }
     // endregion
 
 
     // region 004 inner class
-    public class CommentData
-    {
-        ArrayList<HashMap<String, Object>> commentsMap;
-        CircularQueue<Comment> commentQueue;
-        Comment latestComment;
 
-
-        // constructor
-        public CommentData()
-        {
-            commentQueue = new CircularQueue<Comment>(50);
-            updateData();
-        }
-
-
-        // region 001 : getter setter
-        public ArrayList<HashMap<String, Object>> getCommentsMap() {
-            return commentsMap;
-        }
-
-        public void setCommentsMap(ArrayList<HashMap<String, Object>> commentsMap) {
-            this.commentsMap = commentsMap;
-        }
-
-        public CircularQueue<Comment> getCommentQueue() {
-            return commentQueue;
-        }
-
-        public void setCommentQueue(CircularQueue<Comment> commentQueue) {
-            this.commentQueue = commentQueue;
-        }
-
-        public Comment getLatestComment() {
-            return latestComment;
-        }
-
-        public void setLatestComment(Comment latestComment) {
-            this.latestComment = latestComment;
-        }
-        // endregion
-
-
-        // region 002 : public method
-        public void updateData()
-        {
-            fillMap50Comment();
-
-            // debug
-            // System.out.println(commentsMap.toString());
-
-            fillQueue50Comment();
-            trackLatestComment();
-        }
-
-
-        public boolean newCommentDetected()
-        {
-            Comment latestComment = fetchLatestCommentFromDB();
-            Comment lastFetchedLatest = commentData.latestComment;
-            if (latestComment.compareTo(latestComment) == 1){
-                return false;
-            }
-            return true;
-        }
-        // endregion
-
-
-        // region 003 : utility method
-        private void fillQueue50Comment()
-        {
-            for (int i = commentsMap.size()-1 ; i > 0 ; i--)
-            {
-
-                /*
-                * Problem
-                * Discuss   : Nathan
-                * Statement :  Account constructor for, username,
-                *
-                */
-
-
-                /*
-                * Problem
-                * Discuss : Nathan
-                * Statement : request Account schema
-                * Data generation
-                *
-                */
-
-
-                Account account = new Account();
-
-                account.setUserName((String) commentsMap.get(i).get("username"));
-                account.setIsSeller((int) commentsMap.get(i).get("isSeller"));
-
-                Comment tempComment = new Comment(account, room, commentsMap.get(i));
-
-                // debug
-                // System.out.println(tempComment.toString());
-
-                commentQueue.add(tempComment);
-            }
-        }
-
-
-        /*
-         * Problem
-         * Discuss : Nathan
-         * Statement : Account Table "accountType" field schema
-         * Data generation
-         *
-         */
-        private void fillMap50Comment()
-        {
-            String query =
-                    "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
-                    "FROM Account acc, Comment comm\n" +
-                    String.format("WHERE acc.accountID = comm.accountID AND roomID='%s' \n", room.getRoomId()) +
-                    "ORDER BY commentSeq desc\n" +
-                    "LIMIT 50;\n";
-
-            // debug
-            //System.out.println(query);
-            commentsMap = readAll(query);
-
-            // debug
-            // System.out.println(commentsMap.toString());
-        }
-
-
-        private void trackLatestComment() {
-            latestComment = new Comment(account, room, commentsMap.get(0));
-        }
-
-
-        /*
-         * Problem
-         * Discuss : Nathan
-         * Statement : Account Table "accountType" field schema
-         * Data generation
-         *
-         */
-        private Comment fetchLatestCommentFromDB()
-        {
-            String subquery = String.format
-                    (
-                            "(SELECT max(commentSeq)\n" +
-                            "FROM   Comment\n" +
-                            "WHERE  roomID='%s')", room.getRoomId()
-                    );
-
-            String query = String.format
-                    (
-                            "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
-                            "FROM Account acc, Comment comm\n" +
-                            "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomId(), subquery
-                    );
-
-            // debug
-            // System.out.println(query);
-
-            return new Comment(account, room, readOne(query));
-        }
-        // endregion
-    }
 
 
     private static class Args
@@ -289,7 +122,7 @@ public class CommentDisplayer implements Launchable
             // System.out.println("Loop");
 
             Thread.sleep(1000);
-            if (cPlayer.getCommentData().newCommentDetected())
+            if (cPlayer.getCommentQueue().newCommentDetected())
             {
 
                 // debug

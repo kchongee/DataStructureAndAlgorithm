@@ -5,9 +5,14 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
+import entity.Invoice;
 import entity.Option;
+import entity.Payment;
 import entity.Seller;
+<<<<<<< HEAD
 //import entity.ViewPage;
+=======
+>>>>>>> 85b8a563adc4bfb95fab511383abecd691d41b2e
 
 public class CartSystemView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();  

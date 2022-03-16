@@ -41,6 +41,16 @@ public class Account {
         this.isSeller=null;  
     }
 
+    public Account(String accountID, String userName, int isSeller){
+        this.accountID=accountID;
+        this.userName=userName;
+        this.userPwd="";
+        this.name="";
+        this.address="";
+        this.email="";
+        this.isSeller=isSeller;
+    }
+
     public Account(String userName, String userPwd){
         this.accountID="";
         this.userName=userName;
