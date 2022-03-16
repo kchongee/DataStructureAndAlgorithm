@@ -1,7 +1,7 @@
 drop table if exists CartDetailsdetails;
 
-create table CartDetailsDetails(
-	CartDetailsID      int not null,
+create table CartDetails(
+    CartID       int not null,
     productID   varchar(50) not null,
     productQty  int not null,
     primary key(CartDetailsID, productID)

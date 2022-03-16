@@ -3,6 +3,8 @@ package entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 
 public class Payment {
     static Product product;
@@ -13,6 +15,7 @@ public class Payment {
     private LocalTime checkOutTime;
     private String paymentMethod;
     private static double overAllPrice;
+    
 
     public Payment(String paymentID, boolean isCheckout, LocalDate checkOutDate, LocalTime checkOutTime,
             String paymentMethod, double overAllPrice) {
@@ -86,17 +89,17 @@ public class Payment {
         switch (paymentMethod) {
             case 1:
                 System.out.println("Process with Credit card");
-                System.out.println("Your payment: RM"+ overAllPrice);
+                System.out.println("Your payment: RM" + overAllPrice);
                 System.out.println("Payment successful");
                 break;
             case 2:
                 System.out.println("Process with Online Banking or Debit card");
-                System.out.println("Your payment: RM"+ overAllPrice);
+                System.out.println("Your payment: RM" + overAllPrice);
                 System.out.println("Payment successful");
                 break;
             case 3:
                 System.out.println("E-wallet");
-                System.out.println("Your payment: RM"+ overAllPrice);
+                System.out.println("Your payment: RM" + overAllPrice);
                 System.out.println("Payment successful");
                 break;
 
@@ -104,7 +107,5 @@ public class Payment {
         scan.close();
 
     }
-  
+
 }
-
-

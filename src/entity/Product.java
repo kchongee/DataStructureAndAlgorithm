@@ -12,6 +12,9 @@ public class Product{
         this.description = description;
     }
 
+    public Product(String title2, String string, String description2) {
+    }
+
     public String getTitle() {
         return title;
     }

@@ -123,10 +123,10 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
     @Override
-    public T get(int index) {        
+    public T get(String string) {        
         T returned = null;
-        if((index>=0) && (index < size)){
-            returned = arr[index];
+        if((string>=0) && (string < size)){
+            returned = arr[string];
         }
         return returned;
     }

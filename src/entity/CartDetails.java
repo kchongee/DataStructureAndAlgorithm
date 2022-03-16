@@ -1,10 +1,19 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
+
+import static UtilityClasses.jdbcUtil.readAll;
+import static UtilityClasses.jdbcUtil.readOne;
+
 
 public class CartDetails {
 
     private ListInterface<CartDetails> cartDetailsList;
+    HashMap<String, ArrayList<Product>>getProductFromDb = new HashMap<>();
+    static ArrayList<HashMap<String, Object>> productData = new ArrayList<HashMap<String, Object>>();
     private String cartID;
     private String productID;
     Product product;
@@ -96,6 +105,29 @@ public class CartDetails {
         }
         return true;
     }
+
+    /*
+    private Product fetchLatestCartFromDB()
+    {
+
+        String query = String.format
+                (
+                        "SELECT P.title, P.price, CD.productQty\n" +
+                        "FROM Product P, CartDetails CD, Cart C\n" +
+                        "WHERE P.productID = CD.productID AND CD.cartID=C.cartID AND isCheckout ='False';"
+                );
+
+
+        HashMap<String,Object> ProductData = readOne(query);
+        return product;
+        
+    }
+    */
+
+    ArrayList<HashMap<String,Object>>productTable =jdbcUtil.readAll("SELECT title, price FROM Product");
+    HashMap<String,Object>record = productTable.get(0);
+    Product p = new Product ((String)record.get("title"), (String)record.get("price"), (String)record.get("productDesc"));
+
 
     
 }

@@ -1,10 +1,7 @@
 package entity;
 
-<<<<<<< HEAD
 import entity.Account;
 import UtilityClasses.DateTimeUtil;
-=======
->>>>>>> 1862afae7af0cc415b7e7f9aab87a185184b05e4
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
@@ -40,12 +37,10 @@ public class Seller extends Account{
         return products.add(product);
     }
 
-<<<<<<< HEAD
     public static void main(String[] args) {
         System.out.print(DateTimeUtil.localDateNow());
     }
 
-=======
     public boolean removeProduct(Product product){
         return products.remove(product);
     }
@@ -57,5 +52,4 @@ public class Seller extends Account{
     public void clearProducts(){
         products = new ArrayList<>();
     }
->>>>>>> 1862afae7af0cc415b7e7f9aab87a185184b05e4
 }
