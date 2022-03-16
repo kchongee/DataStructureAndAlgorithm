@@ -13,12 +13,17 @@ public class SellerProductsView{
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
     
     static {
-        menuOptions.add(new Option("Add Product", i -> System.out.println("Add Product")));
-        menuOptions.add(new Option("Remove Product", i -> System.out.println("Remove Product")));        
+        menuOptions.add(new Option("Add Product", i -> goToPage(ii -> SellerAddProductView.main())));
+        menuOptions.add(new Option("Remove Product", i -> goToPage(ii -> SellerRemoveProductView.main())));        
+        menuOptions.add(new Option("View/Edit Product Detail", i -> goToPage(ii -> SellerDetailedProductView.main())));
+    }
+
+    public static void main(String[] args) {
+        main();
     }
     
     public static void main() {        
-        printTitle("Products");
+        printTitle("Products");                
                                  
         App.menuHandler(menuOptions);
     }
