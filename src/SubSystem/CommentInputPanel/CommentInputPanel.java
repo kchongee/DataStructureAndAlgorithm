@@ -2,14 +2,13 @@ package SubSystem.CommentInputPanel;
 
 import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 import application.App;
-import entity.Account;
-import entity.Comment;
-import entity.Launchable;
-import entity.Room;
-import jdk.dynalink.beans.StaticClass;
+import entity.*;
 
-import java.util.Scanner;
+import javax.swing.*;
+
 
 public class CommentInputPanel implements Launchable
 {
@@ -31,13 +30,24 @@ public class CommentInputPanel implements Launchable
     // region 002: public method
     public void sendCommentToDatabase(Comment comment)
     {
+        String targetedField =
+            " (accountID, commentDate, commentTime, roomID, content, isOrder) ";
+
+
         String query =
-                String.format("insert into comment values('%s','%s','%s','%s','%s','%s')",
-                account.getAccountID(),
-                comment.getCommentDate(),
-                comment.getCommentTime(),
-                room.getRoomId(),
-                comment.getContent());
+                String.format
+                (
+                    "insert into comment" +
+                    targetedField +
+                    "values('%s','%s','%s','%s','%s','%s')",
+                    account.getAccountID(),
+                    comment.getCommentDate(),
+                    comment.getCommentTime(),
+                    room.getRoomId(),
+                    comment.getContent(),
+                    comment.retrieveMsgData().isEmpty()
+                );
+
         jdbcUtil.executeCUD(query);
     }
     // endregion
@@ -57,9 +67,9 @@ public class CommentInputPanel implements Launchable
                 String errMsg =
 
                 """
-                Please provide following arguments:\n
-                1. accountID\n
-                2. roomID\n
+                Please provide following arguments:
+                1. accountID
+                2. roomID
                 """;
 
                 throw new IllegalArgumentException(errMsg);
@@ -94,8 +104,11 @@ public class CommentInputPanel implements Launchable
 
     public static void main(String[] args)
     {
+        args = new String[]{"A0","1"};
+
         Args arg = new Args(args);
         CommentInputPanel cip = new CommentInputPanel(arg.account, arg.room);
+        Catalog catalog = cip.getRoom().fetchCatalogFromDB();
 
         String input = App.promptStringInput(">>> ");
 
@@ -105,7 +118,24 @@ public class CommentInputPanel implements Launchable
                 DateTimeUtil.localTimeNow(),
                 DateTimeUtil.localDateNow(),
                 input);
+
+        ArrayList<Comment.MsgData> orderData = comment.retrieveMsgData();
+
+        if (!orderData.isEmpty())
+        {
+            String orderItems = "";
+            ArrayList<Product> productList = catalog.getProductList();
+            for (int i = 0 ; i < orderData.size() ; i++)
+            {
+                int productNo = orderData.get(i).getProductNo()-1;
+                int orderQty  = orderData.get(i).getOrderQty();
+                Product product = catalog.getProductList().get(productNo);
+                orderItems = orderItems + product.getTitle() + "x " + orderQty + "\n";
+            }
+
+            JOptionPane.showMessageDialog(null, "Your order : \n" + orderItems);
+        }
+
+        cip.sendCommentToDatabase(comment);
     }
-
-
 }
