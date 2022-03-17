@@ -64,7 +64,7 @@ public class Comment implements Comparable<Comment>
 
     public int getSellingProductQtyFromDB()
     {
-        return (Integer)
+        Long qty = (Long)
         jdbcUtil.readOne(
                 String.format
                         (
@@ -73,6 +73,9 @@ public class Comment implements Comparable<Comment>
                                 room.getRoomId()
                         )
         ).get("productQty");
+
+
+        return Math.toIntExact(qty);
     }
 
 
@@ -90,7 +93,7 @@ public class Comment implements Comparable<Comment>
                 String next = words[i+1].toUpperCase();
 
                 boolean productNoWithinList = productNo > 0 && productNo <= productListQty;
-                boolean quantifiedWithXonly = next.replaceAll("\\d", "").equals("X");
+                boolean quantifiedWithXonly = next.replaceAll("\\d|,", "").equals("X");
 
                 if (productNoWithinList && quantifiedWithXonly)
                 {

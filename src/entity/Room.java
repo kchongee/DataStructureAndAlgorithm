@@ -195,9 +195,13 @@ public class Room{
                 SELECT title, productDesc, price
                 FROM   product p, roomCatalog rc
                 WHERE  p.productID = rc.productID AND rc.roomID=%s
-                ORDER BY productID;
+                ORDER BY rc.productID;
                 """,roomId
                 );
+
+        // debug
+        // System.out.println(query);
+
 
 
         ArrayList<HashMap<String, Object>> products = jdbcUtil.readAll(query);
