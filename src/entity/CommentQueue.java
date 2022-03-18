@@ -79,7 +79,7 @@ public class CommentQueue
     {
         Comment latestComment = fetchLatestCommentFromDB();
         Comment lastFetchedLatest = this.latestComment;
-        if (latestComment.compareTo(latestComment) == 1){
+        if (latestComment.compareTo(lastFetchedLatest) == 1){
             return false;
         }
         return true;
@@ -90,60 +90,46 @@ public class CommentQueue
     // region 003 : utility method
     private void fillQueue50Comment()
     {
-        for (int i = commentsMap.size()-1 ; i > 0 ; i--)
+        for (int i = commentsMap.size()-1 ; i >= 0 ; i--)
         {
+            String userName = (String) commentsMap.get(i).get("username");
+            String accountID = (String) commentsMap.get(i).get("accountID");
+            int isSeller = (Integer) commentsMap.get(i).get("isSeller");
 
-            /*
-             * Problem
-             * Discuss   : Nathan
-             * Statement :  Account constructor for, accountID,
-             *
-             */
-
-
-            /*
-             * Problem
-             * Discuss : Nathan
-             * Statement : request Account schema
-             * Data generation
-             *
-             */
-
-
-            Account account = new Account();
-
-            account.setUserName((String) commentsMap.get(i).get("username"));
-            account.setIsSeller((int) commentsMap.get(i).get("isSeller"));
-
+            Account account = new Account(accountID, userName,isSeller);
             Comment tempComment = new Comment(account, room, commentsMap.get(i));
 
-            // debug
-            // System.out.println(tempComment.toString());
+             // debug
+             // System.out.println(tempComment.toString());
 
             commentQueue.add(tempComment);
         }
     }
 
 
-    /*
-     * Problem
-     * Discuss : Nathan
-     * Statement : Account Table "accountType" field schema
-     * Data generation
-     *
-     */
     private void fillMap50Comment()
     {
         String query =
-                "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
-                        "FROM Account acc, Comment comm\n" +
-                        String.format("WHERE acc.accountID = comm.accountID AND roomID='%s' \n", room.getRoomId()) +
-                        "ORDER BY commentSeq desc\n" +
-                        "LIMIT 50;\n";
+                String.format
+                (
+                        """
+                        select acc.accountID, userName, isSeller, commentTime, content, commentDate
+                        from   comment c, account acc
+                        where  acc.accountID = c.accountID and roomID = %s
+                        ORDER BY commentSeq desc
+                        LIMIT 50;
+                        """,room.getRoomId()
+                );
+
 
         // debug
-        //System.out.println(query);
+        // System.out.println(query);
+
+
         commentsMap = readAll(query);
+
+        // debug
+        // System.out.println(commentsMap.get(0).get("content"));
 
         // debug
         // System.out.println(commentsMap.toString());
@@ -155,13 +141,7 @@ public class CommentQueue
     }
 
 
-    /*
-     * Problem
-     * Discuss : Nathan
-     * Statement : Account Table "accountType" field schema
-     * Data generation
-     *
-     */
+
     private Comment fetchLatestCommentFromDB()
     {
         String subquery = String.format
@@ -173,18 +153,14 @@ public class CommentQueue
 
         String query = String.format
                 (
-                        "SELECT acc.accountID, username, accountType, commentDate, commentTime, roomID, content\n" +
+                        "SELECT acc.accountID, username, isSeller, commentDate, commentTime, roomID, content\n" +
                         "FROM Account acc, Comment comm\n" +
                         "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomId(), subquery
                 );
 
-        // debug
-        // System.out.println(query);
+          // debug
+          // System.out.println(query);
 
-        /*
-        * Problem
-        * Statement : schema prob
-        * */
 
 
         HashMap<String,Object> data = readOne(query);

@@ -6,9 +6,9 @@ import UtilityClasses.SortingAlgorithm.BubbleSort;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-import adtImplementation.ReviewList;
 
-import java.util.Comparator;
+import javax.swing.*;
+
 
 public class RoomList
 {
@@ -25,6 +25,7 @@ public class RoomList
     {
         fetchActiveRoomsFromDb();
         processIntoRoomList();
+        updateDataAlongLikeAndRevList();
     }
 
 
@@ -66,10 +67,13 @@ public class RoomList
             {
                 Room tempRoom = new Room
                 (
-                    (String) roomMap.get(i).get("roomID"),
+                    Integer.toString((Integer) roomMap.get(i).get("roomID")),
                     (String) roomMap.get(i).get("roomTitle"),
                     (Boolean)roomMap.get(i).get("isOpen")
                 );
+
+                // debug
+                // System.out.println(tempRoom.toString());
 
                 roomList.add(tempRoom);
             }
@@ -88,9 +92,9 @@ public class RoomList
         if (!roomList.isEmpty())
         {
             for(int i = 0 ; i < roomList.size() ; i++)
-                System.out.println(formatter.toRow(i, roomList.get(i)));
-
+                System.out.println(formatter.toRow(i+1, roomList.get(i)));
             System.out.println(formatter.lineStr());
+            System.out.println(formatter.optionPane());
         }
     }
 
@@ -209,6 +213,19 @@ public class RoomList
 
 
     }
+
+
+    private boolean askSortPreferences()
+    {
+        boolean ascending = true;
+        int reply = 0;
+        reply =JOptionPane.showConfirmDialog(null,
+                "sort ascending?", "Sorting preference", JOptionPane.YES_NO_OPTION);
+        if (reply != JOptionPane.YES_OPTION){
+            ascending = false;
+        }
+        return ascending;
+    }
     /*
     * Problem : MAX CHAR PROBLEM @ table
     * */
@@ -217,6 +234,7 @@ public class RoomList
     public static void main(String[] args)
     {
         RoomList list = new RoomList();
+        list.sortByTitle(true);
         list.displayRoomList();
     }
 }

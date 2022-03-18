@@ -15,6 +15,16 @@ public interface MapInterface<K,V> {
      * @param <K>
      * @param <V>
      */
+
+    public boolean containsKey(K k);
+    public void clear();
+    public boolean containsValue(V Value);
+    public boolean isEmpty();
+    public Set keySet();
+    public void putAll();
+    public V remove(K key);
+    public V[] values();
+
     interface Entry<K, V>{
         /**
          * get the key in an entry object

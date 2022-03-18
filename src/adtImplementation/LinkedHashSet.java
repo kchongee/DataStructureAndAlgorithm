@@ -5,8 +5,14 @@ import adtInterfaces.Set;
 import java.util.Collection;
 import java.util.Iterator;
 
-public class HashSet<T> implements Set<T>
+public class LinkedHashSet<T> implements Set<T>
 {
+    private static final Object PRESENT = new Object();
+    private HashMap mapAsSet;
+
+    public HashSet() {
+        this.mapAsSet = new HashMap<T,Object>();
+    }
 
     public int size() {
         return 0;
@@ -32,8 +38,14 @@ public class HashSet<T> implements Set<T>
         return null;
     }
 
+    @Override
     public boolean add(String s) {
         return false;
+    }
+
+    public boolean add(T e) {
+
+        mapAsSet.put(e,PRESENT);
     }
 
     public boolean remove(Object o) {

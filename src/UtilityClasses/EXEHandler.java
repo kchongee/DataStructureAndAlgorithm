@@ -20,12 +20,18 @@ public class EXEHandler
     String shortcutName;
     String[] arguments;
     Process process = null;
+    String mode;
 
 
-    EXEHandler(String shortcutName, String[] arguments) throws FileNotFoundException {
+    EXEHandler(String shortcutName, String[] arguments, String mode) throws FileNotFoundException {
+        this.mode = mode.toLowerCase();
 
-        if (!shortcutName.contains(".lnk")) {
-            throw new FileNotFoundException("Please provide a shotcut file name");
+        if (!this.mode.equals("exe") && !this.mode.equals("lnk")){
+            throw new UnsupportedOperationException("only can handle exe and lnk type");
+        }
+
+        if (!shortcutName.contains("." + this.mode)) {
+            throw new FileNotFoundException("Please provide a shortcut file name or exe");
         }
 
         this.shortcutName = shortcutName;
@@ -33,10 +39,16 @@ public class EXEHandler
     }
 
 
-    EXEHandler(String shortcutName) throws FileNotFoundException {
+    EXEHandler(String shortcutName, String mode) throws FileNotFoundException {
+        this.mode = mode.toLowerCase();
 
-        if (!shortcutName.contains(".lnk")) {
-            throw new FileNotFoundException("Please provide a shotcut file name");
+
+        if (!this.mode.equals("exe") && !this.mode.equals("lnk")){
+            throw new UnsupportedOperationException("only can handle exe and lnk type");
+        }
+
+        if (!shortcutName.contains("." + this.mode)) {
+            throw new FileNotFoundException("Please provide a shortcut file name or exe");
         }
 
         this.shortcutName = shortcutName;
@@ -48,7 +60,7 @@ public class EXEHandler
         String command = "cmd /c start \"\" " + wrapStringWithQuotes(getBatchFilePath());
 
         // debug
-        System.out.println(command);
+        // System.out.println(command);
 
         try {
             this.process = Runtime.getRuntime().exec(command);
@@ -64,7 +76,18 @@ public class EXEHandler
     }
 
     private String getFullCommand(){
-        return wrapStringWithQuotes(getFilePath()) + " " + argsToString();
+        if (mode.equals("lnc")){
+            return wrapStringWithQuotes(getFilePath()) + " " + argsToString();
+        } else {
+            String str= String.format(
+                    """
+                    cd %s
+                    %s %s
+                    """, wrapStringWithQuotes(getExecuteablePath()),shortcutName, argsToString()
+            );
+            System.out.println(str);
+            return str;
+        }
     }
 
     private String getFilePath(){
@@ -115,21 +138,21 @@ public class EXEHandler
         ProjectCompileUtil.deleteFile(getBatchFilePath());
     }
 
+
     private String getBatchFilePath()
     {
         String temp = System.getProperty("user.dir").replaceAll("src","") + "\\temp";
-        String fileName = temp+"\\"+shortcutName.replaceAll(".inc","")+".bat";
+        String fileName = temp+"\\"+shortcutName.replaceAll(String.format(".%s",mode),"")+".bat";
 
         // debug
-        System.out.println(fileName);
+        // System.out.println(fileName);
 
         return fileName;
     }
 
 
-
     public static void main(String[] args) throws IOException {
-        EXEHandler handler = new EXEHandler("ExeArgTestShortcut.lnk");
+        EXEHandler handler = new EXEHandler("ExeArgTest.exe",new String[]{"a","b","c"},"exe");
         handler.run();
     }
 }

@@ -12,7 +12,7 @@ public class Comment implements Comparable<Comment>
 {
     Account account;
     Room room;
-    String username, content, accountType;
+    String content;
     LocalTime commentTime;
     LocalDate commentDate;
     CommentFormatter formatter;
@@ -41,6 +41,7 @@ public class Comment implements Comparable<Comment>
     // endregion
 
 
+    // region public method
     public Account getAccount() {
         return account;
     }
@@ -83,7 +84,7 @@ public class Comment implements Comparable<Comment>
     {
         ArrayList<MsgData> msgData = new ArrayList<MsgData>();
         int productListQty = getSellingProductQtyFromDB();
-        String[] words = content.toUpperCase().split(" ");
+        String[] words = content.toUpperCase().split("\\s+");
         for (int i = 0 ; i < words.length-1 ; i++)
         {
             String word = words[i];
@@ -121,6 +122,8 @@ public class Comment implements Comparable<Comment>
         }
         return msgData;
     }
+    // endregion
+
 
 
     // region 002 : comparable interface
@@ -136,21 +139,13 @@ public class Comment implements Comparable<Comment>
     // endregion
 
 
+
     // region 003 : getter setter
 
     // (issue : username VS accountID)
 
     // public String getAccountID() {return accountID;}
     // public void setAccountID(String accountID) {this.accountID = accountID;}
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public LocalTime getCommentTime() {
         return commentTime;
     }
@@ -178,14 +173,6 @@ public class Comment implements Comparable<Comment>
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
     }
 
     public CommentFormatter getFormatter(){ return formatter; }
@@ -232,12 +219,10 @@ public class Comment implements Comparable<Comment>
     {
         return
                 account.toString() + "\n" +
-                "username='" + username + '\'' + '\n' +
                 "commentTime=" + DateTimeUtil.localTimeToString(commentTime) + '\n' +
                 ",commentDate=" + DateTimeUtil.localDateToString(commentDate) + '\n' +
                 "roomID='" + room.toString() + '\'' + '\n' +
-                "content='" + content + '\'' + '\n' +
-                "accountType='" + accountType + '\'' +'\n';
+                "content='" + content + '\'' + '\n';
     }
 
 

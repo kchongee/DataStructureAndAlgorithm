@@ -44,7 +44,7 @@ public final class ProjectCompileUtil
         // System.out.println("javac -sourcepath " +  sourcePath + " " + classMain);
 
 
-        return "javac -cp " +  sourcePath + " " + classMain;
+        return "javac -sourcepath " +  sourcePath + " " + classMain;
     }
 
     private static String generateLauncherScript(Object obj)
@@ -156,6 +156,10 @@ public final class ProjectCompileUtil
     private static void compileJava(Object obj)
     {
         String code = generateCompileCommand(obj);
+
+        // dead bug
+        // System.out.println(code);
+
         try
         {
             Runtime.getRuntime().exec(code);

@@ -3,7 +3,6 @@ package entity;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-import adtImplementation.ReviewList;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.QueueInterface;
@@ -214,6 +213,20 @@ public class Room{
     }
     // endregion
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId='" + roomId + '\'' +
+                ", roomTitle='" + roomTitle + '\'' +
+                ", likes=" + likes +
+                ", buyers=" + buyers +
+                ", comments=" + comments +
+                ", catalog=" + catalog +
+                ", isOpen=" + isOpen +
+                ", likeList=" + likeList +
+                ", reviewList=" + reviewList +
+                '}';
+    }
 
 
     //

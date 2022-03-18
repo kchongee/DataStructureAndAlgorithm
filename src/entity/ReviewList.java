@@ -1,20 +1,23 @@
-package adtImplementation;
+package entity;
 
 import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
-import entity.*;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 
 public class ReviewList implements Comparable<ReviewList>
 {
     Room room;
     HashMap<Integer, ArrayList<Review>> classifiedReview;
-    ArrayList<HashMap<String, Object>> reviewDBdata = new ArrayList<HashMap<String,Object>>();
+    ArrayList<HashMap<String, Object>> reviewDBdata;
 
 
 
     // region : constructors
     public ReviewList(Room room)
     {
+        this.reviewDBdata  = new ArrayList<HashMap<String,Object>>();
+        this.classifiedReview = new HashMap<Integer, ArrayList<Review>>();
         this.room = room;
         updateData();
     }
@@ -73,17 +76,21 @@ public class ReviewList implements Comparable<ReviewList>
     // region : utility method
     private void fetchReviewDataFromDb()
     {
-        reviewDBdata = jdbcUtil.readAll
-        (
-            String.format
-            (
-                """
-                SELECT r.accountID, star, msg, revTime ,acc.userName
-                FROM   RoomReview r, account acc
-                WHERE  roomID='%s' AND r.accountID = acc.accountID;
-                """, room.getRoomId()
-            )
-        );
+        String query =
+                String.format
+                        (
+                                """
+                                SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
+                                FROM   RoomReview r, account acc
+                                WHERE  roomID=%s AND r.accountID = acc.accountID;
+                                """, room.getRoomId()
+                        );
+
+        // debug
+        // System.out.println(query);
+
+
+        reviewDBdata = jdbcUtil.readAll(query);
     }
 
     private void classifyReview()
@@ -95,15 +102,12 @@ public class ReviewList implements Comparable<ReviewList>
             {
                 HashMap<String,Object> tempMap = reviewDBdata.get(i);
 
-
                 Account tempAcc = new Account
                 (
                     (String)  tempMap.get("accountID"),
                     (String)  tempMap.get("userName"),
                     (Integer) tempMap.get("isSeller")
                 );
-
-
 
                 Review tempReview = new Review
                 (
