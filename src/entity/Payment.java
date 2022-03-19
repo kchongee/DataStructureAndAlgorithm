@@ -74,7 +74,7 @@ public class Payment {
 
     public double calcTotalPrice(){
         double total=0;
-        for (int i=0; i<cart.getCartDetails().getCartDetails().size(); i++){
+        for (int i=0; i<cart.get.getCartDetails().size(); i++){
             double productPrice = cart.getCartDetails().getCartDetails().get(i).getProduct().getPrice();
             double productQty = cart.getCartDetails().getCartDetails().get(i).getQuantity();
             total += productPrice*productQty;

@@ -1,13 +1,5 @@
 package entity;
 
-<<<<<<< HEAD
-public class Cart {
-    Account account;
-    Account seller;
-    int cartID;
-    CartDetails cartDetails;
-=======
-import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 
@@ -48,7 +40,6 @@ public class Cart {
         clearProducts();
         return products;
     }
->>>>>>> b923eabd4826c5021dde8207bedf3da95bf100b3
 
     public Cart(Account account, Account seller, int cartID, CartDetails cartDetails)
     {
