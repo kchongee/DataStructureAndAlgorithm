@@ -15,8 +15,8 @@ public class CartSystemView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();  
 
     static {
-        menuOptions.add(new Option("Choose payment method", i -> goToPage(ii->PaymentView.main())));
-        menuOptions.add(new Option("Print invoice", i -> goToPage(ii->InvoiceView.main())));
+        //menuOptions.add(new Option("Choose payment method", i -> goToPage(ii->Payment.main())));
+        //menuOptions.add(new Option("Print invoice", i -> goToPage(ii->Invoice.main())));
     }
     
     public static void main() {                

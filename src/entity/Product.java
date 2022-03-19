@@ -37,6 +37,12 @@ public class Product{
     public void setCategory(String category) {
         this.category = category;
     }
+    
+    public Product(String title, double price){
+        this.title = title;
+        this.price = price;
+    }
+
 
     public Product(HashMap<String, Object> productMap)
     {
