@@ -60,7 +60,7 @@ public class LinkedList<T> implements ListInterface<T>{
     @Override
     public boolean remove(int index) {
         Node currentNode = firstNode;
-        int i = 0;     
+        int i = 0;
         if(!isEmpty()){
             while(currentNode.nextNode!=null && i++<index){
                 Node doubleBackNode = currentNode.nextNode.nextNode;
@@ -70,13 +70,13 @@ public class LinkedList<T> implements ListInterface<T>{
                 currentNode.nextNode= null;
                 return true;
             }
-        }                        
+        }
         return false;
     }
 
     @Override
-    public boolean remove(T element) {                
-        Node currentNode = firstNode;        
+    public boolean remove(T element) {
+        Node currentNode = firstNode;
         if(!isEmpty()){
             while(currentNode.nextNode!=null && currentNode.equals(element)){
                 Node doubleBackNode = currentNode.nextNode.nextNode;
@@ -86,8 +86,8 @@ public class LinkedList<T> implements ListInterface<T>{
                 currentNode.nextNode= null;
                 return true;
             }
-        }                        
-        return false;        
+        }
+        return false;
     }
 
     @Override
@@ -102,10 +102,10 @@ public class LinkedList<T> implements ListInterface<T>{
             result = currentNode.element;	// currentNode is pointing to the node at index
         }
         return result;
-    }  
+    }
 
     @Override
-    public int get(T element) {        
+    public int get(T element) {
         return 0;
     }
 
@@ -127,7 +127,7 @@ public class LinkedList<T> implements ListInterface<T>{
     }
 
     @Override
-    public boolean contains(T element) {        
+    public boolean contains(T element) {
         boolean found = false;
         Node currentNode = firstNode;
 
@@ -151,7 +151,7 @@ public class LinkedList<T> implements ListInterface<T>{
     }
 
     @Override
-    public int size() {        
+    public int size() {
         return nodeCount;
     }
 
@@ -165,7 +165,7 @@ public class LinkedList<T> implements ListInterface<T>{
     public T[] toArray(T[] a) {
         if (a.length < size())
             a = (T[])java.lang.reflect.Array.newInstance(
-                                a.getClass().getComponentType(), size());
+                    a.getClass().getComponentType(), size());
         int i = 0;
         Object[] result = a;
         for (Node x = firstNode; x != null; x = x.nextNode)
@@ -182,7 +182,7 @@ public class LinkedList<T> implements ListInterface<T>{
     //     Node currentNode = firstNode;
     //     int i = 0;
     //     while (currentNode != null) {
-    //         arr[i] = currentNode.element;            
+    //         arr[i] = currentNode.element;
     //         currentNode = currentNode.nextNode;
     //         i++;
     //     }
@@ -201,27 +201,27 @@ public class LinkedList<T> implements ListInterface<T>{
     }
 
     @Override
-    public Iterator<T> iterator() {        
+    public Iterator<T> iterator() {
         return new LinkedIterator();
     }
-    
+
     private class Node {
 
         private T element;
         private Node nextNode;
-    
+
         private Node(T element) {
             this.element = element;
             this.nextNode = null;
         }
-    
+
         private Node(T element, Node nextNode) {
             this.element = element;
             this.nextNode = nextNode;
         }
-    }    
+    }
 
-    private class LinkedIterator implements Iterator<T>{   
+    private class LinkedIterator implements Iterator<T>{
         private Node currentNode = firstNode;
 
         @Override
@@ -235,7 +235,7 @@ public class LinkedList<T> implements ListInterface<T>{
                 T element = currentNode.element;
                 currentNode = currentNode.nextNode;
                 return element;
-            }      
+            }
             return null;
         }
     }

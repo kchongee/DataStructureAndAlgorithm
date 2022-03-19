@@ -1,74 +1,110 @@
 package adtImplementation;
 
+import UtilityClasses.CMD;
+import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
+import entity.RoomList;
 
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 
-public class LinkedHashSet<T> implements Set<T>
+
+public class LinkedHashSet<E> implements Set<E>, Iterable<E>
 {
     private static final Object PRESENT = new Object();
-    private HashMap mapAsSet;
+    private LinkedHashMap<E, Object> mapAsSet;
 
-    public HashSet() {
-        this.mapAsSet = new HashMap<T,Object>();
+
+    public void HashSet() {
+        this.mapAsSet = new LinkedHashMap<E,Object>();
     }
+
 
     public int size() {
-        return 0;
+        return mapAsSet.size();
     }
 
+
     public boolean isEmpty() {
-        return false;
+        return mapAsSet.isEmpty();
     }
+
 
     public boolean contains(Object o) {
         return false;
     }
 
-    public Iterator<String> iterator() {
+
+    public Iterator<E> iterator() {
         return null;
     }
 
-    public Object[] toArray() {
-        return new Object[0];
+
+    public E[] toArray(E[] a)
+    {
+        E[] arr = (E[]) new Object[size()];
+        int i = 0;
+        for (E element : this) { arr[i++] = element; }
+        return arr;
     }
 
-    public <T1> T1[] toArray(T1[] a) {
-        return null;
-    }
 
-    @Override
     public boolean add(String s) {
         return false;
     }
 
-    public boolean add(T e) {
 
-        mapAsSet.put(e,PRESENT);
+    public boolean add(E e)
+    {
+        boolean exist = mapAsSet.containsKey(e);
+        if (!exist){
+            mapAsSet.put(e,PRESENT);
+        }
+        return !exist;
     }
 
-    public boolean remove(Object o) {
-        return false;
+
+    public boolean remove(E e) {
+        return (boolean) mapAsSet.remove(e);
     }
 
-    public boolean containsAll(Collection<?> c) {
-        return false;
-    }
-
-    public boolean addAll(Collection<? extends String> c) {
-        return false;
-    }
-
-    public boolean retainAll(Collection<?> c) {
-        return false;
-    }
-
-    public boolean removeAll(Collection<?> c) {
-        return false;
-    }
 
     public void clear() {
+        mapAsSet.clear();
+    }
 
+    public String toString()
+    {
+        String set = "{";
+        for (E element : this){
+            set = set + element + ", ";
+        }
+        set = set.substring(0, -2);
+        return set + "}";
+    }
+
+
+    public static class LinkedHashSetIterator<E> implements Iterator<E>
+    {
+        E current;
+        Iterator mapIterator;
+
+        public LinkedHashSetIterator(LinkedHashSet<E> linkedHashSet)
+        {
+            this.mapIterator = linkedHashSet.mapAsSet.iterator();
+            this.current = (E) ((MapInterface.Entry)mapIterator.next()).getKey();
+        }
+
+        public boolean hasNext() {
+            return mapIterator.hasNext();
+        }
+
+        public E next() {
+            return (E) ((MapInterface.Entry)(mapIterator.next())).getKey();
+        }
+    }
+
+    public static void main(String[] args) {
+        HashSet<String>
     }
 }
