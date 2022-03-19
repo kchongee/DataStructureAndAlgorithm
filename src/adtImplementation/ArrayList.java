@@ -218,27 +218,26 @@ public class ArrayList<T> implements ListInterface<T> {
     }
 
 
-    public String toString()
-    {
-        String str = "";
-        for (T element : arr)
-        {
-            str = str + (String) element + " ";
-        }
-        return str;
-    }
-
-    // @Override
-    // public String toString(){
-    //     int index = 0;
+    // public String toString()
+    // {
     //     String str = "";
-    //     while(index<size()){
-    //         str += String.format("%s\n",arr[index]);
-    //         System.out.println();
-    //         index++;
+    //     for (T element : arr)
+    //     {
+    //         str = str + (String) element + " ";
     //     }
     //     return str;
     // }
+
+    @Override
+    public String toString(){
+        int index = 0;
+        String str = "";
+        while(index<size()){
+            str += String.format("%s\n",arr[index]);            
+            index++;
+        }
+        return str;
+    }
 
     public Iterator<T> iterator(){
         return new ListIterator();

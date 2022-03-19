@@ -60,18 +60,25 @@ public class LinkedList<T> implements ListInterface<T>{
     @Override
     public boolean remove(int index) {
         Node currentNode = firstNode;
-        int i = 0;     
-        if(!isEmpty()){
-            while(currentNode.nextNode!=null && i++<index){
-                Node doubleBackNode = currentNode.nextNode.nextNode;
-                if(doubleBackNode!=null){
-                    currentNode.nextNode = doubleBackNode;
+        Node prevNode = null;
+        int i = 0;         
+        if(index<0 || index>=size())
+            return false; 
+        else{            
+            while(i++<index){
+                prevNode = currentNode;
+                currentNode = currentNode.nextNode;
+                if(currentNode==null){
+                    return false;
                 }
-                currentNode.nextNode= null;
-                return true;
+            }                        
+            if(prevNode==null){
+                firstNode = currentNode.nextNode;
+            }else{
+                prevNode.nextNode = currentNode.nextNode;
             }
-        }                        
-        return false;
+            return true;            
+        }
     }
 
     @Override

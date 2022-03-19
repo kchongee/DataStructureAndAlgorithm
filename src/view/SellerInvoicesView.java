@@ -8,12 +8,12 @@ import application.App;
 import entity.Option;
 import entity.Seller;
 
-public class SellerFollowersView{
+public class SellerInvoicesView{
 
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
     
     public static void main() {        
-        printTitle("Followers");                
+        printTitle("Invoices");
         
         App.menuHandler(menuOptions);
     }

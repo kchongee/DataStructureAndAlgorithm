@@ -2,7 +2,7 @@ package adtInterfaces;
 
 import java.util.Iterator;
 
-public interface DeQueueInterface<T>{
+public interface DequeInterface<T>{
     void addFirst(T element);
     void addLast(T element);
     void removeFirst();

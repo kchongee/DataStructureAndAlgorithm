@@ -12,10 +12,14 @@ public class BuyerHomeView{
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
     
     static {
-        menuOptions.add(new Option("Rooms", i -> System.out.println("Here is gg")));
-        menuOptions.add(new Option("Products", i -> System.out.println("Here is gg")));
-        menuOptions.add(new Option("Orders", i -> System.out.println("Here is gg")));
-        menuOptions.add(new Option("Followers", i -> System.out.println("Here is gg")));     
+        menuOptions.add(new Option("Rooms", i -> goToPage(ii->BuyerHomeView.main())));
+        menuOptions.add(new Option("Cart", i -> goToPage(ii->BuyerHomeView.main())));
+        menuOptions.add(new Option("Orders", i -> goToPage(ii->BuyerHomeView.main())));
+        menuOptions.add(new Option("Inbox", i -> goToPage(ii->BuyerInboxView.main())));     
+    }
+
+    public static void main(String[] args) {
+        
     }
 
     public static void main() {
@@ -24,8 +28,10 @@ public class BuyerHomeView{
         App.menuHandler(menuOptions);
     }
     
-    public static void printTitle() {
-        App.clearScreen();        
+    public static void printTitle(String title){
+        App.clearScreen();
+        System.out.println(title);        
+        System.out.println();
     }
 
     public static void goToPage(Consumer<String> page){

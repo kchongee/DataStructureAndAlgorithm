@@ -15,8 +15,8 @@ public class SellerHomeView{
     static {
         menuOptions.add(new Option("Rooms", i -> goToPage(ii->SellerRoomsView.main())));
         menuOptions.add(new Option("Products", i -> goToPage(ii->SellerProductsView.main())));
-        menuOptions.add(new Option("Orders", i -> goToPage(ii->SellerOrdersView.main())));
-        menuOptions.add(new Option("Followers", i -> goToPage(ii->SellerFollowersView.main())));
+        menuOptions.add(new Option("Invoices", i -> goToPage(ii->SellerInvoicesView.main())));        
+        menuOptions.add(new Option("Manage Voucher", i -> goToPage(ii->SellerVoucherManageView.main())));
     }
 
     public static void main(String[] args) {
