@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import com.mysql.cj.jdbc.exceptions.SQLError;
 
+import UtilityClasses.CMD;
 import UtilityClasses.jdbcUtil;
 import application.App;
 import entity.Account;
@@ -38,12 +39,8 @@ public class RegisterView {
                 valid=true;
             } else{
                 App.clearScreen();
-                System.out.println("This username is already in use, please try again");
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {                    
-                    e.printStackTrace();
-                }
+                //System.out.println("This username is already in use, please try again");
+                CMD.pauseWithCustomScript("This username is already in use, press any key to try again...");
                 App.clearScreen();
                 RegisterView.main();
             }
@@ -52,12 +49,8 @@ public class RegisterView {
                 valid=true;
             } else{
                 App.clearScreen();
-                System.out.println("This email is invalid, please try again");
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {                    
-                    e.printStackTrace();
-                }
+                //System.out.println("This email is invalid, please try again");
+                CMD.pauseWithCustomScript("This email is invalid, press any key to try again...");
                 App.clearScreen();
                 RegisterView.main();
             }
@@ -85,8 +78,7 @@ public class RegisterView {
 
     public static void printTitle(String title){
         App.clearScreen();
-        System.out.println(title);        
+        System.out.println(String.format("========= %s =========",title));       
         System.out.println();
-
     }
 }

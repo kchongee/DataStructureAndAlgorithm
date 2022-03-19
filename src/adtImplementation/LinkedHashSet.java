@@ -104,7 +104,7 @@ public class LinkedHashSet<E> implements Set<E>, Iterable<E>
         }
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         HashSet<String>
-    }
+    }*/
 }

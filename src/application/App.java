@@ -62,15 +62,14 @@ public class App {
     }
 
     public static void retrieveNotifications(){
-        hashAccount = jdbcUtil.readAll("SELECT * FROM Notification;");
+        hashNotifications = jdbcUtil.readAll("SELECT * FROM Notification;");
 
-        for(int i=0;i<hashAccount.size();i++){      
+        for(int i=0;i<hashNotifications.size();i++){      
             Notification n = new Notification(hashNotifications.get(i).get("notificationID"),
             hashNotifications.get(i).get("accountID"),
             hashNotifications.get(i).get("userName"),
             hashNotifications.get(i).get("message"),
-            hashNotifications.get(i).get("date"),
-            hashNotifications.get(i).get("hasBeenRead"));         
+            hashNotifications.get(i).get("date"));         
             notificationList.addNotification(n);
         } 
     }

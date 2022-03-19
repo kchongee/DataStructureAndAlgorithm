@@ -6,7 +6,7 @@ public class Notification {
     private String userName;
     private String message;
     private String date;
-    private int hasBeenRead;
+
 
     static int counter=1;
 
@@ -16,7 +16,6 @@ public class Notification {
         this.userName="";
         this.message="";
         this.date="";  
-        this.hasBeenRead=0;
     }
 
     public Notification(String accountID, String userName, String message, String date){
@@ -25,7 +24,7 @@ public class Notification {
         this.userName=userName;
         this.message=message;
         this.date=date;
-        this.hasBeenRead=0;
+        
         Notification.counter++;
     }
 
@@ -35,25 +34,25 @@ public class Notification {
         this.userName=(String)userName;
         this.message=(String)message;
         this.date=(String)date;
-        this.hasBeenRead=0;
+        
     }
 
-    public Notification(String notificationID, String accountID, String userName, String message, String date, int hasBeenRead){
+    public Notification(String notificationID, String accountID, String userName, String message, String date){
         this.notificationID=notificationID;
         this.accountID=accountID;
         this.userName=userName;
         this.message=message;
         this.date=date;
-        this.hasBeenRead=hasBeenRead;
+        
     }
 
-    public Notification(Object notificationID, Object accountID, Object userName, Object message, Object date, Object hasBeenRead){
+    public Notification(Object notificationID, Object accountID, Object userName, Object message, Object date){
         this.notificationID=(String)notificationID;
         this.accountID=(String)accountID;
         this.userName=(String)userName;
         this.message=(String)message;
         this.date=(String)date;
-        this.hasBeenRead=(int)hasBeenRead;
+       
         Notification.counter++;
     }
 
@@ -97,13 +96,6 @@ public class Notification {
         this.date = date;
     }
 
-    public int getHasBeenRead() {
-        return hasBeenRead;
-    }
-
-    public void setHasBeenRead(int hasBeenRead) {
-        this.hasBeenRead = hasBeenRead;
-    }
 
     @Override
     public String toString() {

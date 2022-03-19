@@ -15,7 +15,8 @@ public class BuyerHomeView{
         menuOptions.add(new Option("Rooms", i -> System.out.println("Here is gg")));
         menuOptions.add(new Option("Products", i -> System.out.println("Here is gg")));
         menuOptions.add(new Option("Orders", i -> System.out.println("Here is gg")));
-        menuOptions.add(new Option("Followers", i -> System.out.println("Here is gg")));     
+        menuOptions.add(new Option("Followers", i -> System.out.println("Here is gg"))); 
+        menuOptions.add(new Option("Inbox", i -> NotificationView.main()));     
     }
 
     public static void main() {
