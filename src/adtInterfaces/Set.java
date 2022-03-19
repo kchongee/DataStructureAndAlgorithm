@@ -9,8 +9,8 @@ public interface Set<E>
     public boolean isEmpty();
     public boolean contains(E o);
     public Iterator<E> iterator();
-    public E[] toArray(E[] a);
-    public boolean add(String s);
+    public E[] toArray();
+    public boolean add(E e);
     public boolean remove(E o);
 //    public boolean containsAll(Collection<?> c);
 //    public boolean addAll(Collection<? extends String> c);

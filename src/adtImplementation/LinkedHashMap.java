@@ -350,15 +350,16 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
         public Entry<K,V> searchEntry(K key)
         {
-            Entry<K,V> searchEntry = this;
-            for (int i = 0 ; i < searchEntry.totalEntry ; i++)
-            {
-                if (searchEntry.key == key){
-                    return searchEntry;
+            Entry result = null;
+            Entry[] entry = new Entry[]{this, this.collidedEntry};
+            for (int i = 0 ; i < totalEntry ; i++){
+                if (entry[0].getKey() == key){
+                    return entry[0];
                 }
-                searchEntry = searchEntry.collidedEntry;
+                entry[0] = entry[1];
+                entry[1] = entry[1] == null? null: entry[1].collidedEntry;
             }
-            return null;
+            return result;
         }
 
 
@@ -416,7 +417,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     {
         String map = "{";
         for (MapInterface.Entry<K,V> entry : this){
-            map = map + entry.getKey() + " : " + entry.getValue();
+            map = map + entry.getKey() + ":" + entry.getValue() + ", ";
         }
         return map+"}";
     }
@@ -448,6 +449,8 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
         test.put("t",2);
         test.remove("a");
+        test.remove("s");
+
         System.out.println(test.toString());
 
         System.out.println(test.containsKey("a"));
@@ -475,17 +478,17 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             current = linkedHashMap.getFirstEntry();
         }
 
+
         public boolean hasNext() {
-            return current != null && current.getForwardSequnce() != null;
+            return current != null;
         }
 
-        public MapInterface.Entry<K, V> next()
+        public final MapInterface.Entry next()
         {
-            Entry data = current.forwardSequnce;
+            Entry data = current;
             current = current.getForwardSequnce();
             return data;
         }
     }
 
 }
-

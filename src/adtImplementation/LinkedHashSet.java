@@ -1,11 +1,8 @@
 package adtImplementation;
 
-import UtilityClasses.CMD;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
-import entity.RoomList;
 
-import java.util.HashSet;
 import java.util.Iterator;
 
 
@@ -15,7 +12,7 @@ public class LinkedHashSet<E> implements Set<E>, Iterable<E>
     private LinkedHashMap<E, Object> mapAsSet;
 
 
-    public void HashSet() {
+    public LinkedHashSet() {
         this.mapAsSet = new LinkedHashMap<E,Object>();
     }
 
@@ -36,21 +33,16 @@ public class LinkedHashSet<E> implements Set<E>, Iterable<E>
 
 
     public Iterator<E> iterator() {
-        return null;
+        return new LinkedHashSetIterator<E>(this);
     }
 
 
-    public E[] toArray(E[] a)
+    public E[] toArray()
     {
         E[] arr = (E[]) new Object[size()];
         int i = 0;
         for (E element : this) { arr[i++] = element; }
         return arr;
-    }
-
-
-    public boolean add(String s) {
-        return false;
     }
 
 
@@ -65,7 +57,11 @@ public class LinkedHashSet<E> implements Set<E>, Iterable<E>
 
 
     public boolean remove(E e) {
-        return (boolean) mapAsSet.remove(e);
+        Object o = mapAsSet.remove(e);
+        if (o != null){
+            return true;
+        }
+        return false;
     }
 
 
@@ -79,32 +75,69 @@ public class LinkedHashSet<E> implements Set<E>, Iterable<E>
         for (E element : this){
             set = set + element + ", ";
         }
-        set = set.substring(0, -2);
+        set = set.substring(0, set.length()-2 > 3 ? set.length()-2: set.length());
         return set + "}";
     }
 
 
+    public LinkedHashMap<E, Object> getMapAsSet() {
+        return mapAsSet;
+    }
+
+    public void setMapAsSet(LinkedHashMap<E, Object> mapAsSet) {
+        this.mapAsSet = mapAsSet;
+    }
+
     public static class LinkedHashSetIterator<E> implements Iterator<E>
     {
         E current;
-        Iterator mapIterator;
+        LinkedHashMap.LinkedHashMapIterator mapIterator;
 
-        public LinkedHashSetIterator(LinkedHashSet<E> linkedHashSet)
+
+        public LinkedHashSetIterator(LinkedHashSet<E> set)
         {
-            this.mapIterator = linkedHashSet.mapAsSet.iterator();
-            this.current = (E) ((MapInterface.Entry)mapIterator.next()).getKey();
+            System.out.println("invoked constructor");
+            this.mapIterator = (LinkedHashMap.LinkedHashMapIterator) set.getMapAsSet().iterator();
+            this.current = (E) ((MapInterface.Entry<?, ?>)mapIterator.current).getKey();
+            System.out.println(this.current);
         }
 
+        @Override
         public boolean hasNext() {
-            return mapIterator.hasNext();
+            System.out.println("currnet = " +this.current);
+
+            return current  != null;
         }
 
+        @Override
         public E next() {
-            return (E) ((MapInterface.Entry)(mapIterator.next())).getKey();
+            System.out.println("currnet = " +this.current);
+
+            E data = current;
+            current = (E) mapIterator.next().getKey();
+            return data;
         }
+
     }
 
-    public static void main(String[] args) {
-        HashSet<String>
+    public static void main(String[] args)
+    {
+        LinkedHashSet<Integer> test = new LinkedHashSet<Integer>();
+        test.add(1);
+        test.add(1);
+        test.add(2);
+        test.add(3);
+        test.add(4);
+        test.remove(4);
+
+
+        System.out.println(test.toString());
+        System.out.println(test.isEmpty());
+
+        test.clear();
+        System.out.println(test.toString());
+        System.out.println(test.size());
+
     }
+
 }
