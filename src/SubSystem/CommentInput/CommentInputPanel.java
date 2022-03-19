@@ -1,9 +1,10 @@
-package SubSystem.CommentInputPanel;
+package SubSystem.CommentInput;
 
+import UtilityClasses.CMD;
 import UtilityClasses.DateTimeUtil;
+import UtilityClasses.ProjectCompileUtil;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 import application.App;
 import entity.*;
 
@@ -39,14 +40,17 @@ public class CommentInputPanel implements Launchable
                 (
                     "insert into comment" +
                     targetedField +
-                    "values('%s','%s','%s','%s','%s','%s')",
+                    "values('%s','%s','%s','%s','%s',%s)",
                     account.getAccountID(),
-                    comment.getCommentDate(),
-                    comment.getCommentTime(),
+                    DateTimeUtil.localDateToString(comment.getCommentDate()),
+                    DateTimeUtil.localTimeToString(comment.getCommentTime()),
                     room.getRoomId(),
                     comment.getContent(),
-                    comment.retrieveMsgData().isEmpty()
+                    Boolean.toString(comment.retrieveMsgData().isEmpty())
                 );
+
+        // active bug
+        // System.out.println(query);
 
         jdbcUtil.executeCUD(query);
     }
@@ -104,38 +108,52 @@ public class CommentInputPanel implements Launchable
 
     public static void main(String[] args)
     {
-        args = new String[]{"A0","1"};
+        ProjectCompileUtil.compileAndGenerate(new CommentInputPanel());
+        CMD.cls();
+        Args arg = null;
 
-        Args arg = new Args(args);
+        if (args.length != 2){
+            arg = new Args(new String[]{"A01","1"});
+
+        } else {
+            arg = new Args(args);
+        }
+
         CommentInputPanel cip = new CommentInputPanel(arg.account, arg.room);
         Catalog catalog = cip.getRoom().fetchCatalogFromDB();
 
-        String input = App.promptStringInput(">>> ");
-
-        Comment comment = new Comment(
-                cip.account,
-                cip.room,
-                DateTimeUtil.localTimeNow(),
-                DateTimeUtil.localDateNow(),
-                input);
-
-        ArrayList<Comment.MsgData> orderData = comment.retrieveMsgData();
-
-        if (!orderData.isEmpty())
+        while (true)
         {
-            String orderItems = "";
-            ArrayList<Product> productList = catalog.getProductList();
-            for (int i = 0 ; i < orderData.size() ; i++)
+            CMD.cls();
+            String input = App.promptStringInput(">>> ");
+
+
+            Comment comment = new Comment(
+                    cip.account,
+                    cip.room,
+                    DateTimeUtil.localTimeNow(),
+                    DateTimeUtil.localDateNow(),
+                    input);
+
+            ArrayList<Comment.MsgData> orderData = comment.retrieveMsgData();
+
+            if (!orderData.isEmpty())
             {
-                int productNo = orderData.get(i).getProductNo()-1;
-                int orderQty  = orderData.get(i).getOrderQty();
-                Product product = catalog.getProductList().get(productNo);
-                orderItems = orderItems + product.getTitle() + "x " + orderQty + "\n";
+                String orderItems = "";
+                ArrayList<Product> productList = catalog.getProductList();
+                for (int i = 0 ; i < orderData.size() ; i++)
+                {
+                    int productNo = orderData.get(i).getProductNo()-1;
+                    int orderQty  = orderData.get(i).getOrderQty();
+                    Product product = catalog.getProductList().get(productNo);
+                    orderItems = orderItems + product.getTitle() + "x " + orderQty + "\n";
+                }
+
+                JOptionPane.showMessageDialog(null, "Your order : \n" + orderItems);
             }
 
-            JOptionPane.showMessageDialog(null, "Your order : \n" + orderItems);
+            cip.sendCommentToDatabase(comment);
         }
 
-        cip.sendCommentToDatabase(comment);
     }
 }

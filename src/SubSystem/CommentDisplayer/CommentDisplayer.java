@@ -2,12 +2,7 @@ package SubSystem.CommentDisplayer;
 
 import UtilityClasses.CMD;
 import UtilityClasses.ProjectCompileUtil;
-import adtImplementation.ArrayList;
-import adtImplementation.CircularQueue;
-import adtImplementation.HashMap;
 import entity.*;
-
-import static UtilityClasses.jdbcUtil.*;
 
 
 public class CommentDisplayer implements Launchable
@@ -34,6 +29,7 @@ public class CommentDisplayer implements Launchable
     {
         while (!CommentQueue.getCommentQueue().isEmpty())
         {
+
             System.out.println(
                     CommentQueue.getCommentQueue()
                             .poll()
@@ -41,15 +37,6 @@ public class CommentDisplayer implements Launchable
                             .toBlockString()
             );
         }
-    }
-
-    public boolean roomActive()
-    {
-        String query =
-                "SELECT status\n"   +
-                "FROM RoomStatus\n" +
-                "WHERE roomID='" + room.getRoomId() +"';";
-        return ((String)readOne(query).get("status")).toUpperCase().equals("ACTIVE");
     }
     // endregion
 
@@ -89,18 +76,8 @@ public class CommentDisplayer implements Launchable
                 throw new IllegalArgumentException(errMsg);
             }
 
-
-            /*
-             * Problem
-             * Discuss : Nathan && ChongEE
-             * Statement : Constructor for account of (AccountID, username)
-             *             Constructor for seller of(sellerID) only
-             *
-             */
-            this.account = new Account();
-            this.room = new Room();
-            account.setAccountID(args[0]);
-            room.setRoomId(args[1]);
+            this.account = new Account(args[0]);
+            this.room = new Room(args[1]);
         }
     }
     // endregion
@@ -111,32 +88,34 @@ public class CommentDisplayer implements Launchable
     public static void main(String[] args) throws InterruptedException
     {
         ProjectCompileUtil.compileAndGenerate(new CommentDisplayer());
-        Args arg = new Args(args);
+        Args arg = null;
+
+        if (args.length != 2) {
+            arg = new Args(new String[]{"A1","1"});
+        }else {
+            arg = new Args(args);
+        }
+
+        ProjectCompileUtil.compileAndGenerate(new CommentDisplayer());
         CommentDisplayer cPlayer = new CommentDisplayer(arg.room, arg.account);
         CMD.cls();
         cPlayer.displayComments();
-        while (cPlayer.roomActive())
+        while (true)
         {
-
             // debug
             // System.out.println("Loop");
 
             Thread.sleep(1000);
             if (cPlayer.getCommentQueue().newCommentDetected())
             {
-
                 // debug
                 //System.out.println("IN IF");
 
                 CMD.cls();
+                cPlayer.getCommentQueue().updateData();
+
                 cPlayer.displayComments();
             }
-        }
-
-        if (!cPlayer.roomActive())
-        {
-            CMD.cls();
-            System.out.println("Session ended");
         }
     }
 }

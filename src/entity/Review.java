@@ -1,5 +1,7 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
+
 import javax.swing.*;
 import java.time.LocalTime;
 
@@ -70,6 +72,22 @@ public class Review
         int count = 1;
         for (JRadioButton btn : buttons) if (!btn.isSelected()){ count++;}
         return new Review(count, reviewMsgField.getText());
+    }
+
+    public void sendToDatabase(Room room){
+        String query = String.format(
+         """
+         insert into roomreview (accountID, roomID, star, reviewMsg, revTime) 
+         values ('%s',%s,%s,'%s','%s') on duplicate key update star = %s, reviewMsg='%s', revTime='%s';
+         """, account.getAccountID(), room.getRoomId(), star, reviewMsg, revTime, star, reviewMsg, revTime
+        );
+
+
+        // active bug
+        // System.out.println(query);
+
+
+        jdbcUtil.executeCUD(query);
     }
     // endregion
 

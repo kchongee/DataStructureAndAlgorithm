@@ -12,7 +12,8 @@ public class Controller
         Desktop desktop = Desktop.getDesktop();
         desktop.open(new File("C:\\Users\\Teo Shi Han\\Documents\\07 TARCITEMS\\Year2Sem3\\DataStructureAndAlgoritm\\Assignment\\src\\Executeable\\loopHelloWorld.exe"));
 
-        Runtime.
+
+        Process a =Runtime.
                 getRuntime().
                 exec("cmd /c start \"\" build.bat");
     }

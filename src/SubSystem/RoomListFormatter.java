@@ -17,10 +17,32 @@ public class RoomListFormatter
         return
         "+" + repChar(5,"-") +
         "+" + repChar(50, "-") +
-        "+" + repChar(14,"-") +
+        "+" + repChar(15,"-") +
         "+" + repChar(21, "-")+ "+";
     }
 
+    public String optionPane()
+    {
+        String options =
+                """
+                [1] sort by title
+                [2] sort by like
+                [3] sort by review
+                [4] enter room
+                """;
+        int qty = options.length();
+        int spaceSize = (LINE_SIZE - qty) / 3;
+        String space = repChar(spaceSize, " ");
+
+        String[] optionArr = options.split("\n");
+
+        String pane ="";
+        for (String option : optionArr){
+            pane  = pane + option + space;
+        }
+
+        return pane;
+    }
 
     public String strTableHead(){
         return lineStr()+"\n"+String.format(rowFormat(), "No","Room Title","Like","Most People Reviewed")+"\n"+lineStr();

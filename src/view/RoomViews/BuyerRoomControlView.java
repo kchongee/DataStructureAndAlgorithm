@@ -1,35 +1,35 @@
 package view.RoomViews;
 
 import UtilityClasses.CMD;
+import UtilityClasses.DateTimeUtil;
 import UtilityClasses.FileUtil;
-import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.ArrayList;
-import entity.Catalog;
-import entity.Option;
-import entity.Product;
-import entity.Room;
+import application.App;
+import entity.*;
+
 
 public class BuyerRoomControlView
 {
     Catalog catalog;
     Room room;
-    ArrayList<Option> BUYER_CONTROLS = new ArrayList<Option>(
+    Account account;
+
+    public BuyerRoomControlView(Catalog catalog, Room room, Account account) {
+        this.catalog = catalog;
+        this.room = room;
+        this.account = account;
+    }
+
+    ArrayList<Option> BUYER_CONTROLS = new ArrayList<Option>
+    (
         new Option[]
             {
-
+                new Option("View Catalog",i->showCatalog()),
+                new Option("Help",i->showCommentInstructions()),
+                new Option("Like",i->likeRoom()),
+                new Option("Review", i->reviewRoom())
             }
     );
-
-
-
-    // region : Constructor
-    public BuyerRoomControlView(){}
-
-    public BuyerRoomControlView(Catalog catalog){
-        this.catalog = catalog;
-    }
-    // endregion
-
 
     // region : options
     public void showCommentInstructions()
@@ -38,15 +38,56 @@ public class BuyerRoomControlView
         String instructionDoc = FileUtil.readFileFromStringRes("commentInstruction.txt");
         System.out.println(instructionDoc);
         CMD.pauseWithCustomScript("  Press any key to return...");
+        CMD.cls();
+        this.main();
     }
 
     public void showCatalog() {
         catalog.displayCatalogOptionPane();
+        CMD.cls();
+        this.main();
     }
 
-    public void likeOrUnlikeRoom()
+
+    public void leaveRoom()
     {
 
+    }
+
+    public void likeRoom()
+    {
+        String likeVal = Like.showOptions();
+
+        System.out.println(likeVal);
+
+        Like like = new Like(account, likeVal, DateTimeUtil.localTimeNow());
+        if (like.getValue().equals("LIKE")){
+            Like.showAppreciate();
+        }else if (like.getValue().equals("NO COMMENT")){
+            Like.showEffort();
+        }else {
+            Like.showDiscourage();
+        }
+        int roomID = Integer.parseInt(room.getRoomId());
+        if (like.likedBefore(roomID)){
+            like.updateDatabase(roomID);
+        }else {
+            like.addNewLikeToDB(roomID);
+        }
+        this.main();
+    }
+
+    public void reviewRoom(){
+        Review reviewData = Review.showReviewGrid();
+        Review completeReview = new Review(account, reviewData.getStar(), reviewData.getReviewMsg(), DateTimeUtil.localTimeNow());
+        completeReview.sendToDatabase(room);
+        this.main();
+    }
+
+
+
+    public void main() {
+        App.menuHandler(BUYER_CONTROLS);
     }
     // endregion
 
@@ -54,17 +95,9 @@ public class BuyerRoomControlView
 
     public static void main(String[] args)
     {
-        ArrayList<Product> productList = new ArrayList<Product>(
-                new Product[]
-                {
-                    new Product("Fruit", 12.50, "sweet and nice"),
-                    new Product("Apple", 45, "vitamin c"),
-                    new Product("Orange", 56, "vitaminC rich fruit")
-                }
-        );
-        Catalog cat = new Catalog(productList);
-        ProjectCompileUtil.compileAndGenerate(new BuyerRoomControlView());
-        BuyerRoomControlView brcv = new BuyerRoomControlView(cat);
-        brcv.catalog.displayCatalogOptionPane();
+        Room testR = new Room("1");
+        Account testA = new Account("A01");
+        BuyerRoomControlView view = new BuyerRoomControlView(testR.fetchCatalogFromDB(), testR, testA);
+        view.main();
     }
 }

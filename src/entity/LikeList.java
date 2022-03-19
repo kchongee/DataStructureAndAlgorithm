@@ -14,7 +14,8 @@ public class LikeList implements Comparable<LikeList>
 
 
     // region : constructors
-    public LikeList(Room room) {
+    public LikeList(Room room)
+    {
         this.room = room;
         updateData();
     }
@@ -36,7 +37,7 @@ public class LikeList implements Comparable<LikeList>
 
 
     public int getUnlikeQty(){
-        return classifiedLike.get("ULIKE").size();
+        return classifiedLike.get("UNLIKE").size();
     }
 
 
@@ -64,17 +65,23 @@ public class LikeList implements Comparable<LikeList>
     // region : utility method
     private void fetchLikeDataFromDb()
     {
-        likeDBdata = jdbcUtil.readAll
-        (
-            String.format
-            (
-                """
-                SELECT l.accountID, value, likeTime, acc.userName
-                FROM   roomlike l, account acc
-                WHERE  roomID='%s' AND l.accountID = acc.accountID;
-                """, room.getRoomId()
-            )
-        );
+        String query =
+                String.format
+                (
+                    """
+                    SELECT l.accountID, value, acc.isSeller, likeTime, acc.userName
+                    FROM   roomlike l, account acc
+                    WHERE  roomID=%s AND l.accountID = acc.accountID;
+                    """, room.getRoomId()
+                );
+
+        likeDBdata = jdbcUtil.readAll(query);
+
+        // active bug
+        // System.out.println(likeDBdata.size());
+
+        // active bug
+        // System.out.println(query);
     }
 
     private void classifyLike()

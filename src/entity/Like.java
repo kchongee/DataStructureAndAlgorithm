@@ -1,24 +1,17 @@
 package entity;
 
+import UtilityClasses.DateTimeUtil;
+import UtilityClasses.jdbcUtil;
 import adtImplementation.HashMap;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.time.LocalTime;
 
-public class Like implements Comparable<Like>
+public class Like
 {
     /* Problem
     *  Statement : database accountID
     * */
-    private static final HashMap<String,Integer> RANK = new HashMap<>();
-    static
-    {
-        RANK.put("LIKE",1);
-        RANK.put("NO COMMENT",2);
-        RANK.put("UNLIKE", 3);
-    }
-
     Account buyer;
     String value;
     LocalTime likeTime;
@@ -56,19 +49,78 @@ public class Like implements Comparable<Like>
     public void noComment(){
         this.value ="NO COMMENT";
     }
+
+    public void addNewLikeToDB(int roomID){
+        String query = String.format(
+                """
+                INSERT INTO roomlike VALUES(%s, '%s', '%s', '%s');
+                """,roomID, buyer.getAccountID(), this.value, DateTimeUtil.localTimeToString(this.likeTime)
+        );
+        jdbcUtil.executeCUD(query);
+    }
+
+    public void updateDatabase(int roomID){
+        String query = String.format(
+                """
+                UPDATE roomlike
+                SET    value='%s', likeTime='%s'
+                WHERE  accountID ='%s' and roomID = %s;
+                """,this.value, DateTimeUtil.localTimeToString(this.likeTime), buyer.getAccountID(), roomID
+        );
+        jdbcUtil.executeCUD(query);
+    }
+
+    public boolean likedBefore(int roomID){
+        String query =
+                String.format(
+                         """
+                         SELECT accountID
+                         FROM  roomlike
+                         WHERE accountID='%s' AND roomID=%s;
+                         """, buyer.getAccountID(),roomID
+                );
+        return jdbcUtil.readOne(query) != null;
+    }
     // endregion
 
 
+    // region : getters setters
+    public Account getBuyer() {
+        return buyer;
+    }
+
+    public void setBuyer(Account buyer) {
+        this.buyer = buyer;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public LocalTime getLikeTime() {
+        return likeTime;
+    }
+
+    public void setLikeTime(LocalTime likeTime) {
+        this.likeTime = likeTime;
+    }
+
+    // endregion
+
 
     // region : static method
-    public static int showOptions()
+    public static String showOptions()
     {
         final JPanel panel = new JPanel();
 
         JRadioButton[] buttons = new JRadioButton[]
         {
-            new JRadioButton("NO COMMENT"),
             new JRadioButton("LIKE"),
+            new JRadioButton("NO COMMENT"),
             new JRadioButton("UNLIKE")
         };
         buttons[0].setSelected(true);
@@ -78,9 +130,14 @@ public class Like implements Comparable<Like>
 
         JOptionPane.showMessageDialog(null, panel, "Like my room", JOptionPane.INFORMATION_MESSAGE);
 
-        int count = 1;
-        for (JRadioButton btn : buttons) if (btn.isSelected()) { count++;}
-        return count; // default = no comment
+
+        for (JRadioButton btn : buttons) {
+            if (btn.isSelected()){
+                return btn.getText();
+            }
+        }
+
+        return "NO COMMENT"; // default = like
     };
     // endregion
 
@@ -130,18 +187,4 @@ public class Like implements Comparable<Like>
 
     // endregion
 
-
-    public int compareTo(Like like)
-    {
-        int othersRank = Like.RANK.get(like.value);
-        int thisRank = Like.RANK.get(value);
-
-        if (thisRank > othersRank) {
-            return 1;
-        } else if (thisRank == othersRank){
-            return 0;
-        } else {
-            return -1;
-        }
-    }
 }

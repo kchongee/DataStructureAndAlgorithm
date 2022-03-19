@@ -6,6 +6,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+/**
+ * @author : Teo Shi Han
+ * The purpose of this class is to compile the java code when we run it using ide
+ * If the "static main" function available, a launcher script (bat) will appear in ClassLauncher Folder
+ * To use it, just pass an object instance as parameter for "compile and generate" function
+ * */
+
 public final class ProjectCompileUtil
 {
     private static final ProjectCompileUtil INSTANCE = new ProjectCompileUtil();
@@ -37,7 +44,7 @@ public final class ProjectCompileUtil
         // System.out.println("javac -sourcepath " +  sourcePath + " " + classMain);
 
 
-        return "javac -cp " +  sourcePath + " " + classMain;
+        return "javac -sourcepath " +  sourcePath + " " + classMain;
     }
 
     private static String generateLauncherScript(Object obj)
@@ -101,7 +108,7 @@ public final class ProjectCompileUtil
     private static String getProjectRoot() { return System.getProperty("user.dir");}
 
 
-    private static void createOrOverwriteFile(String filePath) {
+    public static void createOrOverwriteFile(String filePath) {
         try
         {
             File myObj = new File(filePath);
@@ -119,7 +126,7 @@ public final class ProjectCompileUtil
     }
 
 
-    private static void deleteFile(String filePath)
+    public static void deleteFile(String filePath)
     {
         File myObj = new File(filePath);
         if (!myObj.delete())
@@ -128,7 +135,7 @@ public final class ProjectCompileUtil
         }
     }
 
-    private static void writeToFile(String filePath, String command) {
+    public static void writeToFile(String filePath, String command) {
         try
         {
             FileWriter myWriter = new FileWriter(filePath);
@@ -149,6 +156,10 @@ public final class ProjectCompileUtil
     private static void compileJava(Object obj)
     {
         String code = generateCompileCommand(obj);
+
+        // dead bug
+        // System.out.println(code);
+
         try
         {
             Runtime.getRuntime().exec(code);

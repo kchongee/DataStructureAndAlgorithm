@@ -171,6 +171,17 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return entry.getValue();
     }
 
+
+    public static void main(String[] args) {
+        System.out.println("a".hashCode());
+        System.out.println("d".hashCode());
+        System.out.println("a".hashCode());
+        System.out.println("b".hashCode());
+        System.out.println("b".hashCode());
+        System.out.println("b".hashCode());
+        System.out.println("z".hashCode());
+
+    }
 }
 
 
