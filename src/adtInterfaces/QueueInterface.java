@@ -7,7 +7,7 @@ public interface QueueInterface<T>
     public boolean contains(T o);
     // public Iterator<E> iterator();
     public T[] toArray();
-    public T remove(Object o);
+    public T remove();
     // public boolean containsAll(Collection<?> c);
     // public boolean addAll(Collection<? extends T> c);
     // public boolean removeAll(Collection<?> c);

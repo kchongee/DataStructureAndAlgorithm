@@ -215,7 +215,7 @@ public class RoomList
     }
 
 
-    private boolean askSortPreferences()
+    public boolean askSortPreferences()
     {
         boolean ascending = true;
         int reply = 0;
@@ -235,6 +235,6 @@ public class RoomList
     {
         RoomList list = new RoomList();
         list.sortByTitle(true);
-        list.displayRoomList();
+        list.askSortPreferences();
     }
 }

@@ -1,5 +1,9 @@
 package adtInterfaces;
 
+import adtImplementation.LinkedHashMap;
+
+import java.util.Iterator;
+
 public interface MapInterface<K,V> {
     V put(K k, V v);
     /**
@@ -21,9 +25,12 @@ public interface MapInterface<K,V> {
     public boolean containsValue(V Value);
     public boolean isEmpty();
     public Set keySet();
-    public void putAll();
+
+    void putAll(LinkedHashMap map);
+
     public V remove(K key);
     public V[] values();
+
 
     interface Entry<K, V>{
         /**

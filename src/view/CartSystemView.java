@@ -5,10 +5,7 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Invoice;
-import entity.Option;
-import entity.Payment;
-import entity.Seller;
+import entity.*;
 //import entity.ViewPage;
 
 public class CartSystemView {
@@ -35,9 +32,4 @@ public class CartSystemView {
         App.history.push(i -> main());
         page.accept("t");
     }
-
-    public static void main(String[] args) {
-        main();
-    }
-    
 }
