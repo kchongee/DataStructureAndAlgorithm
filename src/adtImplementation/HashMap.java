@@ -2,6 +2,7 @@ package adtImplementation;
 
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
+import adtInterfaces.Set;
 
 public class HashMap<K,V> implements MapInterface<K,V> {
 
@@ -70,7 +71,47 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     public int size() {
         return size;
     }
-    
+
+    @Override
+    public boolean containsKey(K k) {
+        return false;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public boolean containsValue(V Value) {
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return false;
+    }
+
+    @Override
+    public Set keySet() {
+        return null;
+    }
+
+    @Override
+    public void putAll() {
+
+    }
+
+    @Override
+    public V remove(K key) {
+        return null;
+    }
+
+    @Override
+    public V[] values() {
+        return null;
+    }
+
     private class Entry<K, V> implements  MapInterface.Entry<K, V> {
         K k;
         V v;

@@ -3,8 +3,8 @@ package view;
 import java.util.function.Consumer;
 
 import adtImplementation.ArrayList;
-import adtImplementation.LinkedDeQueue;
-import adtInterfaces.DeQueueInterface;
+import adtImplementation.LinkedDeque;
+import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
@@ -13,7 +13,7 @@ import entity.Seller;
 
 public class SellerDetailedProductView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
-    public static DeQueueInterface<Product> detailedProducts = new LinkedDeQueue<>();
+    public static DequeInterface<Product> detailedProducts = new LinkedDeque<>();
     private static Product currentProduct;
     
     static {                

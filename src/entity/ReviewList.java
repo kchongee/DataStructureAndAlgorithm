@@ -12,7 +12,6 @@ public class ReviewList implements Comparable<ReviewList>
     ArrayList<HashMap<String, Object>> reviewDBdata;
 
 
-
     // region : constructors
     public ReviewList(Room room)
     {
