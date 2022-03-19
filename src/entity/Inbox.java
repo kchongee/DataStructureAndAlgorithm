@@ -1,10 +1,17 @@
 package entity;
 
 import adtImplementation.ArrayList;
+import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
+import adtInterfaces.StackInterface;
 
 public class Inbox{
     private ListInterface<Notification> notifications;
+    private StackInterface<Notification> inboxStack;
+
+    public Inbox(int size){
+        inboxStack=new StackLinkedList<Notification>();
+    }
 
     public Inbox(){
         this.notifications = new ArrayList<>();

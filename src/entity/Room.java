@@ -3,6 +3,7 @@ package entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
@@ -20,7 +21,15 @@ public class Room{
     private LocalTime timeOpen;
     private boolean isOpen;
     private static int id = 0;
+    private LikeList likeList;
+    private ReviewList reviewList;
 
+    /*Problem
+     * Statement : likeArr vs likes array??
+     */
+
+
+    // region : constructors
     public Room(){        
         this.roomId = String.format("ROOM%4s", id).replace(' ', '0');        
         this.buyers = new ArrayList<Buyer>();
@@ -29,6 +38,10 @@ public class Room{
         this.dateOpen = LocalDate.now();
         this.timeOpen = LocalTime.now();
         id++;
+    }
+
+    public Room(String roomId){
+        this.roomId = roomId;
     }
 
     public Room(String roomId, String roomTitle) {
@@ -51,6 +64,17 @@ public class Room{
         this.dateOpen = dateOpen;
         this.timeOpen = timeOpen;
     }
+
+    public Room(String roomId, String roomTitle, boolean isOpen)
+    {
+        this.roomId = roomId;
+        this.roomTitle = roomTitle;
+        this.isOpen = isOpen;
+        this.likeList = new LikeList(this);
+        this.reviewList = new ReviewList(this);
+    }
+    // endregion
+
 
     public String getRoomId() {
         return roomId;
@@ -91,6 +115,36 @@ public class Room{
     public void removeBuyerFromRoom(Buyer buyer){
         buyers.remove(buyer);
     }    
+
+
+    //region: getter setters
+    public ListInterface<Buyer> getLikes() {
+        return likes;
+    }
+
+    public ListInterface<Buyer> getBuyers() {
+        return buyers;
+    }
+
+    public MapInterface<String, Product> getCatalog() {
+        return catalog;
+    }
+
+    public LikeList getLikeList() {
+        return likeList;
+    }
+
+    public void setLikeList(LikeList likeList) {
+        this.likeList = likeList;
+    }
+
+    public ReviewList getReviewList() {
+        return reviewList;
+    }
+
+    public void setReviewList(ReviewList reviewList) {
+        this.reviewList = reviewList;
+    }
 
     public String getRoomTitle() {
         return roomTitle;
@@ -147,9 +201,9 @@ public class Room{
         Room.id = id;
     }
 
-    public ListInterface<Buyer> getBuyers() {
-        return buyers;
-    }
+    // public ListInterface<Buyer> getBuyers() {
+    //     return buyers;
+    // }
 
     public Seller getSeller() {
         return seller;
@@ -160,4 +214,51 @@ public class Room{
     }
     
     
+
+    public Catalog fetchCatalogFromDB()
+    {
+
+        ArrayList<Product> productList = new ArrayList<>();
+        String query =
+                String.format(
+                """
+                SELECT title, productDesc, price
+                FROM   product p, roomCatalog rc
+                WHERE  p.productID = rc.productID AND rc.roomID=%s
+                ORDER BY rc.productID;
+                """,roomId
+                );
+
+        // debug
+        // System.out.println(query);
+
+
+
+        ArrayList<HashMap<String, Object>> products = jdbcUtil.readAll(query);
+
+        for (int i = 0 ; i < products.size() ; i++) {
+            productList.add(new Product(products.get(i)));
+        }
+
+        return new Catalog(productList);
+    }
+    // endregion
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomId='" + roomId + '\'' +
+                ", roomTitle='" + roomTitle + '\'' +
+                ", likes=" + likes +
+                ", buyers=" + buyers +
+                ", comments=" + comments +
+                ", catalog=" + catalog +
+                ", isOpen=" + isOpen +
+                ", likeList=" + likeList +
+                ", reviewList=" + reviewList +
+                '}';
+    }
+
+
+    //
 }

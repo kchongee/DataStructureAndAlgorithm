@@ -41,6 +41,16 @@ public class Account {
         this.isSeller=null;  
     }
 
+    public Account(String accountID, String userName, int isSeller){
+        this.accountID=accountID;
+        this.userName=userName;
+        this.userPwd="";
+        this.name="";
+        this.address="";
+        this.email="";
+        this.isSeller=isSeller;
+    }
+
     public Account(String userName, String userPwd){
         this.accountID="";
         this.userName=userName;
@@ -57,7 +67,7 @@ public class Account {
         this.address=address;
         this.email=email;
         this.userName=userName;
-        this.userName=userPwd;
+        this.userPwd=userPwd;
         this.isSeller=isSeller;
         Account.counter++;
     }
@@ -68,7 +78,7 @@ public class Account {
         this.address=(String)address;
         this.email=(String)email;
         this.userName=(String)userName;
-        this.userName=(String)userPwd;
+        this.userPwd=(String)userPwd;
         this.isSeller=(int)isSeller;
         
     }
@@ -79,7 +89,7 @@ public class Account {
         this.address=address;
         this.email=email;
         this.userName=userName;
-        this.userName=userPwd;
+        this.userPwd=userPwd;
         this.isSeller=isSeller;
     }
 

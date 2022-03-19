@@ -1,5 +1,7 @@
 package entity;
 
+import entity.Account;
+import UtilityClasses.DateTimeUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
@@ -66,6 +68,10 @@ public class Seller extends Account{
 
     public boolean addProduct(Product product){
         return products.add(product);
+    }
+
+    public static void main(String[] args) {
+        System.out.print(DateTimeUtil.localDateNow());
     }
 
     public boolean removeProduct(Product product){

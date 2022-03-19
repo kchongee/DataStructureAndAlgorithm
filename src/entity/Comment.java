@@ -3,6 +3,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import SubSystem.CommentDisplayer.CommentFormatter;
 import UtilityClasses.DateTimeUtil;
+import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 
 
@@ -10,7 +12,7 @@ public class Comment implements Comparable<Comment>
 {
     Account account;
     Room room;
-    String username, content, accountType;
+    String content;
     LocalTime commentTime;
     LocalDate commentDate;
     CommentFormatter formatter;
@@ -39,6 +41,7 @@ public class Comment implements Comparable<Comment>
     // endregion
 
 
+    // region public method
     public Account getAccount() {
         return account;
     }
@@ -59,6 +62,70 @@ public class Comment implements Comparable<Comment>
         this.formatter = formatter;
     }
 
+
+    public int getSellingProductQtyFromDB()
+    {
+        Long qty = (Long)
+        jdbcUtil.readOne(
+                String.format
+                        (
+                                "SELECT count(productID) AS productQty " +
+                                "FROM roomCatalog WHERE roomID=%s",
+                                room.getRoomId()
+                        )
+        ).get("productQty");
+
+
+        return Math.toIntExact(qty);
+    }
+
+
+    public ArrayList<MsgData> retrieveMsgData()
+    {
+        ArrayList<MsgData> msgData = new ArrayList<MsgData>();
+        int productListQty = getSellingProductQtyFromDB();
+        String[] words = content.toUpperCase().split("\\s+");
+        for (int i = 0 ; i < words.length-1 ; i++)
+        {
+            String word = words[i];
+            if (word.contains("PRODUCT"))
+            {
+                int productNo = extractNumber(word);
+                String next = words[i+1].toUpperCase();
+
+                boolean productNoWithinList = productNo > 0 && productNo <= productListQty;
+                boolean quantifiedWithXonly = next.replaceAll("\\d|,", "").equals("X");
+
+                if (productNoWithinList && quantifiedWithXonly)
+                {
+                    int orderQty = extractNumber(next);
+
+                    Boolean notAdded = true;
+                    for (int j = 0 ; j < msgData.size() ; j++)
+                    {
+                        MsgData data = msgData.get(j);
+                        if (data.productNo == productNo)
+                        {
+                            data.orderQty += orderQty;
+                            notAdded = false;
+                            break;
+                        }
+                    }
+
+                    if (notAdded) {
+                        msgData.add(new MsgData(productNo, orderQty));
+                    }
+
+                    i++;
+                }
+            }
+        }
+        return msgData;
+    }
+    // endregion
+
+
+
     // region 002 : comparable interface
     public int compareTo(Comment comment)
     {
@@ -72,21 +139,13 @@ public class Comment implements Comparable<Comment>
     // endregion
 
 
+
     // region 003 : getter setter
 
     // (issue : username VS accountID)
 
     // public String getAccountID() {return accountID;}
     // public void setAccountID(String accountID) {this.accountID = accountID;}
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public LocalTime getCommentTime() {
         return commentTime;
     }
@@ -116,31 +175,60 @@ public class Comment implements Comparable<Comment>
         this.content = content;
     }
 
-    public String getAccountType() {
-        return accountType;
-    }
-
-    public void setAccountType(String accountType) {
-        this.accountType = accountType;
-    }
-
     public CommentFormatter getFormatter(){ return formatter; }
     // endregion
 
 
-    @Override
+    /*
+    * Problem : orderQuantity rules
+    *
+    *
+    * */
+
+
+    public static class MsgData
+    {
+        int productNo;
+        int orderQty;
+
+        public MsgData(int productNo, int orderQty)
+        {
+            this.productNo = productNo;
+            this.orderQty = orderQty;
+        }
+
+        public int getProductNo() {
+            return productNo;
+        }
+
+        public void setProductNo(int productNo) {
+            this.productNo = productNo;
+        }
+
+        public int getOrderQty() {
+            return orderQty;
+        }
+
+        public void setOrderQty(int orderQty) {
+            this.orderQty = orderQty;
+        }
+    }
+
+
     public String toString()
     {
         return
                 account.toString() + "\n" +
-                "username='" + username + '\'' + '\n' +
                 "commentTime=" + DateTimeUtil.localTimeToString(commentTime) + '\n' +
                 ",commentDate=" + DateTimeUtil.localDateToString(commentDate) + '\n' +
                 "roomID='" + room.toString() + '\'' + '\n' +
-                "content='" + content + '\'' + '\n' +
-                "accountType='" + accountType + '\'' +'\n';
+                "content='" + content + '\'' + '\n';
     }
 
+
+    private int extractNumber(String str){
+        return Integer.parseInt(str.replaceAll("[^0-9]", ""));
+    }
 
 //    public boolean isOrderComment()
 //    {

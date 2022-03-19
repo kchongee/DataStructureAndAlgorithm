@@ -32,12 +32,12 @@ public class PaymentView {
         System.out.println(" 0    Back");
         promptOptions();
     }
-    
+
     public static void printTitle(String title){
         App.clearScreen();
         System.out.println(title);        
         System.out.println();
-    }        
+    }
 
     public static void goToPage(Consumer<String> page){
         App.history.push(i -> main());

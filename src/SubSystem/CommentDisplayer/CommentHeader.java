@@ -16,7 +16,7 @@ public class CommentHeader
 
     public String toString()
     {
-        String section1 = comment.getUsername().toUpperCase() + " >>>";
+        String section1 = comment.getAccount().getUserName().toUpperCase() + " >>>";
         String section2 = createSection2();
         String section3 = createSection3();
         return section1 + section2 + section3;
@@ -26,8 +26,8 @@ public class CommentHeader
     // region : utility method
     private int[] getSectionLength()
     {
-        int section1Size = comment.getUsername().length() + 4;
-        int section3Size = comment.getAccountType().length() + 9;
+        int section1Size = comment.getAccount().getUserName().length() + 4;
+        int section3Size = comment.getAccount().getAccountType().length() + 9;
         int section2Size = LINE_SIZE - section1Size - section3Size;
         return new int[]{section1Size, section2Size, section3Size};
     }
@@ -41,7 +41,7 @@ public class CommentHeader
     private String createSection3()
     {
         String timeStr = DateTimeUtil.localTimeToString(comment.getCommentTime());
-        String capitalizedType = comment.getAccountType().toUpperCase();
+        String capitalizedType = comment.getAccount().getAccountType().toUpperCase();
         return timeStr + " " + capitalizedType;
     }
     // endregion

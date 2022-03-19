@@ -25,7 +25,7 @@ public final class CMD
     public static void executeWindowsCommand(String command)
     {
         try {
-            new ProcessBuilder("cmd", "/c", command).inheritIO().start().waitFor();
+            new ProcessBuilder("cmd.exe", "/c", command).inheritIO().start().waitFor();
         }
         catch (IOException  | InterruptedException e) {
             e.printStackTrace();

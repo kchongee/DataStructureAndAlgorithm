@@ -15,11 +15,14 @@ import entity.AccountList;
 import entity.Buyer;
 import entity.BuyerProduct;
 import entity.Notification;
+import entity.Notification;
+import entity.NotificationHolder;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 import adtImplementation.StackLinkedList;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
+import adtInterfaces.StackInterface;
 import entity.Option;
 import entity.Invoice;
 import entity.Product;
@@ -34,7 +37,10 @@ public class App {
     public static Account buyer = new Buyer();
     public static Account seller = new Seller();
     public static AccountList accountList = new AccountList(100);
-    public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
+    public static NotificationHolder notificationList = new NotificationHolder(100);
+    public static StackInterface<Notification> inbox = new StackLinkedList<Notification>();
+    public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
+    public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
 
     static{
         Product pr1 = new Product("title1", 20, "description1");
@@ -61,9 +67,9 @@ public class App {
         ((Buyer)buyer).addProductToCart(bp2);
         ((Buyer)buyer).addProductToCart(bp3);
         
-        // Notification n1 = new Notification("yoyo", "lloll", (Seller)seller);
+        Notification n1 = new Notification("yoyo", "lloll", (Seller)seller);
         // Notification n2 = new Notification("yoyo2", "laoll", (Seller)seller);
-        // ((Buyer)buyer).receiveNotification(n1);
+        ((Buyer)buyer).receiveNotification(n1);
         // ((Buyer)buyer).receiveNotification(n2);
 
         currentUser = buyer;
@@ -77,22 +83,36 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {    
-        retrieveAccounts();            
+        retrieveAccounts();   
+        retrieveNotifications();         
         WelcomeView.main();
     }     
     
     public static void retrieveAccounts(){
-        hashList = jdbcUtil.readAll("SELECT * FROM Account;");
+        hashAccount = jdbcUtil.readAll("SELECT * FROM Account;");
 
-        for(int i=0;i<hashList.size();i++){      
-            Account a = new Account(hashList.get(i).get("accountID"),
-            hashList.get(i).get("userName"),
-            hashList.get(i).get("userPwd"),
-            hashList.get(i).get("name"),
-            hashList.get(i).get("address"),
-            hashList.get(i).get("email"),
-            hashList.get(i).get("isSeller"));         
+        for(int i=0;i<hashAccount.size();i++){      
+            Account a = new Account(hashAccount.get(i).get("accountID"),
+            hashAccount.get(i).get("userName"),
+            hashAccount.get(i).get("userPwd"),
+            hashAccount.get(i).get("name"),
+            hashAccount.get(i).get("address"),
+            hashAccount.get(i).get("email"),
+            hashAccount.get(i).get("isSeller"));         
             accountList.addAccount(a);
+        } 
+    }
+
+    public static void retrieveNotifications(){
+        hashNotifications = jdbcUtil.readAll("SELECT * FROM Notification;");
+
+        for(int i=0;i<hashNotifications.size();i++){      
+            Notification n = new Notification(hashNotifications.get(i).get("notificationID"),
+            hashNotifications.get(i).get("accountID"),
+            hashNotifications.get(i).get("userName"),
+            hashNotifications.get(i).get("message"),
+            hashNotifications.get(i).get("date"));         
+            notificationList.addNotification(n);
         } 
     }
 

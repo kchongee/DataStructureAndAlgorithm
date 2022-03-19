@@ -20,8 +20,7 @@
   |-------------------------------|
   |how? | EXAMPLE SYNTAX:         |
   |     | product4 x5             |
-  |     | x5 product5             |
-  |     |                         |
+  |     | product4 x5, product3 x2|
   =================================
 
   The order should send to your

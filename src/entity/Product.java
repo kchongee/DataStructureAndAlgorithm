@@ -1,4 +1,7 @@
 package entity;
+
+import adtImplementation.HashMap;
+
 public class Product{
     private String productId;
     private String title;
@@ -29,6 +32,13 @@ public class Product{
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Product(HashMap<String, Object> productMap)
+    {
+        this.title = (String) productMap.get("title");
+        this.price = (Double) productMap.get("price");
+        this.description = (String) productMap.get("productDesc");
     }
 
     public String getTitle() {
