@@ -1,7 +1,7 @@
 package entity;
 
 import adtImplementation.ArrayList;
-import adtImplementation.StackLinkedList;
+import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
 import adtInterfaces.StackInterface;
 
@@ -10,42 +10,60 @@ public class Inbox{
     private StackInterface<Notification> inboxStack;
 
     public Inbox(int size){
-        inboxStack=new StackLinkedList<Notification>();
+        inboxStack=new LinkedStack<Notification>();
     }
 
     public Inbox(){
         this.notifications = new ArrayList<>();
+        this.inboxStack = new LinkedStack<Notification>();
     }    
 
-    public ListInterface<Notification> getNotifications() {
-        return notifications;
+    // public ListInterface<Notification> getNotifications() {
+    //     return notifications;
+    // }
+
+    // public void setNotifications(ListInterface<Notification> notifications) {
+    //     this.notifications = notifications;
+    // }
+
+    // public void addNotification(Notification notification){
+    //     this.notifications.add(notification);
+    // }
+
+    // public void removeNotification(Notification notification){
+    //     this.notifications.remove(notification);
+    // }
+
+    // public void openNotification(Notification notification){
+    //     if(!notification.isRead())
+    //         notification.setRead(true);
+    // } 
+    
+    // public void openNotificationByIndex(int index){
+    //     Notification notification = this.notifications.get(index);
+    //     this.openNotification(notification);
+    // } 
+
+    public StackInterface<Notification> getNotifications() {
+        return inboxStack;
     }
 
-    public void setNotifications(ListInterface<Notification> notifications) {
-        this.notifications = notifications;
+    public void setNotifications(StackInterface<Notification> notifications) {
+        this.inboxStack = notifications;
     }
 
-    public void addNotification(Notification notification){
-        this.notifications.add(notification);
-    }
-
-    public void removeNotification(Notification notification){
-        this.notifications.remove(notification);
-    }
+    public void pushNotification(Notification notification){
+        this.inboxStack.push(notification);
+    }    
 
     public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
-    } 
-    
-    public void openNotificationByIndex(int index){
-        Notification notification = this.notifications.get(index);
-        this.openNotification(notification);
-    } 
+    }
 
     @Override
     public String toString() {        
-        return notifications.size()>0?Notification.displayAll(notifications):"There is nothing inside inbox.\n";
+        return inboxStack.size()>0?Notification.displayAll(inboxStack):"There is nothing inside inbox.\n";
     }
 
     public static void main(String[] args) {

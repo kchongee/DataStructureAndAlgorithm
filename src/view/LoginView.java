@@ -18,8 +18,10 @@ public class LoginView{
             System.out.println("Login Successful");
             App.currentUser = App.accountList.grabAccount(uname);
             if(App.currentUser.getIsSeller()==1){
+                App.currentUser = new Seller(App.currentUser);
                 SellerHomeView.main();
             }else if(App.currentUser.getIsSeller()==0){
+                App.currentUser = new Buyer(App.currentUser);
                 BuyerHomeView.main();
             }else{
                 SellerHomeView.main();

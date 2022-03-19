@@ -4,12 +4,12 @@ import java.util.Iterator;
 
 import adtInterfaces.StackInterface;
 
-public class StackLinkedList<T> implements StackInterface<T>{    
+public class LinkedStack<T> implements StackInterface<T>{    
 
     private Node topNode;
     private int nodeCount;
 
-    public StackLinkedList(){
+    public LinkedStack(){
         clear();
     }    
 
@@ -108,5 +108,15 @@ public class StackLinkedList<T> implements StackInterface<T>{
             this.element = element;            
             this.nextNode = nextNode;
         }
+    }
+
+    public static void main(String[] args) {
+        LinkedStack<Integer> intStack = new LinkedStack<Integer>();
+        intStack.push(1);
+        intStack.push(4);
+        intStack.push(3);
+        intStack.push(2);
+        intStack.push(5);
+        System.out.println(intStack);
     }
 }
