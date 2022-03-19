@@ -20,9 +20,26 @@ public class CartList {
                            From Cart C, Account A
                            Where C.sellerID = A.accountID AND isCheckout=false AND buyerID='%s';
                         """, account.getAccountID()
-        );System.out.print(query);
+        );
         return jdbcUtil.readAll(query);
 
+    }
+
+
+    public ArrayList<Cart> getCart() {
+        return cart;
+    }
+
+    public void setCart(ArrayList<Cart> cart) {
+        this.cart = cart;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public void syncCart(){
@@ -43,7 +60,7 @@ public class CartList {
     @Override
     public String toString() {
 
-        String header = String.format("%-10s %-10s %-20s", "cartID","sellerID","sellerName");
+        String header = String.format("%-5s %-10s %-10s %-20s","No.","cartID","sellerID","sellerName");
         String completeString= header+"\n";
         for (int i = 0; i < cart.size(); i++) {
             Cart tempOrder = cart.get(i);
@@ -53,7 +70,7 @@ public class CartList {
             //System.out.println(cartID);
             //System.out.println(sellerID);
             //System.out.println(sellerName);
-            String tempString = String.format("%-10s %-10s %-20s",cartID,sellerID, sellerName);
+            String tempString = String.format("%-5s %-10s %-10s %-20s",i+1, cartID,sellerID, sellerName);
             completeString = completeString+tempString+"\n";
         } 
        
