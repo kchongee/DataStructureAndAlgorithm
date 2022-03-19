@@ -18,7 +18,6 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     private Entry<K,V> lastEntry;
 
 
-    // region : constructors
     public LinkedHashMap()
     {
         this.entryBuckets = new Entry[DEFAULT_BUCKET_QTY];
@@ -37,11 +36,8 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         this.firstEntry = null;
         this.lastEntry = null;
     }
-    // endregion
 
 
-
-    // region : adt method
     public V put(K key, V value)
     {
         int bucketIndex = convertKeyToBucketIndex(key);
@@ -74,7 +70,6 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         return value;
     }
 
-
     public V put(Entry<K,V> newEntry)
     {
         int bucketIndex = convertKeyToBucketIndex(newEntry.key);
@@ -92,6 +87,21 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             rehash();
         }
         return newEntry.getValue();
+    }
+
+
+    public void handleCollision(Entry<K, V> newEntry, Entry<K, V> bucket)
+    {
+        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
+        if (existingEntry == null) // new entry should added
+        {
+            bucket.appendCollidedEntry(newEntry);
+            updateSequence(newEntry);
+            this.totalEntries++;
+        }
+        else { // overwrite old entry
+            existingEntry.value = newEntry.getValue();
+        }
     }
 
 
@@ -158,21 +168,19 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    public Set<K> keySet() {
-        LinkedHashSet<K> keySet = new LinkedHashSet<>();
-        for (MapInterface.Entry<K, V> e : this){
-            keySet.add(e.getKey());
-        }
-        return keySet;
+    public Set keySet() {
+        return null;
+    }
+
+    @Override
+    public void putAll(LinkedHashMap map) {
+
     }
 
 
-    @Override
-    public void putAll(LinkedHashMap map)
-    {
-        for (Object e : map){
-            this.put((Entry<K, V>) e);
-        }
+
+    public void putAll(MapInterface<K,V> map) {
+
     }
 
 
@@ -194,31 +202,8 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
     @Override
-    public V[] values()
-    {
-        V[] values = (V[]) new Object[totalEntries];
-        int i = 0;
-        for (MapInterface.Entry<K, V> entry : this) {
-            values[i++] = entry.getValue();
-        }
-        return values;
-    }
-    // adt method
-
-
-
-    private void handleCollision(Entry<K, V> newEntry, Entry<K, V> bucket)
-    {
-        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
-        if (existingEntry == null) // new entry should added
-        {
-            bucket.appendCollidedEntry(newEntry);
-            updateSequence(newEntry);
-            this.totalEntries++;
-        }
-        else { // overwrite old entry
-            existingEntry.value = newEntry.getValue();
-        }
+    public V[] values() {
+        return null;
     }
 
 
@@ -467,8 +452,6 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         test.put("t",2);
         test.remove("a");
         test.remove("s");
-
-        System.out.println(test.keySet().toString());
 
         System.out.println(test.toString());
 

@@ -3,17 +3,42 @@ package entity;
 import adtImplementation.HashMap;
 
 public class Product{
-
-    String title;
-    double price;
-    String description;    
-    String category;
+    private String productId;
+    private String title;
+    private double price;
+    private String description;    
+    private String category;
+    private static int id = 0;
 
     public Product(String title, double price, String description){
+        this.productId = String.format("PROD%4s", id).replace(' ', '0');   
         this.title = title;
         this.price = price;
         this.description = description;
+        id++;
+    }    
+
+    public String getProductId() {
+        return productId;
     }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+    public Product(String title, double price){
+        this.title = title;
+        this.price = price;
+    }
+
 
     public Product(HashMap<String, Object> productMap)
     {

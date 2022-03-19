@@ -24,8 +24,7 @@ public class StackLinkedList<T> implements StackInterface<T>{
     }
 
     @Override
-    public T pop() {
-        System.out.println("pop");
+    public T pop() {        
         T elementGet = peek();
         if(elementGet!=null){
             if(topNode.nextNode!=null){
@@ -35,16 +34,14 @@ public class StackLinkedList<T> implements StackInterface<T>{
                 clear();
             }            
             return elementGet;   
-        }else{            
-            System.out.println("Nothing inside! Unable to pop.");
+        }else{
             return null;
         }
     }
 
     @Override
     public T peek() {        
-        if(isEmpty()){
-            System.out.println("Nothing inside! Unable to peek.");
+        if(isEmpty()){            
             return null;
         }        
         return topNode.element;

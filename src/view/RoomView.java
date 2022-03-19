@@ -12,6 +12,7 @@ import entity.Room;
 
 public class RoomView {
     public static HashMap<String,Product> catalog = new HashMap<>();
+    public static Room currentRoom = new Room();
     
     static{
         

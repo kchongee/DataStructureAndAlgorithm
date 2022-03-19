@@ -41,7 +41,7 @@ public class SellerCreateRoomView {
             isAddAgain = App.promptYesOrNo("Add again? (Y|N): ");            
         }while(isAddAgain);
 
-        Room newRoom = new Room(roomTitle,catalogProduct);
+        Room newRoom = new Room(roomTitle,catalogProduct,(Seller)App.currentUser);
         ((Seller)App.currentUser).createRoom(newRoom);
     }
     

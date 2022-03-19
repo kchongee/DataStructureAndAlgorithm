@@ -1,14 +1,20 @@
 package entity;
 
+import java.util.Iterator;
+
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
+import application.App;
 public class Notification {
     private String notificationID;
     private String accountID;
     private String userName;
     private String message;
     private String date;
-    private int hasBeenRead;
-
-    static int counter=1;
+    private String title;
+    private Seller seller;
+    private boolean isRead;
+    static int counter=1;      
 
     public Notification(){
         this.notificationID="";
@@ -16,7 +22,6 @@ public class Notification {
         this.userName="";
         this.message="";
         this.date="";  
-        this.hasBeenRead=0;
     }
 
     public Notification(String accountID, String userName, String message, String date){
@@ -25,7 +30,7 @@ public class Notification {
         this.userName=userName;
         this.message=message;
         this.date=date;
-        this.hasBeenRead=0;
+        
         Notification.counter++;
     }
 
@@ -35,26 +40,41 @@ public class Notification {
         this.userName=(String)userName;
         this.message=(String)message;
         this.date=(String)date;
-        this.hasBeenRead=0;
+        
     }
 
-    public Notification(String notificationID, String accountID, String userName, String message, String date, int hasBeenRead){
+    public Notification(String notificationID, String accountID, String userName, String message, String date){
         this.notificationID=notificationID;
         this.accountID=accountID;
         this.userName=userName;
         this.message=message;
         this.date=date;
-        this.hasBeenRead=hasBeenRead;
+        
     }
 
-    public Notification(Object notificationID, Object accountID, Object userName, Object message, Object date, Object hasBeenRead){
+    public Notification(Object notificationID, Object accountID, Object userName, Object message, Object date){
         this.notificationID=(String)notificationID;
         this.accountID=(String)accountID;
         this.userName=(String)userName;
         this.message=(String)message;
         this.date=(String)date;
-        this.hasBeenRead=(int)hasBeenRead;
+       
         Notification.counter++;
+    }
+
+    public Notification(String title, String message, Seller seller){
+        this.isRead = false;
+        this.title = title;
+        this.message = message;
+        this.seller = seller;
+    }  
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getNotificationID() {
@@ -67,6 +87,14 @@ public class Notification {
 
     public String getAccountID() {
         return accountID;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public void setAccountID(String accountID) {
@@ -88,29 +116,70 @@ public class Notification {
     public void setMessage(String message) {
         this.message = message;
     }
-
-    public String getDate() {
-        return date;
+    
+    public Seller getSeller() {
+        return seller;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setSeller(Seller seller) {
+        this.seller = seller;
     }
-
-    public int getHasBeenRead() {
-        return hasBeenRead;
+    
+    public boolean isRead() {
+        return isRead;
     }
-
-    public void setHasBeenRead(int hasBeenRead) {
-        this.hasBeenRead = hasBeenRead;
+    
+    public void setRead(boolean isRead) {
+        this.isRead = isRead;
     }
+    
+    // @Override
+    // public String toString() {
+    //     // TODO Auto-generated method stub
+    //     return "\nNotificationID: "+notificationID+
+    //     "\nUsername: "+userName+
+    //     "\nMessage: "+message+
+    //     "\nDate: "+date;
+    // }
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
-        return "\nNotificationID: "+notificationID+
-        "\nUsername: "+userName+
-        "\nMessage: "+message+
-        "\nDate: "+date;
+        String str = "";                        
+        str += String.format("From: %s\n", seller.getName());                
+        str += String.format("Title: %s\n", title);                    
+        str += String.format("Message: %s\n", message);                
+        return str;
+    }    
+
+    public static String displayAll(ListInterface<Notification> notifications){
+        String str = "";
+        str += String.format("+%s+\n", "-".repeat(56));
+        str += String.format("|%-6s|%-25s|%-15s|%-7s|\n","No.", "Title","From","Status");
+        str += String.format("|%-6s+%-25s+%-15s+%-7s|\n","-".repeat(6), "-".repeat(25), "-".repeat(15),"-".repeat(7));
+        Iterator<Notification> notificationIterator = notifications.iterator();
+        int i = 1;
+        while(notificationIterator.hasNext()){
+            Notification n = notificationIterator.next();
+            str += String.format("|%-6d|%-25s|%-15s|%-7s|\n",i, App.trimString(n.getTitle(), 25), n.getSeller().getName(), n.isRead()?"Seen":"Unseen");
+            i++;
+        }
+        str += String.format("+%s+\n", "-".repeat(56));
+        return str;
     }
+
+    public static void main(String[] args) {
+        Seller newSeller = new Seller();
+        newSeller.setName("Khoo");        
+        Notification notification1 = new Notification("title", "message111  11", newSeller);
+        Notification notification2 = new Notification("title2", "message112  12", newSeller);
+        Notification notification3 = new Notification("title3", "message113  13", newSeller);
+        
+        ListInterface<Notification> notifications = new ArrayList<>();
+        notifications.add(notification1);
+        notifications.add(notification2);
+        notifications.add(notification3);
+        System.out.println(displayAll(notifications));
+
+    }    
+
 }

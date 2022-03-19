@@ -26,12 +26,9 @@ public class LinkedHashSet<E> implements Set<E>
         return mapAsSet.isEmpty();
     }
 
-
-
     public boolean contains(E e) {
         return mapAsSet.containsKey(e);
     }
-
 
 
     public E[] toArray()
@@ -89,6 +86,7 @@ public class LinkedHashSet<E> implements Set<E>
 
 
 
+
     public static void main(String[] args)
     {
         LinkedHashSet<Integer> test = new LinkedHashSet<Integer>();
@@ -105,3 +103,4 @@ public class LinkedHashSet<E> implements Set<E>
 
     }
 }
+
