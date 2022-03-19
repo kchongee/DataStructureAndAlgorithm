@@ -19,6 +19,8 @@ public class Cart {
         clearProducts();
     }
 
+
+
     public ListInterface<BuyerProduct> getCartProducts() {
         return cartProducts;
     }
