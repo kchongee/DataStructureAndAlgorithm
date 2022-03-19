@@ -3,7 +3,9 @@ package entity;
 import java.util.Iterator;
 
 import adtImplementation.ArrayList;
+import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
+import adtInterfaces.StackInterface;
 import application.App;
 public class Notification {
     private String notificationID;
@@ -167,17 +169,45 @@ public class Notification {
         return str;
     }
 
+    public static String displayAll(StackInterface<Notification> notifications){
+        String str = "";
+        str += String.format("+%s+\n", "-".repeat(56));
+        str += String.format("|%-6s|%-25s|%-15s|%-7s|\n","No.", "Title","From","Status");
+        str += String.format("|%-6s+%-25s+%-15s+%-7s|\n","-".repeat(6), "-".repeat(25), "-".repeat(15),"-".repeat(7));
+        Iterator<Notification> notificationIterator = notifications.iterator();
+        int i = 1;
+        while(notificationIterator.hasNext()){
+            Notification n = notificationIterator.next();
+            str += String.format("|%-6d|%-25s|%-15s|%-7s|\n",i, App.trimString(n.getTitle(), 25), n.getSeller().getName(), n.isRead()?"Seen":"Unseen");
+            i++;
+        }
+        str += String.format("+%s+\n", "-".repeat(56));
+        return str;
+    }
+
     public static void main(String[] args) {
+        // Seller newSeller = new Seller();
+        // newSeller.setName("Khoo");        
+        // Notification notification1 = new Notification("title", "message111  11", newSeller);
+        // Notification notification2 = new Notification("title2", "message112  12", newSeller);
+        // Notification notification3 = new Notification("title3", "message113  13", newSeller);
+        
+        // ListInterface<Notification> notifications = new ArrayList<>();
+        // notifications.add(notification1);
+        // notifications.add(notification2);
+        // notifications.add(notification3);
+        // System.out.println(displayAll(notifications));
+
         Seller newSeller = new Seller();
         newSeller.setName("Khoo");        
         Notification notification1 = new Notification("title", "message111  11", newSeller);
         Notification notification2 = new Notification("title2", "message112  12", newSeller);
         Notification notification3 = new Notification("title3", "message113  13", newSeller);
         
-        ListInterface<Notification> notifications = new ArrayList<>();
-        notifications.add(notification1);
-        notifications.add(notification2);
-        notifications.add(notification3);
+        StackInterface<Notification> notifications = new LinkedStack<Notification>();
+        notifications.push(notification1);
+        notifications.push(notification2);
+        notifications.push(notification3);
         System.out.println(displayAll(notifications));
 
     }    

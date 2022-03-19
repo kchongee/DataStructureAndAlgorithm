@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.function.Consumer;
 
 import adtImplementation.ArrayList;
+import adtImplementation.LinkedStack;
 import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
 import application.App;
@@ -47,10 +48,14 @@ public class BuyerNotificationView {
 
     public static void fetchNotificationList(){
         notifications.clear();
-        Object[] objs = ((ArrayList)((Buyer)App.currentUser).getInbox().getNotifications()).toArray();
-        for(Object obj: objs){            
-            notifications.addLast((Notification)obj);
-        }        
+        // Object[] objs = ((ArrayList)((Buyer)App.currentUser).getInbox().getNotifications()).toArray();        
+        // for(Object obj: objs){            
+        //     notifications.addLast((Notification)obj);
+        // }
+        Iterator<Notification> notificationIterator = ((Buyer)App.currentUser).getInbox().getNotifications().iterator();        
+        while(notificationIterator.hasNext()){
+            notifications.addLast(notificationIterator.next());
+        }
     }
 
     public static void nextPage(){        

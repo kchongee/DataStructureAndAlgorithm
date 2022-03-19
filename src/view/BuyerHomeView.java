@@ -13,18 +13,12 @@ public class BuyerHomeView{
     
     static {
         menuOptions.add(new Option("Rooms", i -> goToPage(ii->BuyerHomeView.main())));
-        menuOptions.add(new Option("Cart", i -> goToPage(ii->BuyerHomeView.main())));
+        menuOptions.add(new Option("Carts", i -> goToPage(ii->BuyerHomeView.main())));
         menuOptions.add(new Option("Orders", i -> goToPage(ii->BuyerHomeView.main())));
         menuOptions.add(new Option("Inbox", i -> goToPage(ii->BuyerInboxView.main())));     
     }
 
-    public static void main(String[] args) {
-        
-        // menuOptions.add(new Option("Rooms", i -> System.out.println("Here is gg")));
-        // menuOptions.add(new Option("Products", i -> System.out.println("Here is gg")));
-        // menuOptions.add(new Option("Orders", i -> System.out.println("Here is gg")));
-        // menuOptions.add(new Option("Followers", i -> System.out.println("Here is gg"))); 
-        // menuOptions.add(new Option("Inbox", i -> NotificationView.main())); 
+    public static void main(String[] args) {                
         
         main();
     }
