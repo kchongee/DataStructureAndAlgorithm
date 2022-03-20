@@ -16,7 +16,8 @@ public class Invoice {
     private String paymentMethod;
     private static int id = 0;
 
-    private Invoice(){
+    private Invoice()
+    {
         this.invoiceId = String.format("INV%4s", id).replace(' ', '0');   
         this.invoiceProducts = new ArrayList<>();
         this.invoiceDateTime = LocalDateTime.now();
@@ -247,32 +248,4 @@ public class Invoice {
     public void setTotal(double total) {
         this.total = total;
     }
-    
-    public static void invoiceFormat() {
-        System.out.println();
-        System.out.println();
-        System.out.println("          Online Sales System        ");
-        System.out.println("-------------------------------------------- ");
-        System.out.println();
-        System.out.println("userID: "+ account.getAccountID());
-        System.out.println("Username: "+ account.getUserName());
-        System.out.println("Address: " +account.getAddress());
-        System.out.println();
-        OrderProductycl.displayFormat();
-
-        int count = invoiceList.size();
-        for (int i = 0; i < count; ++i) {
-            // product.display();
-            System.out.format("%-9s %8d %10.2f %10.2f\n",
-                     product.getTitle(), cartDetails.getProductQty(), product.getPrice(), cartDetails.getCost());
-        }
-
-        System.out.println();
-        System.out.println("Thank you. Come Again!");
-    }
-
-    public static void main() {
-        invoiceFormat();
-    }
-    
 }

@@ -2,15 +2,27 @@ package adtImplementation;
 
 import adtInterfaces.QueueInterface;
 
+import java.lang.reflect.Array;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 
 
 public class CircularQueue<T> implements QueueInterface<T> {
-    T elements[];
-    int starting;
-    int nextInsertion;
-    int size;
-    int elementQty;
+    private final static int DEFAULT_SIZE = 5;
+    private T elements[];
+    private int starting;
+    private int nextInsertion;
+    private int size;
+    private int elementQty;
+
+    public CircularQueue(){
+        this.starting = 0;
+        this.nextInsertion = 0;
+        this.elementQty = 0;
+        this.elements = (T[]) new Object[DEFAULT_SIZE];
+        this.size = DEFAULT_SIZE;
+    }
+
 
     public CircularQueue(int size)
     {
@@ -46,18 +58,19 @@ public class CircularQueue<T> implements QueueInterface<T> {
 
     public T[] toArray()
     {
-        int queueSize = size();
-        T[] arr = (T[]) new Object[queueSize];
-        return arr;
+        T[] result = (T[])new Object[size()];
+
+        for (int i = 0 ; i < size() ; i++)
+        {
+            result[i] = this.poll();
+            this.add(result[i]);
+        }
+        return result;
     }
 
-    @Override
-    public T remove(final Object o) {
-        return null;
-    }
 
-
-    public T remove() {
+    public T remove()
+    {
         if (!isEmpty())
         {
             T returnElement = elements[starting];
@@ -130,7 +143,8 @@ public class CircularQueue<T> implements QueueInterface<T> {
     }
 
 
-    public T element() {
+    public T element()
+    {
         if (!isEmpty()){
             return elements[starting];
         }else {
@@ -170,7 +184,8 @@ public class CircularQueue<T> implements QueueInterface<T> {
     }
 
     // Debug
-    public void printLogicalQueue(){
+    public void printLogicalQueue()
+    {
         int start = starting;
         boolean endNotReached = true;
         System.out.println("Logical : ");
@@ -273,7 +288,13 @@ class TestMyCircularQueue{
         cq.printSize();
         cq.printEndingAndStarting();
 
-        cq.poll();
+        Object[] arr = cq.toArray();
+        System.out.println(arr.length);
+        System.out.print("ARR= [] ");
+        for (int i = 0 ; i < cq.toArray().length ; i++){
+            System.out.print(arr[i] + ", ");
+        }
+
         cq.printActualQueue();
         cq.printLogicalQueue();
         cq.printSize();
@@ -332,5 +353,6 @@ class TestMyCircularQueue{
         cq.printLogicalQueue();
         cq.printSize();
         cq.printEndingAndStarting();
+
     }
 }

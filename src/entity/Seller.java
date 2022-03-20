@@ -8,18 +8,26 @@ import adtInterfaces.ListInterface;
 public class Seller extends Account{
 
     private ListInterface<Product> products;
-    private ListInterface<Room> rooms;
-    private ListInterface<Buyer> followers;
+    private ListInterface<Room> rooms;    
     private ListInterface<Invoice> invoices;
     private Voucher voucher;
     private Notification voucherNotification;
 
     public Seller(){
         this.products = new ArrayList<Product>();
-        this.rooms = new ArrayList<Room>();
-        this.followers = new ArrayList<Buyer>();
+        this.rooms = new ArrayList<Room>();        
         this.invoices = new ArrayList<Invoice>();
         this.voucher = new Voucher(0,0);
+    }
+
+    public Seller(Account acc){
+        super.setAccountID(acc.getAccountID());        
+        super.setAddress(acc.getAddress());
+        super.setEmail(acc.getEmail());        
+        super.setIsSeller(acc.getIsSeller());
+        super.setName(acc.getName());
+        super.setUserName(acc.getUserName());
+        super.setUserPwd(acc.getUserPwd());
     }
 
     public ListInterface<Room> getRooms(){
@@ -38,14 +46,6 @@ public class Seller extends Account{
         this.rooms = rooms;
     }
 
-    public ListInterface<Buyer> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(ListInterface<Buyer> followers) {
-        this.followers = followers;
-    }
-
     public ListInterface<Invoice> getInvoices() {
         return invoices;
     }
@@ -56,11 +56,7 @@ public class Seller extends Account{
 
     public boolean addInvoice(Invoice invoice){
         return invoices.add(invoice);
-    }
-
-    public boolean addFollower(Buyer buyer){
-        return followers.add(buyer);
-    }
+    }    
 
     public ListInterface<Product> getProducts(){
         return products;
@@ -68,11 +64,7 @@ public class Seller extends Account{
 
     public boolean addProduct(Product product){
         return products.add(product);
-    }
-
-    public static void main(String[] args) {
-        System.out.print(DateTimeUtil.localDateNow());
-    }
+    }    
 
     public boolean removeProduct(Product product){
         return products.remove(product);
@@ -84,11 +76,7 @@ public class Seller extends Account{
 
     public void clearProducts(){
         products = new ArrayList<>();
-    }    
-
-    public void receiveInvoice(Invoice invoice){
-        this.invoices.add(invoice);
-    }
+    }        
 
     public Voucher getVoucher() {
         return voucher;

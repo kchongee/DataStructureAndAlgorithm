@@ -11,7 +11,8 @@ import entity.Product;
 public class CatalogEditorView
 {
     private Catalog catalog;
-    private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]{
+    private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]
+    {
             new Option(i->displayAddForm()),
             new Option(i->deleteProduct()),
             new Option(i->insertBelow()),
@@ -130,6 +131,7 @@ public class CatalogEditorView
     private int productNoToEdit(){
         return App.promptIntInput("Edit which product? : ");
     }
+
     // endregion
 
 

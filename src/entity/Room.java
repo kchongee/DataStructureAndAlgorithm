@@ -16,7 +16,8 @@ public class Room{
     private ListInterface<Buyer> likes;
     private ListInterface<Buyer> buyers;
     private QueueInterface<Comment> comments;    
-    private MapInterface<String,Product> catalog;
+    // private MapInterface<String,Product> catalog;
+    private Catalog catalog;
     private LocalDate dateOpen;
     private LocalTime timeOpen;
     private boolean isOpen;
@@ -34,7 +35,8 @@ public class Room{
         this.roomId = String.format("ROOM%4s", id).replace(' ', '0');        
         this.buyers = new ArrayList<Buyer>();
         this.isOpen = false;
-        this.catalog = new HashMap<>();
+        // this.catalog = new HashMap<>();
+        this.catalog = new Catalog();
         this.dateOpen = LocalDate.now();
         this.timeOpen = LocalTime.now();
         id++;
@@ -49,14 +51,14 @@ public class Room{
         this.roomTitle = roomTitle;
     }
  
-    public Room(String roomTitle, MapInterface<String,Product> catalog, Seller seller) {
+    public Room(String roomTitle, Catalog catalog, Seller seller) {
         this();
         this.roomTitle = roomTitle;
         this.catalog = catalog;
         this.seller = seller;
     }
 
-    public Room(String roomTitle, MapInterface<String,Product> catalog, Seller seller, LocalDate dateOpen, LocalTime timeOpen) {
+    public Room(String roomTitle, Catalog catalog, Seller seller, LocalDate dateOpen, LocalTime timeOpen) {
         this();
         this.roomTitle = roomTitle;
         this.catalog = catalog;
@@ -126,7 +128,7 @@ public class Room{
         return buyers;
     }
 
-    public MapInterface<String, Product> getCatalog() {
+    public Catalog getCatalog() {
         return catalog;
     }
 
@@ -164,13 +166,9 @@ public class Room{
         this.buyers = buyers;
     }
 
-    public void setCatalog(MapInterface<String,Product> catalog) {
+    public void setCatalog(Catalog catalog) {
         this.catalog = catalog;
-    }
-
-    public void addCatalogProduct(String keywordProduct, Product product) {
-        this.catalog.put(keywordProduct, product);
-    }
+    }    
 
     public void setRoomId(String roomId) {
         this.roomId = roomId;

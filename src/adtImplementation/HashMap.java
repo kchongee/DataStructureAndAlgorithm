@@ -98,6 +98,11 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     }
 
     @Override
+    public void putAll(LinkedHashMap map) {
+
+    }
+
+
     public void putAll() {
 
     }

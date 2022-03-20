@@ -19,7 +19,7 @@ import entity.Notification;
 import entity.NotificationHolder;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-import adtImplementation.StackLinkedList;
+import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.StackInterface;
@@ -32,17 +32,18 @@ import view.WelcomeView;
 
 public class App {
     public static Scanner scanner = new Scanner(System.in);
-    public static StackLinkedList<Consumer<String>> history = new StackLinkedList<Consumer<String>>();
+    public static LinkedStack<Consumer<String>> history = new LinkedStack<Consumer<String>>();
     public static Account currentUser = new Account();
     public static Account buyer = new Buyer();
     public static Account seller = new Seller();
     public static AccountList accountList = new AccountList(100);
     public static NotificationHolder notificationList = new NotificationHolder(100);
-    public static StackInterface<Notification> inbox = new StackLinkedList<Notification>();
+    public static StackInterface<Notification> inbox = new LinkedStack<Notification>();
     public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
 
-    static{
+    static{        
+        currentUser = seller;
         Product pr1 = new Product("title1", 20, "description1");
         Product pr2 = new Product("title2", 30, "description2");
         Product pr3 = new Product("title3", 40, "description3");
@@ -72,7 +73,7 @@ public class App {
         ((Buyer)buyer).receiveNotification(n1);
         // ((Buyer)buyer).receiveNotification(n2);
 
-        currentUser = buyer;
+        // currentUser = buyer;
                 
         ((Buyer)buyer).checkoutCart((Seller)seller);                
 
@@ -317,7 +318,7 @@ public class App {
 
     public static LocalDate promptDateInput(String text){
         String format = "(yyyy-MM-dd)";
-        System.out.print(text+" "+format);
+        System.out.print(text+" "+format+": ");
         String inputDate = "";                
         LocalDate date = LocalDate.now();
         try {
@@ -333,7 +334,7 @@ public class App {
 
     public static LocalTime promptTimeInput(String text){
         String format = "(hh:mm:ss)";
-        System.out.print(text+" "+format);
+        System.out.print(text+" "+format+": ");
         String inputTime = ""; 
         LocalTime time = LocalTime.now();                  
         try {

@@ -14,6 +14,16 @@ public class Buyer extends Account{
         this.inbox = new Inbox();
     }
 
+    public Buyer(Account acc){
+        super.setAccountID(acc.getAccountID());        
+        super.setAddress(acc.getAddress());
+        super.setEmail(acc.getEmail());        
+        super.setIsSeller(acc.getIsSeller());
+        super.setName(acc.getName());
+        super.setUserName(acc.getUserName());
+        super.setUserPwd(acc.getUserPwd());
+    }
+
     public ListInterface<Invoice> getInvoices() {
         return invoices;
     }
@@ -39,11 +49,8 @@ public class Buyer extends Account{
     }
 
     public void receiveNotification(Notification notification){
-        this.inbox.addNotification(notification);
-    }
-
-    public void readNotification(int numbering){
-        this.inbox.openNotificationByIndex(numbering-1);
+        // this.inbox.addNotification(notification);
+        this.inbox.pushNotification(notification);
     }    
 
     public void addInvoice(Invoice invoice){

@@ -173,9 +173,11 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
     @Override
-    public void putAll() {
+    public void putAll(LinkedHashMap map) {
 
     }
+
+
 
     public void putAll(MapInterface<K,V> map) {
 

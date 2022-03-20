@@ -28,7 +28,7 @@ public class BuyerInboxView {
         }
 
         if(notifications.size()>0){
-            menuOptions.add(new Option("View notification detail", i-> goToPage(ii->BuyerNotificationView.main())));
+            menuOptions.add(new Option("Open notification", i-> goToPage(ii->BuyerNotificationView.main())));
         }
     }
 

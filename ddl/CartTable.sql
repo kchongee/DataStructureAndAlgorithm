@@ -10,6 +10,9 @@ create table Cart(
     primary key(cartID)
 );
 
+INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A01','A50',false,NULL,NULL,NULL);
+INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A01','A17',false,NULL,NULL,NULL);
+INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A01','A19',false,NULL,NULL,NULL);
 INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A755','A50',false,'17/6/2021','21:37',NULL);
 INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A347','A50',false,'13/7/2021','15:44',NULL);
 INSERT INTO Cart(buyerID,sellerID,isCheckout,checkoutDate,checkoutTime,paymentMethod) VALUES ('A25','A50',false,'6/8/2021','15:45',NULL);
