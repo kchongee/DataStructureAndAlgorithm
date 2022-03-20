@@ -8,20 +8,16 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 import adtImplementation.HashMap;
-import adtImplementation.HashMapEe;
 import UtilityClasses.jdbcUtil;
 import entity.Account;
 import entity.AccountList;
 import entity.Buyer;
 import entity.BuyerProduct;
 import entity.Notification;
-import entity.Notification;
 import entity.NotificationHolder;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
 import adtInterfaces.StackInterface;
 import entity.Option;
 import entity.Invoice;
@@ -53,12 +49,7 @@ public class App {
 
         seller.setName("Jessy");
         ((Seller)seller).getVoucher().setMinSpend(100);
-        ((Seller)seller).getVoucher().setDiscountPercentage(10);        
-
-        // MapInterface<String,Product> prHashMap = new HashMap<>();
-        // prHashMap.put("prr1",pr1);
-        // prHashMap.put("prr2",pr1);
-        // ((Seller)seller).createRoom(new Room("roomTitle", prHashMap, (Seller)seller));
+        ((Seller)seller).getVoucher().setDiscountPercentage(10);
 
         BuyerProduct bp1 = new BuyerProduct(pr1, 5);
         BuyerProduct bp2 = new BuyerProduct(pr2, 15);
