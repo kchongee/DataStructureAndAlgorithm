@@ -66,7 +66,7 @@ public class Inbox{
         return inboxStack.size()>0?Notification.displayAll(inboxStack):"There is nothing inside inbox.\n";
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Seller newSeller = new Seller();
         newSeller.setName("Khoo");        
         Notification notification1 = new Notification("title", "message111  11", newSeller);
@@ -81,5 +81,5 @@ public class Inbox{
         Buyer buyer = new Buyer();        
         System.out.println(notifications);
 
-    }
+    }*/
 }
