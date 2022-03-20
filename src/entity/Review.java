@@ -79,7 +79,7 @@ public class Review
          """
          insert into roomreview (accountID, roomID, star, reviewMsg, revTime) 
          values ('%s',%s,%s,'%s','%s') on duplicate key update star = %s, reviewMsg='%s', revTime='%s';
-         """, account.getAccountID(), room.getRoomId(), star, reviewMsg, revTime, star, reviewMsg, revTime
+         """, account.getAccountID(), room.getRoomID(), star, reviewMsg, revTime, star, reviewMsg, revTime
         );
 
 

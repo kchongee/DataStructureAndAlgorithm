@@ -82,7 +82,7 @@ public class ReviewList implements Comparable<ReviewList>
                                 SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
                                 FROM   RoomReview r, account acc
                                 WHERE  roomID=%s AND r.accountID = acc.accountID;
-                                """, room.getRoomId()
+                                """, room.getRoomID()
                         );
 
         // debug

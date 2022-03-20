@@ -71,7 +71,7 @@ public class BuyerRoomControlView
             Like.showDiscourage();
         }
 
-        int roomID = Integer.parseInt(room.getRoomId());
+        int roomID = Integer.parseInt(room.getRoomID());
         if (like.likedBefore(roomID)){
             like.updateDatabase(roomID);
         }else {

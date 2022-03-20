@@ -44,7 +44,7 @@ public class CommentInputPanel implements Launchable
                     account.getAccountID(),
                     DateTimeUtil.localDateToString(comment.getCommentDate()),
                     DateTimeUtil.localTimeToString(comment.getCommentTime()),
-                    room.getRoomId(),
+                    room.getRoomID(),
                     comment.getContent(),
                     Boolean.toString(comment.retrieveMsgData().isEmpty())
                 );

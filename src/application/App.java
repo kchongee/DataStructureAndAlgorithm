@@ -43,7 +43,7 @@ public class App {
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
 
     static{        
-        currentUser = seller;
+        currentUser = buyer;
         Product pr1 = new Product("title1", 20, "description1");
         Product pr2 = new Product("title2", 30, "description2");
         Product pr3 = new Product("title3", 40, "description3");
