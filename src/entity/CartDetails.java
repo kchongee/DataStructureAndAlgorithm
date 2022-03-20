@@ -137,7 +137,7 @@ public class CartDetails implements Comparable<CartDetails> {
         return title.compareTo(o.title);
     }
 
-    public static ArrayList<OrderProduct> bubbleSortQuantity(ArrayList<OrderProduct> op) {
+    public static void bubbleSortQuantity(ArrayList<OrderProduct> op) {
         boolean needNextPass = true;
 
         for (int k = 1; k < op.size() && needNextPass; k++) {
@@ -152,30 +152,35 @@ public class CartDetails implements Comparable<CartDetails> {
                     needNextPass = true;
                 }
             }
-        }return op;
+        }
     }
 
-    public static ArrayList<OrderProduct> bubbleSortTitle(ArrayList<OrderProduct> opTitle) {
+    public static void bubbleSortTitle(ArrayList<OrderProduct> opTitle) {
         boolean needNextPass = true;
 
-        for (int k = 1; k < opTitle.size() && needNextPass; k++) {
+        for (int k = 0; k < opTitle.size() && needNextPass; k++) {
             needNextPass = false;
 
-            for (int i = 0; i < opTitle.size() - k; i++) {
-                char first = opTitle.get(i).getProduct().getTitle().charAt(0);
-                char sec = opTitle.get(i+1).getProduct().getTitle().charAt(0);
-                if (first < sec ) {
+            for (int i = 0; i < opTitle.size() - 1; i++) {
+                String first = opTitle.get(i).getProduct().getTitle();
+                String sec = opTitle.get(i+1).getProduct().getTitle();
+                System.out.print("  first  ="+first);
+                System.out.print("  sec  ="+sec);
+                System.out.print("Compare =" +first.compareTo(sec));
+                if (first.compareTo(sec)> 0) {
+                    System.out.print("Compare =" +first.compareTo(sec));
                     OrderProduct temp = opTitle.get(i);;
                     OrderProduct temp2 =opTitle.get(i+1);
                     opTitle.replace(i, temp2);
                     opTitle.replace(i + 1, temp);
                     needNextPass = true;
+            
                 }
             }
-        }return opTitle;
+        }
     }
 
-    public static ArrayList<OrderProduct> bubbleSortPrice(ArrayList<OrderProduct> opPrice) {
+    public static void bubbleSortPrice(ArrayList<OrderProduct> opPrice) {
         boolean needNextPass = true;
 
         for (int k = 1; k < opPrice.size() && needNextPass; k++) {
@@ -188,25 +193,28 @@ public class CartDetails implements Comparable<CartDetails> {
                     opPrice.replace(i, temp2);
                     opPrice.replace(i + 1, temp);
                     needNextPass = true;
+                    
                 }
             }
-        }return opPrice;
+        }
     }
-
-
 
     public static void main(String[] args) {
         ArrayList<OrderProduct> op = new ArrayList<OrderProduct>();
-        op.add(new OrderProduct(new Product("Milo", 12, "bla"), 6));
+        op.add(new OrderProduct(new Product("milo", 12, "bla"), 6));
         op.add(new OrderProduct(new Product("cookies", 2.50, "bla2"), 4));
         op.add(new OrderProduct(new Product("cup", 5, "bla3"), 1));
+        op.add(new OrderProduct(new Product("acccc", 12, "bla"), 6));
+        op.add(new OrderProduct(new Product("bo", 2.50, "bla2"), 4));
+        op.add(new OrderProduct(new Product("zbr", 5, "bla3"), 1));
         //op = CartDetails.bubbleSortQuantity(op);
-        //op = CartDetails.bubbleSortTitle(op);
-        CartDetails.bubbleSortPrice(op);
+        //CartDetails.bubbleSortTitle(op);
+        //System.out.println("temp" + new Integer(1));
+        //CartDetails.bubbleSortPrice(op);
         // for (int i = 0; i < op.size(); i++) {
         //     System.out.print(op.toString());
         // }
-        System.out.print(op.toString());
+        //System.out.print(op.toString());
     }
     
 
