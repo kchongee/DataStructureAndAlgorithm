@@ -15,7 +15,7 @@ import entity.Option;
 
 public class BuyerInboxView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
-    public static DequeInterface<Notification> notifications = new LinkedDeque<>();
+    public static DequeInterface<Notification> notifications = new LinkedDeque<Notification>();
     public static Inbox inbox;
     
     static {        

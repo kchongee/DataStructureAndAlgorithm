@@ -83,8 +83,7 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {    
-        retrieveAccounts();   
-        retrieveNotifications();         
+        retrieveAccounts();          
         WelcomeView.main();
     }     
     
@@ -103,18 +102,7 @@ public class App {
         } 
     }
 
-    public static void retrieveNotifications(){
-        hashNotifications = jdbcUtil.readAll("SELECT * FROM Notification;");
-
-        for(int i=0;i<hashNotifications.size();i++){      
-            Notification n = new Notification(hashNotifications.get(i).get("notificationID"),
-            hashNotifications.get(i).get("accountID"),
-            hashNotifications.get(i).get("userName"),
-            hashNotifications.get(i).get("message"),
-            hashNotifications.get(i).get("date"));         
-            notificationList.addNotification(n);
-        } 
-    }
+    
 
     public static boolean promptYesOrNo(String promptText){        
         System.out.print(promptText);
