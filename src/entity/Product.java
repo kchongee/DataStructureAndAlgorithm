@@ -46,6 +46,7 @@ public class Product{
 
     public Product(HashMap<String, Object> productMap)
     {
+        this.productId = Integer.toString((Integer) productMap.get("productID"));
         this.title = (String) productMap.get("title");
         this.price = (Double) productMap.get("price");
         this.description = (String) productMap.get("productDesc");

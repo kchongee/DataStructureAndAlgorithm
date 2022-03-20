@@ -68,7 +68,8 @@ public class LinkedHashSet<E> implements Set<E>
     public String toString()
     {
         String set = "{";
-        for (MapInterface.Entry element : mapAsSet){
+        for (MapInterface.Entry element : mapAsSet)
+        {
             set = set + element.getKey() + ", ";
         }
         set = set.substring(0, set.length()-2 > 3 ? set.length()-2: set.length());
@@ -85,8 +86,6 @@ public class LinkedHashSet<E> implements Set<E>
     }
 
 
-
-
     public static void main(String[] args)
     {
         LinkedHashSet<Integer> test = new LinkedHashSet<Integer>();
@@ -96,6 +95,7 @@ public class LinkedHashSet<E> implements Set<E>
         test.add(3);
         test.add(4);
         test.remove(4);
+        test.remove(1);
 
 
         System.out.println(test.toString());

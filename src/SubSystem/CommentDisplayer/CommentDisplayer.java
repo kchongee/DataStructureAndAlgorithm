@@ -30,11 +30,13 @@ public class CommentDisplayer implements Launchable
         while (!CommentQueue.getCommentQueue().isEmpty())
         {
 
-            System.out.println(
-                    CommentQueue.getCommentQueue()
-                            .poll()
-                            .getFormatter()
-                            .toBlockString()
+            System.out.println
+            (
+                CommentQueue
+                .getCommentQueue()
+                .poll()
+                .getFormatter()
+                .toBlockString()
             );
         }
     }
@@ -53,9 +55,6 @@ public class CommentDisplayer implements Launchable
 
 
     // region 004 inner class
-
-
-
     private static class Args
     {
         Account account;
@@ -83,16 +82,22 @@ public class CommentDisplayer implements Launchable
     // endregion
 
 
+    /* Arguments required
+    * accountID
+    * roomID
+    */
 
     // driver
     public static void main(String[] args) throws InterruptedException
     {
-        ProjectCompileUtil.compileAndGenerate(new CommentDisplayer());
         Args arg = null;
 
-        if (args.length != 2) {
+        if (args.length != 2)
+        {   // arg count not 2 => default arguments
             arg = new Args(new String[]{"A1","1"});
-        }else {
+        }
+        else
+        {   // arg count is 2
             arg = new Args(args);
         }
 
@@ -100,6 +105,7 @@ public class CommentDisplayer implements Launchable
         CommentDisplayer cPlayer = new CommentDisplayer(arg.room, arg.account);
         CMD.cls();
         cPlayer.displayComments();
+
         while (true)
         {
             // debug
@@ -119,29 +125,3 @@ public class CommentDisplayer implements Launchable
         }
     }
 }
-
-
-
-//
-//
-//class getLatestComment
-//{
-//    public static void main(String[] args)
-//    {
-//        CommentDisplayer cd = new CommentDisplayer("roomA");
-//        System.out.println(cd.latestCommentFetched.toString());
-//        System.out.println(cd.fetchLatestCommentFromDB().toString());
-//    }
-//}
-//
-//
-//class compareCommentTest
-//{
-//    public static void main(String[] args)
-//    {
-//        CommentDisplayer cd = new CommentDisplayer("roomA");
-//        Comment a = cd.latestCommentFetched;
-//        Comment b = cd.fetchLatestCommentFromDB();
-//        System.out.println(a.compareTo(b));
-//    }
-//}

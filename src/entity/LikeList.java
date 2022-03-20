@@ -26,7 +26,7 @@ public class LikeList implements Comparable<LikeList>
     // region : public method
     public void updateData()
     {
-        fetchLikeDataFromDb();
+        syncLikeDataFromDb();
         classifyLike();
     }
 
@@ -63,7 +63,7 @@ public class LikeList implements Comparable<LikeList>
 
 
     // region : utility method
-    private void fetchLikeDataFromDb()
+    private void syncLikeDataFromDb()
     {
         String query =
                 String.format
@@ -93,16 +93,12 @@ public class LikeList implements Comparable<LikeList>
             {
                 HashMap<String,Object> tempMap = likeDBdata.get(i);
 
-
-
                 Account tempAcc = new Account
                 (
                     (String)  tempMap.get("accountID"),
                     (String)  tempMap.get("userName"),
                     (Integer) tempMap.get("isSeller")
                 );
-
-
 
                 Like tempLike = new Like
                 (
@@ -126,11 +122,16 @@ public class LikeList implements Comparable<LikeList>
 
     public int compareTo(LikeList otherList)
     {
-        if (this.getLikeQty() > otherList.getLikeQty()){
+        if (this.getLikeQty() > otherList.getLikeQty())
+        {
             return 1;
-        }else if (this.getLikeQty() == otherList.getLikeQty()){
+        }
+        else if (this.getLikeQty() == otherList.getLikeQty())
+        {
             return 0;
-        }else {
+        }
+        else
+        {
             return -1;
         }
     }

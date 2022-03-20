@@ -34,7 +34,8 @@ public class CartListView
             int userChoice = App.promptIntInput("Please select a cart >> ");
             boolean containError = userChoice <= 0 || userChoice > maxChoice;
 
-            if (containError) {
+            if (containError)
+            {
                 JOptionPane.showMessageDialog(null, "Please enter number between 1 and " + maxChoice, "Warning", JOptionPane.WARNING_MESSAGE);
             }else{
                 break;
