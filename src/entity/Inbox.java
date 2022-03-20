@@ -1,5 +1,6 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
@@ -56,10 +57,11 @@ public class Inbox{
         this.inboxStack.push(notification);
     }    
 
-    public void openNotification(Notification notification){
+    /*public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
-    }
+            jdbcUtil.executeCUD(String.format("UPDATE Notification SET title=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
+    }*/
 
     @Override
     public String toString() {        

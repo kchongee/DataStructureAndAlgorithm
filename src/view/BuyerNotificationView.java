@@ -3,6 +3,7 @@ package view;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
 import adtInterfaces.DequeInterface;
@@ -75,7 +76,10 @@ public class BuyerNotificationView {
 
     public static void printCurrentNotification(){
         currentNotification = notifications.peekFirst();
+        //((Buyer)App.currentUser).getInbox().openNotification(currentNotification);
         currentNotification.setRead(true);
+        jdbcUtil.executeCUD(String.format("UPDATE Notification SET isRead=%b WHERE notificationID='%s';",true,currentNotification.getNotificationID()));
+
         App.clearScreen();
         System.out.println(currentNotification);
         System.out.println();
