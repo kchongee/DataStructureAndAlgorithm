@@ -72,7 +72,7 @@ public class LikeList implements Comparable<LikeList>
                     SELECT l.accountID, value, acc.isSeller, likeTime, acc.userName
                     FROM   roomlike l, account acc
                     WHERE  roomID=%s AND l.accountID = acc.accountID;
-                    """, room.getRoomId()
+                    """, room.getRoomID()
                 );
 
         likeDBdata = jdbcUtil.readAll(query);

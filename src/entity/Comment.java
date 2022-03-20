@@ -71,7 +71,7 @@ public class Comment implements Comparable<Comment>
                         (
                                 "SELECT count(productID) AS productQty " +
                                 "FROM roomCatalog WHERE roomID=%s",
-                                room.getRoomId()
+                                room.getRoomID()
                         )
         ).get("productQty");
 

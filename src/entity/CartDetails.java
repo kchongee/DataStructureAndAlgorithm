@@ -1,101 +1,126 @@
 package entity;
 
-import adtInterfaces.ListInterface;
+import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
+import adtImplementation.HashMap;
 
-public class CartDetails {
+import javax.swing.*;
 
-    private ListInterface<CartDetails> cartDetailsList;
-    private String cartID;
-    private String productID;
-    Product product;
-    private static int productQty;
-    private double cost;
-    Account account;
 
-    public CartDetails(ListInterface<CartDetails> cartDetailsList, String cartID, String productID, Product product,
-            int productQty, double cost, Account account) {
-        this.cartDetailsList = cartDetailsList;
-        this.cartID = cartID;
-        this.productID = productID;
-        this.product = product;
-        this.productQty = productQty;
-        this.cost = cost;
-        this.account = account;
+public class CartDetails 
+{
+    Cart cart;
+    ArrayList<OrderProduct> cartDetails;
+
+    public CartDetails(Cart cart) 
+    {
+        this.cart = cart;
+        this.cartDetails= new ArrayList<OrderProduct>();
     }
 
-    public ListInterface<CartDetails> getCartDetailsList() {
-        return cartDetailsList;
+    public ArrayList<OrderProduct> getCartDetails() {
+        return cartDetails;
     }
 
-    public void setCartDetailsList(ListInterface<CartDetails> cartDetailsList) {
-        this.cartDetailsList = cartDetailsList;
+    public void setCartDetails(ArrayList<OrderProduct> cartDetails) {
+        this.cartDetails = cartDetails;
     }
 
-    public String getCartID() {
-        return cartID;
-    }
-
-    public void setCartID(String cartID) {
-        this.cartID = cartID;
-    }
-
-    public String getProductID() {
-        return productID;
-    }
-
-    public void setProductID(String productID) {
-        this.productID = productID;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-
-    public static int getProductQty() {
-        return productQty;
-    }
-
-    public void setProductQty(int productQty) {
-        this.productQty = productQty;
-    }
-
-    public double getCost() {
-        return cost;
-    }
-
-    public void setCost(double cost) {
-        this.cost = cost;
-    }
-
-    
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public boolean addProduct(CartDetails inputCartDetails){
-        for (int i=0; i<cartDetailsList.size(); i++){
-            if((inputCartDetails.getProductID().equals(cartDetailsList.get(i).getProductID())) &&
-                (inputCartDetails.getAccount().equals(account.getIsSeller()))) { //isSeller
-                return false;
-            } 
+    public boolean addQuantity(int index, int quantity)
+    {
+        boolean valid = quantity > 0;
+        if (valid){
+            int qty = cartDetails.get(index).getQuantity();
+            cartDetails.get(index).setQuantity(quantity+qty);
         }
-        boolean added = cartDetailsList.add(inputCartDetails);
-        System.out.println(added);
-        if(added){
-            inputCartDetails.toString();
-        } else{
-            return false;
-        }
-        return true;
+        return valid;
     }
 
+//    public boolean decreaseQuantity(){
+//        if (quantity > cartDetails.get(index).getQuantity()){
+//            return false;
+//        }else if (quantity == cartDetails.get(index).getQuantity()){
+//            removeProduct(index);
+//    }
+
+    public void removeProduct(int index) {
+        cartDetails.remove(index);
+    }
+
+    public void editQuantity(int index, int quantity) {
+        cartDetails.get(index).setQuantity(quantity);
+    }
+
+    public ArrayList<HashMap<String, Object>> fetchCartDetailsFromDb(){
+        String query = String.format(
+                 """
+                    Select P.title, P.price, CD.productQty
+                    From Product P, CartDetails CD
+                    Where P.productID = CD.productID AND cartID=%s;
+                    
+                 """, cart.getCartID()
+        );
+
+        // dead bug
+        // System.out.println(query);
+
+        return jdbcUtil.readAll(query);
+        
+    }
+
+    public void syncCartDetails()
+    {
+        cartDetails.clear();
+        ArrayList<HashMap<String, Object>> productDetails =  fetchCartDetailsFromDb() ;
+        for (int i=0; i<productDetails.size(); i++){
+            String title = (String)productDetails.get(i).get("title");
+            double price = (double)productDetails.get(i).get("price");
+            int qty = (Integer)productDetails.get(i).get("productQty");
+            OrderProduct op = new OrderProduct(new Product(title,price),qty);
+            cartDetails.add(op);
+        }
+    }
+
+    @Override
+    public String toString() {
+
+        String header = String.format("%-5s %-40s %-10s %-10s %-10s","No.", "Product Title", "Price", "Qty", "Subtotal");
+        String completeString= header+"\n";
+        for (int i = 0; i < cartDetails.size(); i++) {
+            OrderProduct tempOrder = cartDetails.get(i);
+            String productTitle = tempOrder.getProduct().getTitle();
+            double productPrice = tempOrder.getProduct().getPrice();
+            int productQty = tempOrder.getQuantity();
+            double subtotal = productPrice * productQty;
+            String tempString = String.format("%-5s %-40s %-10s %-10s RM %-10.2f",i+1, productTitle, productPrice, productQty, subtotal);
+            completeString = completeString+tempString+"\n";
+        } 
+       
+        return completeString + "\n" + strAction();
+    }
+
+    public String strAction()
+    {
+        return
+                """
+                [1] add product quantity
+                [2] decrease product quantity
+                [2] remove product
+                [3] sort by title
+                [4] sort by price
+                [5] sort by quantity
+                [6] checkout
+                [7] exit
+                """;
+    }
+
+    /*
+    public static void main(String[] args) {
+        CartDetails cd = new CartDetails( );
+        cd.fetchCartDetailsFromDb(1);
+        cd.syncCartDetails(1);
+        System.out.print(cd.toString());
+    }
+    */
     
 }

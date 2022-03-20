@@ -61,6 +61,8 @@ public class BuyerRoomControlView
         System.out.println(likeVal);
 
         Like like = new Like(account, likeVal, DateTimeUtil.localTimeNow());
+
+
         if (like.getValue().equals("LIKE")){
             Like.showAppreciate();
         }else if (like.getValue().equals("NO COMMENT")){
@@ -68,7 +70,8 @@ public class BuyerRoomControlView
         }else {
             Like.showDiscourage();
         }
-        int roomID = Integer.parseInt(room.getRoomId());
+
+        int roomID = Integer.parseInt(room.getRoomID());
         if (like.likedBefore(roomID)){
             like.updateDatabase(roomID);
         }else {

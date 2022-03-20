@@ -113,6 +113,12 @@ public class Catalog
     }
 
 
+    public static void uploadCatalogToDatabase()
+    {
+
+    }
+
+
     // region : getters setters
     public ArrayList<Product> getProductList() {
         return productList;

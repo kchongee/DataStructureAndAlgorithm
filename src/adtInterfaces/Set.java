@@ -8,7 +8,7 @@ public interface Set<E>
     public int size();
     public boolean isEmpty();
     public boolean contains(E o);
-    public Iterator<E> iterator();
+    // public Iterator<E> iterator();
     public E[] toArray();
     public boolean add(E e);
     public boolean remove(E o);

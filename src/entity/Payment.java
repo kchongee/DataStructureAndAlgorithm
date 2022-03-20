@@ -2,34 +2,42 @@ package entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Scanner;
+
+import UtilityClasses.DateTimeUtil;
+import UtilityClasses.jdbcUtil;
 
 public class Payment {
-    static Product product;
-    CartDetails cartDetails;
-    private String paymentID;
+    Cart cart;
     private boolean isCheckout;
     private LocalDate checkOutDate;
     private LocalTime checkOutTime;
     private String paymentMethod;
-    private static double overAllPrice;
 
-    public Payment(String paymentID, boolean isCheckout, LocalDate checkOutDate, LocalTime checkOutTime,
-            String paymentMethod, double overAllPrice) {
-        this.paymentID = paymentID;
+    public Payment(Cart cart) {
+        this.cart = cart;
+    }
+
+    public Payment(LocalDate checkOutDate, LocalTime checkOutTime, String paymentMethod) {
+        this.checkOutDate = checkOutDate;
+        this.checkOutTime = checkOutTime;
+        this.paymentMethod = paymentMethod;
+    }
+
+    public Payment(Cart cart, boolean isCheckout, LocalDate checkOutDate, LocalTime checkOutTime,
+            String paymentMethod) {
+        this.cart = cart;
         this.isCheckout = isCheckout;
         this.checkOutDate = checkOutDate;
         this.checkOutTime = checkOutTime;
         this.paymentMethod = paymentMethod;
-        this.overAllPrice = overAllPrice;
     }
 
-    public String getPaymentID() {
-        return paymentID;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setPaymentID(String paymentID) {
-        this.paymentID = paymentID;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public boolean isCheckout() {
@@ -64,47 +72,33 @@ public class Payment {
         this.paymentMethod = paymentMethod;
     }
 
-    public double getOverAllPrice() {
-        return overAllPrice;
-    }
-
-    public void setOverAllPrice(double overAllPrice) {
-        this.overAllPrice = overAllPrice;
-    }
-
-    public static void main() {
-
-        Scanner scan = new Scanner(System.in);
-        overAllPrice += (product.getPrice() * CartDetails.getProductQty());
-        System.out.println("Please choose one of the payment method below to process: ");
-        System.out.println("1. Credit Card ");
-        System.out.println("2. Online Banking or Debit Card");
-        System.out.println("3. E-wallet ");
-        System.out.print("Method selected: ");
-        int paymentMethod = scan.nextInt();
-
-        switch (paymentMethod) {
-            case 1:
-                System.out.println("Process with Credit card");
-                System.out.println("Your payment: RM"+ overAllPrice);
-                System.out.println("Payment successful");
-                break;
-            case 2:
-                System.out.println("Process with Online Banking or Debit card");
-                System.out.println("Your payment: RM"+ overAllPrice);
-                System.out.println("Payment successful");
-                break;
-            case 3:
-                System.out.println("E-wallet");
-                System.out.println("Your payment: RM"+ overAllPrice);
-                System.out.println("Payment successful");
-                break;
-
+    public double calcTotalPrice(){
+        double total=0;
+        for (int i=0; i<cart.getProductList().getCartDetails().size(); i++){
+            double productPrice = cart.getProductList().getCartDetails().get(i).getProduct().getPrice();
+            double productQty = cart.getProductList().getCartDetails().get(i).getQuantity();
+            total += productPrice*productQty;
         }
-        scan.close();
-
+        return total;
     }
-  
+
+    public void updateCart (int cartID){
+        String query = String.format(
+                 """
+                    update Cart
+                    set isCheckout=True, checkoutDate='%s', checkoutTime='%s', paymentMethod='%s'
+                    where cartID =%s;
+
+                 """, DateTimeUtil.strDateNow(), DateTimeUtil.strTimeNow(), this.paymentMethod, cartID
+        );
+        jdbcUtil.executeCUD(query);
+    }
+
+    public static void main(String[] args) {
+        Payment py = new Payment(new Cart(1));
+        py.setPaymentMethod("Credit Card");
+        py.updateCart(1);
+        
+    }
+
 }
-
-

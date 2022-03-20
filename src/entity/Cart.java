@@ -4,17 +4,22 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 
+import static entity.Invoice.cartDetails;
+
 public class Cart {
+    int cartID;
     private ListInterface<BuyerProduct> cartProducts;
-    CartDetails cartID;
-    Buyer buyerID;
-    Seller sellerID;
+    CartDetails productList;
+    Account buyer;
+    Account seller;
     Payment payment;
     
 
     public Cart(){
         clearProducts();
     }
+
+
 
     public ListInterface<BuyerProduct> getCartProducts() {
         return cartProducts;
@@ -42,38 +47,54 @@ public class Cart {
         return products;
     }
 
-    public Cart(CartDetails cartID, Buyer buyerID, Seller sellerID, Payment payment) {
+    public Cart(Account buyer, Account seller, int cartID, CartDetails productList)
+    {
+        this.buyer = buyer;
+        this.seller = seller;
         this.cartID = cartID;
-        this.buyerID = buyerID;
-        this.sellerID = sellerID;
-        //this.isCheckout = isCheckout;
-        //this.commentDate = commentDate;
-        //this.commentTime = commentTime;
-        this.payment = payment;
+        this.productList = productList;
     }
 
-    public CartDetails getCartID() {
+    public Cart(int cartID, Account seller)
+    {
+        this.cartID = cartID;
+        this.seller = seller;
+    }
+
+    public Cart (int cartID){
+        this.cartID = cartID;
+    }
+
+    public int getCartID() {
         return cartID;
     }
 
-    public void setCartID(CartDetails cartID) {
+    public void setCartID(int cartID) {
         this.cartID = cartID;
     }
 
-    public Buyer getBuyerID() {
-        return buyerID;
+    public CartDetails getProductList() {
+        return productList;
     }
 
-    public void setBuyerID(Buyer buyerID) {
-        this.buyerID = buyerID;
+    public void setProductList(CartDetails productList) {
+        this.productList = productList;
     }
 
-    public Seller getSellerID() {
-        return sellerID;
+    public Account getBuyer() {
+        return buyer;
     }
 
-    public void setSellerID(Seller sellerID) {
-        this.sellerID = sellerID;
+    public void setBuyer(Account buyer) {
+        this.buyer = buyer;
+    }
+
+    public Account getSeller() {
+        return seller;
+    }
+
+    public void setSeller(Account seller) {
+        this.seller = seller;
     }
 
     public Payment getPayment() {
@@ -84,11 +105,18 @@ public class Cart {
         this.payment = payment;
     }
 
-    
-    
-   
-    
+    /*
+    public static void main(String[] args) {
+        Account acc = new Account("A01");
+        Account accSeller  = new Account ("S01");
+        ArrayList<OrderProduct> cp = new ArrayList<OrderProduct>();
+        cp.add(new OrderProduct(new Product("Milo", 12, "bla"),1 ));
+        cp.add(new OrderProduct(new Product("cookies", 2.50, "bla2"),1 ));
+        cp.add(new OrderProduct(new Product("cup", 5, "bla3"),1 ));
+        Cart cart1 = new Cart(acc, accSeller, 1, cp);
+        System.out.print(cart1.toString());
 
-    
-    
+    }
+    */
+
 }
