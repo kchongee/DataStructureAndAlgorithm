@@ -38,7 +38,7 @@ public class App {
     public static Account seller = new Seller();
     public static AccountList accountList = new AccountList(100);
     public static NotificationHolder notificationList = new NotificationHolder(100);
-    public static StackInterface<Notification> inbox = new LinkedStack<Notification>();
+    //public static StackInterface<Notification> inbox = new LinkedStack<Notification>();
     public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
 
@@ -68,14 +68,14 @@ public class App {
         ((Buyer)buyer).addProductToCart(bp2);
         ((Buyer)buyer).addProductToCart(bp3);
         
-        Notification n1 = new Notification("yoyo", "lloll", (Seller)seller);
+        //Notification n1 = new Notification("yoyo", "lloll", (Seller)seller);
         // Notification n2 = new Notification("yoyo2", "laoll", (Seller)seller);
-        ((Buyer)buyer).receiveNotification(n1);
+        //((Buyer)buyer).receiveNotification(n1);
         // ((Buyer)buyer).receiveNotification(n2);
 
         // currentUser = buyer;
                 
-        ((Buyer)buyer).checkoutCart((Seller)seller);                
+        //((Buyer)buyer).checkoutCart((Seller)seller);                
 
         // ListInterface<BuyerProduct> orderProducts = new ArrayList<>();
         // orderProducts.add(bp1);
@@ -102,8 +102,6 @@ public class App {
             accountList.addAccount(a);
         } 
     }
-
-    
 
     public static boolean promptYesOrNo(String promptText){        
         System.out.print(promptText);

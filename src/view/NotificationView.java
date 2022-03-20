@@ -1,4 +1,4 @@
-package view;
+/*package view;
 
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
@@ -15,7 +15,7 @@ public class NotificationView {
         App.history.push(i -> BuyerHomeView.main());
 
         retrieveNotifications();;
-        
+
         for(int i=0;i<App.notificationList.getNotificationHolder().size();i++){
             if(App.currentUser.getAccountID().equals(App.notificationList.grabNotification(i).getAccountID())){
                 App.inbox.push(App.notificationList.grabNotification(i));
@@ -46,4 +46,4 @@ public class NotificationView {
             App.notificationList.addNotification(n);
         } 
     }
-}
+}*/

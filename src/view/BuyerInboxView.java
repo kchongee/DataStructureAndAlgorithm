@@ -3,6 +3,7 @@ package view;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedDeque;
 import adtInterfaces.DequeInterface;
@@ -18,7 +19,10 @@ public class BuyerInboxView {
     public static DequeInterface<Notification> notifications = new LinkedDeque<Notification>();
     public static Inbox inbox;
     
-    static {        
+    static {   
+        
+        //retrieveNotifications();
+
         inbox = ((Buyer)App.currentUser).getInbox();    
 
         Iterator<Notification> notificationIterator = inbox.getNotifications().iterator();
@@ -53,5 +57,20 @@ public class BuyerInboxView {
     public static void goToPage(Consumer<String> page){
         App.history.push(i -> main());
         page.accept("t");
+    }
+
+    public static void retrieveNotifications(){
+        App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
+
+        for(int i=0;i<App.hashNotifications.size();i++){      
+            Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
+            App.hashNotifications.get(i).get("accountID"),
+            App.hashNotifications.get(i).get("Name"),
+            App.hashNotifications.get(i).get("title"),
+            App.hashNotifications.get(i).get("message"),
+            App.hashNotifications.get(i).get("date"),
+            App.hashNotifications);         
+            ((Buyer)App.currentUser).getInbox().pushNotification(n);
+        } 
     }
 }
