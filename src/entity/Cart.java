@@ -7,12 +7,12 @@ import application.App;
 import static entity.Invoice.cartDetails;
 
 public class Cart {
-    int cartID;
+    private int cartID;
     private ListInterface<BuyerProduct> cartProducts;
-    CartDetails productList;
-    Account buyer;
-    Account seller;
-    Payment payment;
+    private CartDetails productList;
+    private Account buyer;
+    private Account seller;
+    private Payment payment;
     
 
     public Cart(){

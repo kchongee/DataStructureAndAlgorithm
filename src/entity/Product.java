@@ -7,36 +7,27 @@ import adtInterfaces.ListInterface;
 import application.App;
 
 public class Product{
-    private String productId;
+    private String productID;
     private String title;
     private double price;
-    private String description;    
-    private String category;
+    private String description;        
     private static int id = 0;
 
     public Product(String title, double price, String description){
-        this.productId = String.format("PROD%4s", id).replace(' ', '0');   
+        this.productID = String.format("PROD%4s", id).replace(' ', '0');   
         this.title = title;
         this.price = price;
         this.description = description;
         id++;
     }    
 
-    public String getProductId() {
-        return productId;
+    public String getProductID() {
+        return productID;
     }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+ 
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }                
     
     public Product(String title, double price){
         this.title = title;
@@ -46,6 +37,7 @@ public class Product{
 
     public Product(HashMap<String, Object> productMap)
     {
+        this.productID = Integer.toString((Integer) productMap.get("productID"));
         this.title = (String) productMap.get("title");
         this.price = (Double) productMap.get("price");
         this.description = (String) productMap.get("productDesc");

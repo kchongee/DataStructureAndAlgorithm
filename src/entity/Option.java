@@ -25,7 +25,7 @@ public class Option{
         return this;
     }    
 
-    public Option changeFunction(Consumer<String> function) {
+    public Option setFunction(Consumer<String> function) {
         this.function = function;
         return this;
     }

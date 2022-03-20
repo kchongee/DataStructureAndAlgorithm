@@ -10,10 +10,11 @@ import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.QueueInterface;
 
-public class Room{    
+public class Room
+{
     private Seller seller;
-    private String roomId,roomTitle;    
-    private ListInterface<Buyer> likes;
+    private String roomID,roomTitle;    
+    // private ListInterface<Buyer> likes;
     private ListInterface<Buyer> buyers;
     private QueueInterface<Comment> comments;    
     // private MapInterface<String,Product> catalog;
@@ -32,7 +33,7 @@ public class Room{
 
     // region : constructors
     public Room(){        
-        this.roomId = String.format("ROOM%4s", id).replace(' ', '0');        
+        this.roomID = String.format("ROOM%4s", id).replace(' ', '0');        
         this.buyers = new ArrayList<Buyer>();
         this.isOpen = false;
         // this.catalog = new HashMap<>();
@@ -42,12 +43,12 @@ public class Room{
         id++;
     }
 
-    public Room(String roomId){
-        this.roomId = roomId;
+    public Room(String roomID){
+        this.roomID = roomID;
     }
 
-    public Room(String roomId, String roomTitle) {
-        this.roomId = roomId;
+    public Room(String roomID, String roomTitle) {
+        this.roomID = roomID;
         this.roomTitle = roomTitle;
     }
  
@@ -67,9 +68,9 @@ public class Room{
         this.timeOpen = timeOpen;
     }
 
-    public Room(String roomId, String roomTitle, boolean isOpen)
+    public Room(String roomID, String roomTitle, boolean isOpen)
     {
-        this.roomId = roomId;
+        this.roomID = roomID;
         this.roomTitle = roomTitle;
         this.isOpen = isOpen;
         this.likeList = new LikeList(this);
@@ -78,27 +79,27 @@ public class Room{
     // endregion
 
 
-    public String getRoomId() {
-        return roomId;
+    public String getRoomID() {
+        return roomID;
     }    
 
-    public boolean addLike(Buyer buyer){
-        int buyerIndex = likes.get(buyer);
-        if(buyerIndex==-1){
-            likes.add(buyer);
-            return true;
-        }
-        return false;
-    }
+    // public boolean addLike(Buyer buyer){
+    //     int buyerIndex = likes.get(buyer);
+    //     if(buyerIndex==-1){
+    //         likes.add(buyer);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    public boolean removeLike(Buyer buyer){
-        int buyerIndex = likes.get(buyer);
-        if(buyerIndex!=-1){
-            likes.remove(buyerIndex);
-            return true;
-        }        
-        return false;
-    }
+    // public boolean removeLike(Buyer buyer){
+    //     int buyerIndex = likes.get(buyer);
+    //     if(buyerIndex!=-1){
+    //         likes.remove(buyerIndex);
+    //         return true;
+    //     }        
+    //     return false;
+    // }
 
 //    public boolean addComment(Account acc, String text){
 //        Comment comment = new Comment(acc, text);
@@ -120,9 +121,9 @@ public class Room{
 
 
     //region: getter setters
-    public ListInterface<Buyer> getLikes() {
-        return likes;
-    }
+    // public ListInterface<Buyer> getLikes() {
+    //     return likes;
+    // }
 
     public ListInterface<Buyer> getBuyers() {
         return buyers;
@@ -157,9 +158,9 @@ public class Room{
     }
 
 
-    public void setLikes(ListInterface<Buyer> likes) {
-        this.likes = likes;
-    }
+    // public void setLikes(ListInterface<Buyer> likes) {
+    //     this.likes = likes;
+    // }
 
 
     public void setBuyers(ListInterface<Buyer> buyers) {
@@ -170,8 +171,8 @@ public class Room{
         this.catalog = catalog;
     }    
 
-    public void setRoomId(String roomId) {
-        this.roomId = roomId;
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
     }
 
 
@@ -220,11 +221,11 @@ public class Room{
         String query =
                 String.format(
                 """
-                SELECT title, productDesc, price
+                SELECT p.productID,title, productDesc, price
                 FROM   product p, roomCatalog rc
                 WHERE  p.productID = rc.productID AND rc.roomID=%s
                 ORDER BY rc.productID;
-                """,roomId
+                """,roomID
                 );
 
         // debug
@@ -245,9 +246,9 @@ public class Room{
     @Override
     public String toString() {
         return "Room{" +
-                "roomId='" + roomId + '\'' +
+                "roomID='" + roomID + '\'' +
                 ", roomTitle='" + roomTitle + '\'' +
-                ", likes=" + likes +
+                // ", likes=" + likes +
                 ", buyers=" + buyers +
                 ", comments=" + comments +
                 ", catalog=" + catalog +

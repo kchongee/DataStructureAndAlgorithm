@@ -1,5 +1,6 @@
 package view;
 
+import UI.CatalogUI;
 import UtilityClasses.CMD;
 import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.ArrayList;
@@ -11,6 +12,8 @@ import entity.Product;
 public class CatalogEditorView
 {
     private Catalog catalog;
+    private CatalogUI catalogUI;
+
     private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]
     {
             new Option(i->displayAddForm()),
@@ -24,6 +27,7 @@ public class CatalogEditorView
 
     public CatalogEditorView(Catalog catalog) {
         this.catalog = catalog;
+        this.catalogUI = new CatalogUI(this.catalog);
     }
 
 
@@ -33,9 +37,9 @@ public class CatalogEditorView
         boolean userWantAddProduct = true;
         while (userWantAddProduct)
         {
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             catalog.add(sellerProductData());
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             userWantAddProduct = App.promptYesOrNo("Successfully added! add again? (y/n) >>> ");
         }
         App.clearScreen();
@@ -48,12 +52,12 @@ public class CatalogEditorView
         while (userWantDeleteProduct)
         {
             /*
-            Problem
+            ProblemCo
             Statement : Input exeption handling
              */
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             catalog.delete(productNoToDelete()-1);
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             userWantDeleteProduct = App.promptYesOrNo("Successfully deleted! delete again? (y/n) >>> ");
         }
         App.clearScreen();
@@ -65,9 +69,9 @@ public class CatalogEditorView
         boolean userWantInsertData = true;
         while (userWantInsertData)
         {
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             catalog.insertBelow(productNoToInsertBelow()-1, sellerProductData());
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             userWantInsertData = App.promptYesOrNo("Successfully inserted! insert again? (y/n) >>> ");
         }
         App.clearScreen();
@@ -79,9 +83,9 @@ public class CatalogEditorView
         boolean userWantEditData = true;
         while (userWantEditData)
         {
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             catalog.replace(productNoToDelete()-1, sellerProductData());
-            catalog.displayCatalog();
+            catalogUI.displayCatalogString();
             userWantEditData = App.promptYesOrNo("Successfully edited! edit again? (y/n) >>> ");
         }
         App.clearScreen();
@@ -138,7 +142,7 @@ public class CatalogEditorView
     // region : main
     public void main()
     {
-        this.catalog.displayCatalog();
+        this.catalogUI.displayCatalogString();
         this.catalog.displayActionPane();
         System.out.println("\n");
         int number = App.promptIntInput("Select an action >>> ");

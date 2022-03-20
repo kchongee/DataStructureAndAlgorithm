@@ -43,7 +43,7 @@ public class App {
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
 
     static{        
-        currentUser = seller;
+        // currentUser = seller;
         Product pr1 = new Product("title1", 20, "description1");
         Product pr2 = new Product("title2", 30, "description2");
         Product pr3 = new Product("title3", 40, "description3");
@@ -51,7 +51,7 @@ public class App {
         ((Seller)seller).addProduct(pr2);
         ((Seller)seller).addProduct(pr3);
 
-        seller.setName("Jessy");
+        seller.setUserName("Jessy");
         ((Seller)seller).getVoucher().setMinSpend(100);
         ((Seller)seller).getVoucher().setDiscountPercentage(10);        
 
@@ -68,14 +68,14 @@ public class App {
         ((Buyer)buyer).addProductToCart(bp2);
         ((Buyer)buyer).addProductToCart(bp3);
         
-        //Notification n1 = new Notification("yoyo", "lloll", (Seller)seller);
-        // Notification n2 = new Notification("yoyo2", "laoll", (Seller)seller);
-        //((Buyer)buyer).receiveNotification(n1);
-        // ((Buyer)buyer).receiveNotification(n2);
+        Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
+        Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
+        ((Buyer)buyer).receiveNotification(n1);
+        ((Buyer)buyer).receiveNotification(n2);
 
-        // currentUser = buyer;
+        currentUser = buyer;
                 
-        //((Buyer)buyer).checkoutCart((Seller)seller);                
+        ((Buyer)buyer).checkoutCart((Seller)seller);                
 
         // ListInterface<BuyerProduct> orderProducts = new ArrayList<>();
         // orderProducts.add(bp1);

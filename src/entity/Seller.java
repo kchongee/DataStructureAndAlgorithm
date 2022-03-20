@@ -17,7 +17,8 @@ public class Seller extends Account{
     private Voucher voucher;
     private Notification voucherNotification;
 
-    public Seller(){
+    public Seller()
+    {
         this.products = new ArrayList<Product>();
         this.rooms = new ArrayList<Room>();        
         this.invoices = new ArrayList<Invoice>();

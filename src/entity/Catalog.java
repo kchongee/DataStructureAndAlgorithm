@@ -1,5 +1,6 @@
 package entity;
 import SubSystem.CatalogEditor.CatalogFormatter;
+import UI.CatalogUI;
 import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
 // import adtInterfaces.ListInterface;
@@ -42,9 +43,12 @@ public class Catalog
     public void insertBelow(int number, Product product)
     {
         int index = number;
-        if (index == productList.size()-1) {
+        if (index == productList.size()-1)
+        {   // is last element
             productList.add(product);
-        }else {
+        }
+        else
+        {   // not last element
             productList.add(index+1, product);
         }
     }
@@ -58,7 +62,7 @@ public class Catalog
 
     /*
     * Problem
-    * Statement : Catalog can't be zero product list
+    * Statement : Catalog can't be zero in product list
     **/
 
 
@@ -79,22 +83,12 @@ public class Catalog
         return head + "\n" + content;
     }
 
-
-    public void displayCatalog()
-    {
-        CMD.cls();
-        System.out.println(catalogStr());
-    }
-
-
-    public void displayCatalogOptionPane()
+    public String catalogHtml()
     {
         String catalogHTML = catalogStr().replace("\n", "<br>");
         catalogHTML = catalogHTML.replace(" ", "&nbsp;");
         catalogHTML= "<html>" + catalogHTML +"</html>";
-        JLabel label = new JLabel(catalogHTML);
-        label.setFont(new Font("Consolas", Font.BOLD, 16));
-        JOptionPane.showMessageDialog(null, label);
+        return catalogHTML;
     }
 
 
@@ -108,7 +102,8 @@ public class Catalog
     public static void main(String[] args)
     {
         Catalog catalog = new Catalog();
-        catalog.displayCatalog();
+        CatalogUI ui = new CatalogUI(catalog);
+        ui.displayCatalogString();
         catalog.displayActionPane();
     }
 

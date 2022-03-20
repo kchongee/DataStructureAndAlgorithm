@@ -4,12 +4,24 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
 public class BuyerProduct {
+    private String buyerProductID;
     private Product product;
     private int quantity;    
+    private static int id = 1;
 
     public BuyerProduct(Product product, int quantity) {
+        this.buyerProductID = String.format("BP%4s", id).replace(' ', '0');
         this.product = product;
         this.quantity = quantity;
+        id++;
+    }
+    
+    public String getBuyerProductID() {
+        return buyerProductID;
+    }
+
+    public void setBuyerProductID(String buyerProductID) {
+        this.buyerProductID = buyerProductID;
     }
 
     public Product getProduct() {

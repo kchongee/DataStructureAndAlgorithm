@@ -8,7 +8,7 @@ public class Account {
     private String address;
     private String email;
     private Integer isSeller;
-    static int counter=1;
+    private static int counter=1;
     
 
     public Account(){
@@ -39,6 +39,16 @@ public class Account {
         this.address="";
         this.email=""; 
         this.isSeller=null;  
+    }
+
+    public Account(String accountID, int isSeller){
+        this.accountID=accountID;
+        this.userName="";
+        this.userPwd="";
+        this.name="";
+        this.address="";
+        this.email="";
+        this.isSeller=isSeller;
     }
 
     public Account(String accountID, String userName, int isSeller){

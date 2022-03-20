@@ -35,12 +35,22 @@ public class CartDetails implements Comparable<CartDetails> {
         return valid;
     }
 
-    // public boolean decreaseQuantity(){
-    // if (quantity > cartDetails.get(index).getQuantity()){
-    // return false;
-    // }else if (quantity == cartDetails.get(index).getQuantity()){
-    // removeProduct(index);
-    // }
+
+    public boolean decreaseQuantity(int quantity, int index)
+    {
+        if (quantity > cartDetails.get(index).getQuantity())
+        {   // remove more than available amount
+            return false;
+        }
+        else if (quantity == cartDetails.get(index).getQuantity())
+        {   // remove qty = product qty => remove product
+            removeProduct(index);
+        }else
+        {
+            cartDetails.get(index).setQuantity(cartDetails.get(index).getQuantity()-quantity);
+        }
+        return true;
+    }
 
     public void removeProduct(int index) {
         cartDetails.remove(index);
@@ -90,9 +100,8 @@ public class CartDetails implements Comparable<CartDetails> {
             double productPrice = tempOrder.getProduct().getPrice();
             int productQty = tempOrder.getQuantity();
             double subtotal = productPrice * productQty;
-            String tempString = String.format("%-5s %-40s %-10s %-10s RM %-10.2f", i + 1, productTitle, productPrice,
-                    productQty, subtotal);
-            completeString = completeString + tempString + "\n";
+            String tempString = String.format("%-5s %-40s %-10s %-10s RM %-10.2f",i+1, productTitle, productPrice, productQty, subtotal);
+            completeString = completeString+tempString+"\n";
         }
 
         return completeString + "\n" + strAction();
@@ -107,7 +116,7 @@ public class CartDetails implements Comparable<CartDetails> {
                 [4] sort by price
                 [5] sort by quantity
                 [6] checkout
-                [7] exit
+                [0] go back
                 """;
     }
 
@@ -199,5 +208,6 @@ public class CartDetails implements Comparable<CartDetails> {
         // }
         System.out.print(op.toString());
     }
+    
 
 }

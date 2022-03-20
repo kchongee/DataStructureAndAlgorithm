@@ -118,7 +118,7 @@ public class CommentQueue
                         where  acc.accountID = c.accountID and roomID = %s
                         ORDER BY commentSeq desc
                         LIMIT 50;
-                        """,room.getRoomId()
+                        """,room.getRoomID()
                 );
 
 
@@ -148,14 +148,14 @@ public class CommentQueue
                 (
                         "(SELECT max(commentSeq)\n" +
                         "FROM   Comment\n" +
-                        "WHERE  roomID='%s')", room.getRoomId()
+                        "WHERE  roomID='%s')", room.getRoomID()
                 );
 
         String query = String.format
                 (
                         "SELECT acc.accountID, username, isSeller, commentDate, commentTime, roomID, content\n" +
                         "FROM Account acc, Comment comm\n" +
-                        "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomId(), subquery
+                        "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomID(), subquery
                 );
 
           // debug
