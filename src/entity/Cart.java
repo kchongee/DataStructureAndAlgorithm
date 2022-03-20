@@ -20,6 +20,9 @@ public class Cart {
     }
 
 
+    public Cart(ListInterface<BuyerProduct> cartProducts) {
+        this.cartProducts = cartProducts;
+    }
 
     public ListInterface<BuyerProduct> getCartProducts() {
         return cartProducts;
@@ -64,6 +67,12 @@ public class Cart {
     public Cart (int cartID){
         this.cartID = cartID;
     }
+
+    public Cart(CartDetails productList) {
+        this.productList = productList;
+    }
+
+
 
     public int getCartID() {
         return cartID;
