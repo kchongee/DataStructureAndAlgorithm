@@ -1,5 +1,6 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
@@ -56,17 +57,18 @@ public class Inbox{
         this.inboxStack.push(notification);
     }    
 
-    public void openNotification(Notification notification){
+    /*public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
-    }
+            jdbcUtil.executeCUD(String.format("UPDATE Notification SET title=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
+    }*/
 
     @Override
     public String toString() {        
         return inboxStack.size()>0?Notification.displayAll(inboxStack):"There is nothing inside inbox.\n";
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Seller newSeller = new Seller();
         newSeller.setName("Khoo");        
         Notification notification1 = new Notification("title", "message111  11", newSeller);
@@ -81,5 +83,5 @@ public class Inbox{
         Buyer buyer = new Buyer();        
         System.out.println(notifications);
 
-    }
+    }*/
 }

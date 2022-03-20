@@ -1,9 +1,13 @@
 package entity;
 
 import entity.Account;
+
+import java.time.LocalDate;
+
 import UtilityClasses.DateTimeUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
+import application.App;
 
 public class Seller extends Account{
 
@@ -95,8 +99,10 @@ public class Seller extends Account{
         this.voucherNotification = voucherNotification;
     }    
     
-    public Notification sendVoucherNotification() {        
+    public Notification sendVoucherNotification(String accountID) {        
         return voucherNotification = new Notification(
+            accountID,
+            this.getUserName(),
             "You have one voucher from "+super.getName(), 
             String.format(
                     "You spent over RM%.2f, "+ 
@@ -105,7 +111,8 @@ public class Seller extends Account{
                     voucher.getMinSpend(),
                     voucher.getDiscountPercentage()
                 ),
-            this
+            LocalDate.now().toString(),
+            false
         );
     }    
 }
