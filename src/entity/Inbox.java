@@ -1,5 +1,6 @@
 package entity;
 
+import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
@@ -7,15 +8,15 @@ import adtInterfaces.StackInterface;
 
 public class Inbox{
     private ListInterface<Notification> notifications;
-    private StackInterface<Notification> inboxStack;
+    private StackInterface<Notification> notificationStack;
 
     public Inbox(int size){
-        inboxStack=new LinkedStack<Notification>();
+        notificationStack=new LinkedStack<Notification>();
     }
 
     public Inbox(){
         this.notifications = new ArrayList<>();
-        this.inboxStack = new LinkedStack<Notification>();
+        this.notificationStack = new LinkedStack<Notification>();
     }    
 
     // public ListInterface<Notification> getNotifications() {
@@ -45,28 +46,29 @@ public class Inbox{
     // } 
 
     public StackInterface<Notification> getNotifications() {
-        return inboxStack;
+        return notificationStack;
     }
 
     public void setNotifications(StackInterface<Notification> notifications) {
-        this.inboxStack = notifications;
+        this.notificationStack = notifications;
     }
 
     public void pushNotification(Notification notification){
-        this.inboxStack.push(notification);
+        this.notificationStack.push(notification);
     }    
 
-    public void openNotification(Notification notification){
+    /*public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
-    }
+            jdbcUtil.executeCUD(String.format("UPDATE Notification SET title=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
+    }*/
 
     @Override
     public String toString() {        
-        return inboxStack.size()>0?Notification.displayAll(inboxStack):"There is nothing inside inbox.\n";
+        return notificationStack.size()>0?Notification.displayAll(notificationStack):"There is nothing inside inbox.\n";
     }
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         Seller newSeller = new Seller();
         newSeller.setName("Khoo");        
         Notification notification1 = new Notification("title", "message111  11", newSeller);
@@ -81,5 +83,5 @@ public class Inbox{
         Buyer buyer = new Buyer();        
         System.out.println(notifications);
 
-    }
+    }*/
 }

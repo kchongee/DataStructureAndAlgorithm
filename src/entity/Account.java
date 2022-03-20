@@ -8,7 +8,7 @@ public class Account {
     private String address;
     private String email;
     private Integer isSeller;
-    static int counter=1;
+    private static int counter=1;
     
 
     public Account(){

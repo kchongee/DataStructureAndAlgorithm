@@ -42,8 +42,7 @@ public class PasswordView {
 
     public static void printTitle(String title){
         App.clearScreen();
-        System.out.println(title);        
+        System.out.println(String.format("========= %s =========",title));       
         System.out.println();
-
     }
 }

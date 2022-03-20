@@ -13,7 +13,7 @@ import adtInterfaces.QueueInterface;
 public class Room{    
     private Seller seller;
     private String roomID,roomTitle;    
-    private ListInterface<Buyer> likes;
+    // private ListInterface<Buyer> likes;
     private ListInterface<Buyer> buyers;
     private QueueInterface<Comment> comments;    
     // private MapInterface<String,Product> catalog;
@@ -82,23 +82,23 @@ public class Room{
         return roomID;
     }    
 
-    public boolean addLike(Buyer buyer){
-        int buyerIndex = likes.get(buyer);
-        if(buyerIndex==-1){
-            likes.add(buyer);
-            return true;
-        }
-        return false;
-    }
+    // public boolean addLike(Buyer buyer){
+    //     int buyerIndex = likes.get(buyer);
+    //     if(buyerIndex==-1){
+    //         likes.add(buyer);
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
-    public boolean removeLike(Buyer buyer){
-        int buyerIndex = likes.get(buyer);
-        if(buyerIndex!=-1){
-            likes.remove(buyerIndex);
-            return true;
-        }        
-        return false;
-    }
+    // public boolean removeLike(Buyer buyer){
+    //     int buyerIndex = likes.get(buyer);
+    //     if(buyerIndex!=-1){
+    //         likes.remove(buyerIndex);
+    //         return true;
+    //     }        
+    //     return false;
+    // }
 
 //    public boolean addComment(Account acc, String text){
 //        Comment comment = new Comment(acc, text);
@@ -120,9 +120,9 @@ public class Room{
 
 
     //region: getter setters
-    public ListInterface<Buyer> getLikes() {
-        return likes;
-    }
+    // public ListInterface<Buyer> getLikes() {
+    //     return likes;
+    // }
 
     public ListInterface<Buyer> getBuyers() {
         return buyers;
@@ -157,9 +157,9 @@ public class Room{
     }
 
 
-    public void setLikes(ListInterface<Buyer> likes) {
-        this.likes = likes;
-    }
+    // public void setLikes(ListInterface<Buyer> likes) {
+    //     this.likes = likes;
+    // }
 
 
     public void setBuyers(ListInterface<Buyer> buyers) {
@@ -247,7 +247,7 @@ public class Room{
         return "Room{" +
                 "roomID='" + roomID + '\'' +
                 ", roomTitle='" + roomTitle + '\'' +
-                ", likes=" + likes +
+                // ", likes=" + likes +
                 ", buyers=" + buyers +
                 ", comments=" + comments +
                 ", catalog=" + catalog +
