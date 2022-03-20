@@ -2,7 +2,6 @@ package entity;
 
 import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
-import adtImplementation.HashMap;
 
 import javax.swing.*;
 import java.time.LocalTime;
@@ -15,7 +14,6 @@ public class Like
     Account buyer;
     String value;
     LocalTime likeTime;
-
 
 
     // region : constructor
@@ -50,17 +48,23 @@ public class Like
         this.value ="NO COMMENT";
     }
 
-    public void addNewLikeToDB(int roomID){
-        String query = String.format(
+    public void addNewLikeToDB(int roomID)
+    {
+        String query = String.format
+        (
                 """
                 INSERT INTO roomlike VALUES(%s, '%s', '%s', '%s');
                 """,roomID, buyer.getAccountID(), this.value, DateTimeUtil.localTimeToString(this.likeTime)
         );
+
         jdbcUtil.executeCUD(query);
     }
 
-    public void updateDatabase(int roomID){
-        String query = String.format(
+
+    public void updateDatabase(int roomID)
+    {
+        String query = String.format
+        (
                 """
                 UPDATE roomlike
                 SET    value='%s', likeTime='%s'
@@ -70,9 +74,13 @@ public class Like
         jdbcUtil.executeCUD(query);
     }
 
-    public boolean likedBefore(int roomID){
+
+    public boolean likedBefore(int roomID)
+    {
         String query =
-                String.format(
+
+                String.format
+                (
                          """
                          SELECT accountID
                          FROM  roomlike
@@ -82,6 +90,7 @@ public class Like
         return jdbcUtil.readOne(query) != null;
     }
     // endregion
+
 
 
     // region : getters setters
@@ -110,6 +119,7 @@ public class Like
     }
 
     // endregion
+
 
 
     // region : static method
@@ -169,16 +179,16 @@ public class Like
 
 
     // region : public static method
-    public static void showDiscourage() {
-        JOptionPane.showMessageDialog(null, "We are so sorry about that \uD83D\uDE2D");
+    public static String getDiscourageStr() {
+        return "We are so sorry about that \uD83D\uDE2D";
     }
 
-    public static void showAppreciate() {
-        JOptionPane.showMessageDialog(null, "Thanks for liking \uD83D\uDE0A");
+    public static String getAppreciateStr() {
+        return  "Thanks for liking \uD83D\uDE0A";
     }
 
-    public static void showEffort(){
-        JOptionPane.showMessageDialog(null, "We will do it better \uD83D\uDCAA");
+    public static String getEffortStr(){
+        return "We will do it better \uD83D\uDCAA";
     }
 
     public static void main(String[] args) {

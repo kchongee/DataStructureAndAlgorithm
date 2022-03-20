@@ -226,11 +226,16 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
     private void removeFromBucket(Entry<K, V> bucket, Entry<K, V> toRemove, int buketIndex)
     {
-        if (toRemove == bucket){ // first
+        if (toRemove == bucket)
+        {   // change bucket
             entryBuckets[buketIndex] = bucket.collidedEntry;
-        } else if (toRemove.forwardSequnce == null) { // last
+        }
+        else if (toRemove.forwardSequnce == null)
+        {    // delete last element in bucket
             entryBuckets[buketIndex] = null;
-        } else{ // middle
+        }
+        else
+        {   // chanage reference
             removeMiddlePartOfCollision(bucket, toRemove);
         }
     }
@@ -238,10 +243,11 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
     private void removeMiddlePartOfCollision(Entry<K, V> bucket, Entry<K, V> toRemove)
     {
-        Entry[] state = new Entry[]{null, bucket}; // [previous, current]
+        Entry[] state = new Entry[] {null, bucket}; // [previous, current]
         for (int i = 0 ; i < bucket.totalEntry ; i++)
         {
-            if (state[1] == toRemove) {
+            if (state[1] == toRemove)
+            {
                 state[0].collidedEntry = state[1].collidedEntry;
                 return;
             }
@@ -354,8 +360,10 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         {
             Entry result = null;
             Entry[] entry = new Entry[]{this, this.collidedEntry};
-            for (int i = 0 ; i < totalEntry ; i++){
-                if (entry[0].getKey() == key){
+            for (int i = 0 ; i < totalEntry ; i++)
+            {
+                if (entry[0].getKey() == key)
+                {   // key matched
                     return entry[0];
                 }
                 entry[0] = entry[1];
@@ -397,7 +405,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             return forwardSequnce;
         }
 
-        public void setForwardSequnce(Entry forwardSequnce) {
+        public void setForwardSequence(Entry forwardSequnce) {
             this.forwardSequnce = forwardSequnce;
         }
     }

@@ -7,6 +7,9 @@ import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 
+import javax.swing.*;
+
+import static java.lang.System.out;
 
 public class Comment implements Comparable<Comment>
 {
@@ -66,15 +69,15 @@ public class Comment implements Comparable<Comment>
     public int getSellingProductQtyFromDB()
     {
         Long qty = (Long)
-        jdbcUtil.readOne(
-                String.format
-                        (
-                                "SELECT count(productID) AS productQty " +
-                                "FROM roomCatalog WHERE roomID=%s",
-                                room.getRoomID()
-                        )
+        jdbcUtil.readOne
+        (
+            String.format
+            (
+                "SELECT count(productID) AS productQty " +
+                "FROM roomCatalog WHERE roomID=%s",
+                 room.getRoomID()
+            )
         ).get("productQty");
-
 
         return Math.toIntExact(qty);
     }
@@ -85,22 +88,30 @@ public class Comment implements Comparable<Comment>
         ArrayList<MsgData> msgData = new ArrayList<MsgData>();
         int productListQty = getSellingProductQtyFromDB();
         String[] words = content.toUpperCase().split("\\s+");
+
         for (int i = 0 ; i < words.length-1 ; i++)
         {
             String word = words[i];
-            if (word.contains("PRODUCT"))
+
+            if (word.contains("PRODUCT") && stringContainsNumber(word))
             {
+
                 int productNo = extractNumber(word);
                 String next = words[i+1].toUpperCase();
 
                 boolean productNoWithinList = productNo > 0 && productNo <= productListQty;
                 boolean quantifiedWithXonly = next.replaceAll("\\d|,", "").equals("X");
 
-                if (productNoWithinList && quantifiedWithXonly)
-                {
-                    int orderQty = extractNumber(next);
 
+                // bug
+                //out.println("ProductNoWithinList = " + productNoWithinList);
+                //out.println("quantifiedWithXonly = " + quantifiedWithXonly);
+
+                int orderQty = extractNumber(next);
+                if (productNoWithinList && quantifiedWithXonly && orderQty > 0)
+                {
                     Boolean notAdded = true;
+
                     for (int j = 0 ; j < msgData.size() ; j++)
                     {
                         MsgData data = msgData.get(j);
@@ -112,7 +123,8 @@ public class Comment implements Comparable<Comment>
                         }
                     }
 
-                    if (notAdded) {
+                    if (notAdded)
+                    {
                         msgData.add(new MsgData(productNo, orderQty));
                     }
 
@@ -124,6 +136,10 @@ public class Comment implements Comparable<Comment>
     }
     // endregion
 
+
+    private boolean stringContainsNumber(String str){
+        return str.matches(".*[0-9].*");
+    }
 
 
     // region 002 : comparable interface
@@ -178,6 +194,97 @@ public class Comment implements Comparable<Comment>
     public CommentFormatter getFormatter(){ return formatter; }
     // endregion
 
+
+    public boolean buyerEverMadeOrderFromRoomHost()
+    {
+        return getCartIDFromDB() != null;
+    }
+
+
+    public void createNewCartWithRoomHost()
+    {
+        String query = String.format
+        (
+            """
+            insert into cart (buyerID, sellerID, isCheckout)
+            values ('%s','%s',0);
+            """, account.getAccountID(), room.getSeller().getAccountID()
+        );
+
+
+        // active
+        // out.println(query);
+
+
+        jdbcUtil.executeCUD(query);
+    }
+
+
+    public Integer getCartIDFromDB()
+    {
+        String query = String.format
+        (
+           """
+           SELECT cartID
+           FROM   cart
+           WHERE  sellerID='%s' AND buyerID='%s';            
+           """,room.getSeller().getAccountID(),account.getAccountID()
+        );
+        HashMap<String,Object> cartID = jdbcUtil.readOne(query);
+
+
+        // active
+        // out.println(query);
+
+
+        if (cartID == null)
+        {
+            return null;
+        }
+        else
+        {
+            return (Integer) cartID.get("cartID");
+        }
+    }
+
+
+    public void updateCartDetailsInDB(ArrayList<Comment.MsgData> orderData)
+    {
+        Integer cartID = getCartIDFromDB();
+        if (cartID!= null)
+        {
+            room.setCatalog(room.fetchCatalogFromDB());
+            if (!orderData.isEmpty() && account.getIsSeller() == 0)
+            {
+                for (int i = 0 ; i < orderData.size() ; i++)
+                {
+                    int productNo = orderData.get(i).getProductNo()-1;
+                    int orderQty  = orderData.get(i).getOrderQty();
+                    Product product = room.getCatalog().getProductList().get(productNo);
+
+
+                    // bug
+                    // out.println("Catalog size = " + room.getCatalog().getProductList().size());
+                    // out.println("Product = " + product.getTitle() + " ProductID=" + product.getProductId());
+
+
+                    String query =
+
+                    String.format
+                    (
+                        """
+                        insert ignore cartdetails values(%s,%s,%s);
+                        """,cartID,product.getProductID(),orderQty
+                    );
+
+                    // bug
+                    // out.println(query);
+
+                    jdbcUtil.executeCUD(query);
+                }
+            }
+        }
+    }
 
     /*
     * Problem : orderQuantity rules

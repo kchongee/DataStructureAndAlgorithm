@@ -77,18 +77,13 @@ public class ReviewList implements Comparable<ReviewList>
     {
         String query =
                 String.format
-                        (
-                                """
-                                SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
-                                FROM   RoomReview r, account acc
-                                WHERE  roomID=%s AND r.accountID = acc.accountID;
-                                """, room.getRoomID()
-                        );
-
-        // debug
-        // System.out.println(query);
-
-
+                (
+                    """
+                    SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
+                    FROM   RoomReview r, account acc
+                    WHERE  roomID=%s AND r.accountID = acc.accountID;
+                    """, room.getRoomID()
+                );
         reviewDBdata = jdbcUtil.readAll(query);
     }
 
@@ -163,11 +158,16 @@ public class ReviewList implements Comparable<ReviewList>
 
     public int compareTo(ReviewList otherList)
     {
-        if (this.getMajorityReview() > otherList.getMajorityReview()){
+        if (this.getMajorityReview() > otherList.getMajorityReview())
+        {
             return 1;
-        }else if (this.getMajorityReview() == otherList.getMajorityReview()){
+        }
+        else if (this.getMajorityReview() == otherList.getMajorityReview())
+        {
             return 0;
-        }else {
+        }
+        else
+        {
             return -1;
         }
     }

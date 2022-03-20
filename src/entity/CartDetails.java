@@ -4,8 +4,6 @@ import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 
-import javax.swing.*;
-
 
 public class CartDetails 
 {
@@ -36,12 +34,22 @@ public class CartDetails
         return valid;
     }
 
-//    public boolean decreaseQuantity(){
-//        if (quantity > cartDetails.get(index).getQuantity()){
-//            return false;
-//        }else if (quantity == cartDetails.get(index).getQuantity()){
-//            removeProduct(index);
-//    }
+
+    public boolean decreaseQuantity(int quantity, int index)
+    {
+        if (quantity > cartDetails.get(index).getQuantity())
+        {   // remove more than available amount
+            return false;
+        }
+        else if (quantity == cartDetails.get(index).getQuantity())
+        {   // remove qty = product qty => remove product
+            removeProduct(index);
+        }else
+        {
+            cartDetails.get(index).setQuantity(cartDetails.get(index).getQuantity()-quantity);
+        }
+        return true;
+    }
 
     public void removeProduct(int index) {
         cartDetails.remove(index);
@@ -65,7 +73,7 @@ public class CartDetails
         // System.out.println(query);
 
         return jdbcUtil.readAll(query);
-        
+
     }
 
     public void syncCartDetails()
@@ -94,8 +102,8 @@ public class CartDetails
             double subtotal = productPrice * productQty;
             String tempString = String.format("%-5s %-40s %-10s %-10s RM %-10.2f",i+1, productTitle, productPrice, productQty, subtotal);
             completeString = completeString+tempString+"\n";
-        } 
-       
+        }
+
         return completeString + "\n" + strAction();
     }
 
@@ -110,7 +118,7 @@ public class CartDetails
                 [4] sort by price
                 [5] sort by quantity
                 [6] checkout
-                [7] exit
+                [0] go back
                 """;
     }
 
@@ -122,5 +130,5 @@ public class CartDetails
         System.out.print(cd.toString());
     }
     */
-    
+
 }

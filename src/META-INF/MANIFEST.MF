@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: TestingPage.OpenerAndCloser.BeControlled
+Main-Class: SubSystem.CommentInput.CommentInputPanel
 
