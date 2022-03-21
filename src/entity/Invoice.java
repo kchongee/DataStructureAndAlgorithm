@@ -10,10 +10,11 @@ import application.App;
 public class Invoice {
     // CE part
     private String invoiceId;
-    private ListInterface<BuyerProduct> invoiceProducts;
+    private ListInterface<OrderProduct> invoiceProducts;
     private LocalDateTime invoiceDateTime;
     private Buyer buyer;    
     private String paymentMethod;
+    private double totalAmount;
     private static int id = 0;
 
     private Invoice()
@@ -24,10 +25,11 @@ public class Invoice {
         id++;
     }    
 
-    public Invoice(ListInterface<BuyerProduct> invoiceProducts,Buyer buyer){
+    public Invoice(ListInterface<OrderProduct> invoiceProducts, String paymentMethod, Buyer buyer){
         this();
         this.buyer = buyer;
         this.invoiceProducts = invoiceProducts;
+        this.paymentMethod = paymentMethod;
     }    
 
     public String getOrderId() {
@@ -38,11 +40,11 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    public ListInterface<BuyerProduct> getOrderProducts() {
+    public ListInterface<OrderProduct> getOrderProducts() {
         return invoiceProducts;
     }
 
-    public void setOrderProducts(ListInterface<BuyerProduct> invoiceProducts) {
+    public void setOrderProducts(ListInterface<OrderProduct> invoiceProducts) {
         this.invoiceProducts = invoiceProducts;
     }
 
@@ -55,19 +57,20 @@ public class Invoice {
     }
 
     public double getTotalAmount(){
-        Iterator<BuyerProduct> invoiceProductsIterator = invoiceProducts.iterator();
-        double totalAmount = 0;
-        while(invoiceProductsIterator.hasNext()){
-            totalAmount += invoiceProductsIterator.next().getSubtotal();            
-        }        
-        return totalAmount;
+        Iterator<OrderProduct> invoiceProductsIterator = invoiceProducts.iterator();        
+        if(this.totalAmount==0){            
+            while(invoiceProductsIterator.hasNext()){
+                this.totalAmount += invoiceProductsIterator.next().getSubtotal();            
+            }        
+        }
+        return this.totalAmount;
     }    
 
-    public ListInterface<BuyerProduct> getOrderProduct(){
+    public ListInterface<OrderProduct> getOrderProduct(){
         return this.invoiceProducts;
     }
 
-    public Invoice addOrderProduct(BuyerProduct invoiceProduct){
+    public Invoice addOrderProduct(OrderProduct invoiceProduct){
         invoiceProducts.add(invoiceProduct);
         return this;
     }
@@ -80,11 +83,11 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    public ListInterface<BuyerProduct> getInvoiceProducts() {
+    public ListInterface<OrderProduct> getInvoiceProducts() {
         return invoiceProducts;
     }
 
-    public void setInvoiceProducts(ListInterface<BuyerProduct> invoiceProducts) {
+    public void setInvoiceProducts(ListInterface<OrderProduct> invoiceProducts) {
         this.invoiceProducts = invoiceProducts;
     }
 
@@ -115,11 +118,14 @@ public class Invoice {
     @Override
     public String toString() {
         String str = "";                
-        str += String.format("+%s+\n", "-".repeat(53));
-        str += String.format("|Invoice %-45s|\n", invoiceId);
-        str += BuyerProduct.displayAll(invoiceProducts);        
-        str += String.format("|%38s|%-14.2f|\n","Total Amount(RM)",getTotalAmount());
-        str += String.format("+%s+\n", "-".repeat(53));
+        str += String.format("+%s+\n", "-".repeat(65));
+        str += String.format("|Invoice %-57s|\n", invoiceId);
+        str += String.format("|Date: %-59s|\n", invoiceDateTime.getDayOfMonth()+"/"+invoiceDateTime.getDayOfMonth()+"/"+invoiceDateTime.getYear());
+        str += String.format("|Time: %-59s|\n", invoiceDateTime.getHour()+":"+invoiceDateTime.getMinute()+":"+invoiceDateTime.getSecond());
+        str += String.format("|Payment method: %-49s|\n", paymentMethod);
+        str += OrderProduct.displayAll(invoiceProducts);
+        str += String.format("|%50s|%-14.2f|\n","Total Amount(RM)",getTotalAmount());        
+        str += String.format("+%s+\n", "-".repeat(65));
         return str;
     }
 
@@ -132,25 +138,25 @@ public class Invoice {
     public static void main(String[] args) {
         Invoice invoice = new Invoice()
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title1", 50.5, "description1"), 
                     5
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title2", 20.5, "description2"), 
                     2
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title3", 30.5, "description3"), 
                     3
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title4", 40.5, "description4"), 
                     4
                 )
@@ -158,25 +164,25 @@ public class Invoice {
 
         Invoice invoice2 = new Invoice()
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title1", 50.5, "description1"), 
                     5
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title2", 20.5, "description2"), 
                     2
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title3", 30.5, "description3"), 
                     3
                 )
             )
             .addOrderProduct(
-                new BuyerProduct(
+                new OrderProduct(
                     new Product("title4", 40.5, "description4"), 
                     4
                 )

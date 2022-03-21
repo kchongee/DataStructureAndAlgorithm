@@ -8,7 +8,7 @@ import static entity.Invoice.cartDetails;
 
 public class Cart {
     private int cartID;
-    private ListInterface<BuyerProduct> cartProducts;
+    private ListInterface<OrderProduct> cartProducts;
     private CartDetails productList;
     private Account buyer;
     private Account seller;
@@ -20,23 +20,23 @@ public class Cart {
     }
 
 
-    public Cart(ListInterface<BuyerProduct> cartProducts) {
+    public Cart(ListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 
-    public ListInterface<BuyerProduct> getCartProducts() {
+    public ListInterface<OrderProduct> getCartProducts() {
         return cartProducts;
     }
 
-    public void setCartProducts(ListInterface<BuyerProduct> cartProducts) {
+    public void setCartProducts(ListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 
-    public void addProduct(BuyerProduct cartProduct){
+    public void addProduct(OrderProduct cartProduct){
         this.cartProducts.add(cartProduct);
     }
 
-    public void removeProduct(BuyerProduct cartProduct){
+    public void removeProduct(OrderProduct cartProduct){
         this.cartProducts.remove(cartProduct);
     }
 
@@ -44,8 +44,8 @@ public class Cart {
         this.cartProducts = new ArrayList<>();
     }
 
-    public ListInterface<BuyerProduct> checkoutProducts(){
-        ListInterface<BuyerProduct> products = this.cartProducts;
+    public ListInterface<OrderProduct> checkoutProducts(){
+        ListInterface<OrderProduct> products = this.cartProducts;
         clearProducts();
         return products;
     }

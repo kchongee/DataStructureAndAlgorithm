@@ -25,7 +25,7 @@ public class BuyerRoomControlView
             );
 
     Catalog catalog;
-    Room room;
+    public static Room room;
     Account account;
     CatalogUI catalogUI;
     LikeUI likeUI;
