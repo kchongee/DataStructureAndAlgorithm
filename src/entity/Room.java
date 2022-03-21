@@ -10,7 +10,8 @@ import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.QueueInterface;
 
-public class Room{    
+public class Room
+{
     private Seller seller;
     private String roomID,roomTitle;    
     // private ListInterface<Buyer> likes;
@@ -220,7 +221,7 @@ public class Room{
         String query =
                 String.format(
                 """
-                SELECT title, productDesc, price
+                SELECT p.productID,title, productDesc, price
                 FROM   product p, roomCatalog rc
                 WHERE  p.productID = rc.productID AND rc.roomID=%s
                 ORDER BY rc.productID;

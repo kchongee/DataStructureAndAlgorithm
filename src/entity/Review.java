@@ -1,5 +1,6 @@
 package entity;
 
+import UI.ReviewUI;
 import UtilityClasses.jdbcUtil;
 
 import javax.swing.*;
@@ -45,36 +46,8 @@ public class Review
 
 
 
-    // region : static method
-    public static Review showReviewGrid()
+    public void sendToDatabase(Room room)
     {
-        final JPanel panel = new JPanel();
-        panel.setLayout(new javax.swing.BoxLayout(panel, javax.swing.BoxLayout.Y_AXIS));
-
-        JRadioButton[] buttons = new JRadioButton[]
-            {
-                    new JRadioButton("1 star"),
-                    new JRadioButton("2 star"),
-                    new JRadioButton("3 star"),
-                    new JRadioButton("4 star"),
-                    new JRadioButton("5 star")
-            };
-        JTextField reviewMsgField = new JTextField();
-        buttons[4].setSelected(true);
-        ensureSelectOnlyOne(buttons);
-
-        panel.add(new JLabel("star:"));
-        for (JRadioButton btn : buttons){ panel.add(btn); }
-        panel.add(new JLabel("<html><br>Review Message:</html>"));
-        panel.add(reviewMsgField);
-        JOptionPane.showMessageDialog(null, panel, "Review Form", JOptionPane.INFORMATION_MESSAGE);
-
-        int count = 1;
-        for (JRadioButton btn : buttons) if (!btn.isSelected()){ count++;}
-        return new Review(count, reviewMsgField.getText());
-    }
-
-    public void sendToDatabase(Room room){
         String query = String.format(
          """
          insert into roomreview (accountID, roomID, star, reviewMsg, revTime) 
@@ -86,35 +59,13 @@ public class Review
         // active bug
         // System.out.println(query);
 
-
         jdbcUtil.executeCUD(query);
     }
     // endregion
 
 
 
-    // region : ui utility function
-    private static void ensureSelectOnlyOne(JRadioButton[]btns)
-    {
-        for (int i = 0 ; i < btns.length ; i++)
-        {
-            JRadioButton temp = btns[i];
-            int finalI = i;
-            temp.addActionListener(e-> onlyThisSelected(finalI, btns));
-        }
-    }
 
-    private static void onlyThisSelected(int i, JRadioButton[]btns)
-    {
-        int index =0;
-        for (JRadioButton btn : btns)
-        {
-            if (index++ != i){
-                btn.setSelected(false);
-            }
-        }
-    }
-    // endregion
 
 
 
@@ -166,7 +117,8 @@ public class Review
 
     public static void main(String[] args)
     {
-        Review rev = Review.showReviewGrid();
+        Review rev = ReviewUI.showReviewGrid();
         System.out.println(rev.toString());
     }
 }
+

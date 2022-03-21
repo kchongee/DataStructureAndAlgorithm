@@ -1,6 +1,7 @@
 package entity;
 
 import SubSystem.RoomListFormatter;
+import UI.RoomListUI;
 import UtilityClasses.CMD;
 import UtilityClasses.SortingAlgorithm.BubbleSort;
 import UtilityClasses.jdbcUtil;
@@ -84,24 +85,24 @@ public class RoomList
 
 
 
-    public void displayRoomList()
+    public String roomListStr()
     {
-        CMD.cls();
         RoomListFormatter formatter = new RoomListFormatter();
-        System.out.println(formatter.strTableHead());
+        String roomListStr = "";
+        roomListStr += formatter.strTableHead() + "\n";
+
         if (!roomList.isEmpty())
         {
             for(int i = 0 ; i < roomList.size() ; i++)
-                System.out.println(formatter.toRow(i+1, roomList.get(i)));
-            System.out.println(formatter.lineStr());
-            System.out.println(formatter.optionPane());
+                roomListStr += formatter.toRow(i+1, roomList.get(i)) + "\n";
+
+            roomListStr += formatter.lineStr() + "\n";
         }
+        return roomListStr;
     }
 
     public void sortByLikeCount(Boolean ascending)
     {
-
-
         BubbleSort<LikeList> sorter = new BubbleSort<LikeList>(extractLikeList());
 
         LikeList[] sorted = sorter.sort(ascending);
@@ -215,17 +216,7 @@ public class RoomList
     }
 
 
-    public boolean askSortPreferences()
-    {
-        boolean ascending = true;
-        int reply = 0;
-        reply =JOptionPane.showConfirmDialog(null,
-                "sort ascending?", "Sorting preference", JOptionPane.YES_NO_OPTION);
-        if (reply != JOptionPane.YES_OPTION){
-            ascending = false;
-        }
-        return ascending;
-    }
+
     /*
     * Problem : MAX CHAR PROBLEM @ table
     * */
@@ -234,7 +225,8 @@ public class RoomList
     public static void main(String[] args)
     {
         RoomList list = new RoomList();
+        RoomListUI ui = new RoomListUI(list);
         list.sortByTitle(true);
-        list.askSortPreferences();
+        ui.askSortPreferences();
     }
 }
