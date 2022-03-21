@@ -24,8 +24,7 @@ public class SellerHomeView{
     }
     
     public static void main() {                
-        printTitle("Home");                
-        
+        printTitle("Home");
         App.menuHandler(menuOptions);
     }
 

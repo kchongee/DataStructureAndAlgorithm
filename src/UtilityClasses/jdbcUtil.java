@@ -74,6 +74,12 @@ public final class jdbcUtil
         try
         {
             queryRslt = SQL.executeQuery(statement);
+
+            if (!queryRslt.next())
+            {
+                return null;
+            }
+
             queryRslt.first();
             int colQty = queryRslt.getMetaData().getColumnCount();
             ArrayList<String> labes = getColumnLabel(queryRslt);

@@ -4,11 +4,14 @@ import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class ReviewList implements Comparable<ReviewList>
 {
     Room room;
-    HashMap<Integer, ArrayList<Review>> classifiedReview;
+    LinkedHashMap<Integer, ArrayList<Review>> classifiedReview;
     ArrayList<HashMap<String, Object>> reviewDBdata;
 
 
@@ -16,7 +19,7 @@ public class ReviewList implements Comparable<ReviewList>
     public ReviewList(Room room)
     {
         this.reviewDBdata  = new ArrayList<HashMap<String,Object>>();
-        this.classifiedReview = new HashMap<Integer, ArrayList<Review>>();
+        this.classifiedReview = new LinkedHashMap<Integer, ArrayList<Review>>();
         this.room = room;
         updateData();
     }
@@ -27,7 +30,7 @@ public class ReviewList implements Comparable<ReviewList>
     // region : public method
     public void updateData()
     {
-        fetchReviewDataFromDb();
+        syncReviewDataFromDb();
         classifyReview();
     }
 
@@ -71,21 +74,22 @@ public class ReviewList implements Comparable<ReviewList>
     // endregion
 
 
-
-    // region : utility method
-    private void fetchReviewDataFromDb()
+    public void syncReviewDataFromDb()
     {
         String query =
                 String.format
-                (
-                    """
-                    SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
-                    FROM   RoomReview r, account acc
-                    WHERE  roomID=%s AND r.accountID = acc.accountID;
-                    """, room.getRoomID()
-                );
+                        (
+                                """
+                                SELECT r.accountID, acc.isSeller, star, reviewMsg, revTime ,acc.userName
+                                FROM   RoomReview r, account acc
+                                WHERE  roomID=%s AND r.accountID = acc.accountID;
+                                """, room.getRoomID()
+                        );
         reviewDBdata = jdbcUtil.readAll(query);
     }
+
+    // region : utility method
+
 
     private void classifyReview()
     {
@@ -118,7 +122,7 @@ public class ReviewList implements Comparable<ReviewList>
 
     private void reinitializeClassifiedReview()
     {
-        classifiedReview = new HashMap<Integer, ArrayList<Review>>();
+        classifiedReview = new LinkedHashMap<Integer, ArrayList<Review>>();
         classifiedReview.put(1, new ArrayList<Review>());
         classifiedReview.put(2, new ArrayList<Review>());
         classifiedReview.put(3, new ArrayList<Review>());
@@ -138,11 +142,11 @@ public class ReviewList implements Comparable<ReviewList>
         this.room = room;
     }
 
-    public HashMap<Integer, ArrayList<Review>> getClassifiedReview() {
+    public LinkedHashMap<Integer, ArrayList<Review>> getClassifiedReview() {
         return classifiedReview;
     }
 
-    public void setClassifiedReview(HashMap<Integer, ArrayList<Review>> classifiedReview) {
+    public void setClassifiedReview(LinkedHashMap<Integer, ArrayList<Review>> classifiedReview) {
         this.classifiedReview = classifiedReview;
     }
 
@@ -170,5 +174,28 @@ public class ReviewList implements Comparable<ReviewList>
         {
             return -1;
         }
+    }
+
+    public String toString()
+    {
+        String str = "";
+        Iterator<Map.Entry<Integer, ArrayList<Review>>> itr = this.classifiedReview.entrySet().iterator();
+
+        while (itr.hasNext())
+        {
+            ArrayList<Review> reviewList = itr.next().getValue();
+            for (int i = 0 ; i < reviewList.size() ; i++)
+            {
+                str = str+"Start: " + reviewList.get(i).star + "\n";
+                str = str+"Time : " + DateTimeUtil.localTimeToString(reviewList.get(i).getRevTime()) + "\n";
+                str = str+"Comment : " +reviewList.get(i).reviewMsg + "\n"+ "\n";
+            }
+        }
+        return str;
+    }
+
+    public static void main(String[] args) {
+        ReviewList list = new ReviewList(new Room("1"));
+        list.toString();
     }
 }

@@ -5,10 +5,12 @@ import adtInterfaces.Set;
 
 import java.util.Iterator;
 
+import static java.lang.Math.abs;
+
 
 public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInterface.Entry<K, V>>
 {
-    private Entry<K,V>[] entryBuckets;
+    private Entry[] entryBuckets;
     private static final int DEFAULT_BUCKET_QTY = 16;
     private static final int DEFAULT_POWER = 4;
     private int power; // 2 ^ 4 = 16 buckets
@@ -126,14 +128,10 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
     public boolean containsKey(K k)
     {
-        Entry<K,V> entry = getBucketFromKey(k);
+        Entry entry = getBucketFromKey(k);
         if (entry != null)
         {
-            Entry<K, V> result = entry.searchEntry(k);
-
-            // active
-            System.out.println(result.getKey());
-
+            Entry result = entry.searchEntry(k);
             return result != null;
         }
         return false;
@@ -266,12 +264,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
 
     private int convertKeyToBucketIndex(K key){
-        return convertHashCodeToBucketIndex(key.hashCode());
-    }
-
-
-    private int convertHashCodeToBucketIndex(int hashcode) {
-        return hashcode % entryBuckets.length;
+        return abs(key.hashCode() % this.entryBuckets.length);
     }
 
 
@@ -362,7 +355,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             Entry[] entry = new Entry[]{this, this.collidedEntry};
             for (int i = 0 ; i < totalEntry ; i++)
             {
-                if (entry[0].getKey() == key)
+                if (entry[0].getKey() == key || entry[0].getKey().equals(key))
                 {   // key matched
                     return entry[0];
                 }

@@ -2,13 +2,10 @@ package entity;
 
 import SubSystem.RoomListFormatter;
 import UI.RoomListUI;
-import UtilityClasses.CMD;
 import UtilityClasses.SortingAlgorithm.BubbleSort;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-
-import javax.swing.*;
 
 
 public class RoomList
@@ -70,7 +67,8 @@ public class RoomList
                 (
                     Integer.toString((Integer) roomMap.get(i).get("roomID")),
                     (String) roomMap.get(i).get("roomTitle"),
-                    (Boolean)roomMap.get(i).get("isOpen")
+                    (Boolean)roomMap.get(i).get("isOpen"),
+                    new Seller((String) roomMap.get(i).get("accountID"))
                 );
 
                 // debug
@@ -136,7 +134,6 @@ public class RoomList
             Room tempRoom = roomList.get(i);
             likeLists[i] = tempRoom.getLikeList();
         }
-
         return likeLists;
     }
 
@@ -216,11 +213,19 @@ public class RoomList
     }
 
 
+    public Room getUserChosenBuyer(int userInput)
+    {
+        int roomQty = roomList.size();
+        if (userInput > 0 && userInput <= roomQty){
+            return roomList.get(userInput-1);
+        }else {
+            return null;
+        }
+    }
 
     /*
     * Problem : MAX CHAR PROBLEM @ table
     * */
-
 
     public static void main(String[] args)
     {

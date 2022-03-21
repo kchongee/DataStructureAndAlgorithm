@@ -6,15 +6,11 @@ import java.io.IOException;
 
 /**
 * @author : Teo Shi Han
-* The purpose of this class is to launch exe via shorcut
- * It does not run exe directly
- * Hence must create shortcut for exe before using this
+* The purpose of this class is to launch exe via shorcut.
+ * It can avoid run exe directly
+ * Can create shortcut for exe before using this
  * Also the shortcut must put in "Executable" folder of this project
 * */
-
-
-
-
 public class EXEHandler
 {
     String shortcutName;
@@ -23,7 +19,7 @@ public class EXEHandler
     String mode;
 
 
-    EXEHandler(String shortcutName, String[] arguments, String mode) throws FileNotFoundException {
+    public EXEHandler(String shortcutName, String[] arguments, String mode) throws FileNotFoundException {
         this.mode = mode.toLowerCase();
 
         if (!this.mode.equals("exe") && !this.mode.equals("lnk")){
@@ -70,19 +66,19 @@ public class EXEHandler
 
     }
 
-    public void terminate(){
-        deleteBatchFile();
-        this.process.destroy();
-    }
-
-    private String getFullCommand(){
-        if (mode.equals("lnc")){
+    private String getFullCommand()
+    {
+        if (mode.equals("lnc"))
+        {
             return wrapStringWithQuotes(getFilePath()) + " " + argsToString();
-        } else {
+        }
+        else
+        {
             String str= String.format(
                     """
                     cd %s
-                    %s %s
+                    start %s %s
+                    exit
                     """, wrapStringWithQuotes(getExecuteablePath()),shortcutName, argsToString()
             );
             System.out.println(str);
@@ -90,11 +86,12 @@ public class EXEHandler
         }
     }
 
-    private String getFilePath(){
+    private String getFilePath()
+    {
         return getExecuteablePath() + "\\" + shortcutName;
     }
 
-    private String getExecuteablePath()
+    public static String getExecuteablePath()
     {
         String executablePath = System.getProperty("user.dir");
         if (!executablePath.contains("scr")) {
@@ -103,14 +100,12 @@ public class EXEHandler
         return executablePath;
     }
 
-    private String wrapStringWithQuotes(String str) {
+    public static String wrapStringWithQuotes(String str) {
         return "\""+str+"\"";
     }
 
     private String argsToString(){
         String empty = "";
-
-
         if (arguments != null)
         {
             for (String arg : arguments) {

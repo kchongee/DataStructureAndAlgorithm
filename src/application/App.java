@@ -1,5 +1,6 @@
 package application;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -8,26 +9,12 @@ import java.util.Scanner;
 import java.util.function.Consumer;
 
 import adtImplementation.HashMap;
-import adtImplementation.HashMapEe;
 import UtilityClasses.jdbcUtil;
-import entity.Account;
-import entity.AccountList;
-import entity.Buyer;
-import entity.BuyerProduct;
-import entity.Notification;
-import entity.Notification;
-import entity.NotificationHolder;
+import entity.*;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
-import adtInterfaces.StackInterface;
-import entity.Option;
-import entity.Invoice;
-import entity.Product;
-import entity.Room;
-import entity.Seller;
+import view.RoomViews.RoomViewExe;
 import view.WelcomeView;
 
 public class App {
@@ -41,6 +28,9 @@ public class App {
     //public static StackInterface<Notification> inbox = new LinkedStack<Notification>();
     public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
+    public static Room chosenRoom =new Room();
+    public static RoomViewExe roomViewExe;
+    public static Integer sellerCreatedRoomID = 0;
 
     static{        
         // currentUser = seller;
@@ -67,6 +57,18 @@ public class App {
         ((Buyer)buyer).addProductToCart(bp1);
         ((Buyer)buyer).addProductToCart(bp2);
         ((Buyer)buyer).addProductToCart(bp3);
+
+        try
+        {
+            // test
+            chosenRoom = new Room("1","s",true, new Seller("A01"));
+
+            roomViewExe = new RoomViewExe();
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
         
         Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
         Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
@@ -83,7 +85,8 @@ public class App {
         // orderProducts.add(bp3);
     }
 
-    public static void main(String[] args) throws Exception {    
+    public static void main(String[] args) throws Exception
+    {
         retrieveAccounts();          
         WelcomeView.main();
     }     

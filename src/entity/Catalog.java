@@ -3,6 +3,9 @@ import SubSystem.CatalogEditor.CatalogFormatter;
 import UI.CatalogUI;
 import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
+import UtilityClasses.jdbcUtil;
+import adtImplementation.ArrayList;
+import application.App;
 // import adtInterfaces.ListInterface;
 
 import javax.swing.*;
@@ -12,20 +15,15 @@ public class Catalog
 {
     // private ListInterfaceEe<Product> productList = new ArrayListEe<Product>();    
     private ArrayList<Product> productList;
-    private CatalogFormatter formatter;
 
 
     // region : constructor
-    public Catalog()
-    {
+    public Catalog() {
         this.productList = new ArrayList<Product>();
-        this.formatter = new CatalogFormatter();
     }
 
-    public Catalog(ArrayList<Product> productList)
-    {
+    public Catalog(ArrayList<Product> productList) {
         this.productList = productList;
-        this.formatter = new CatalogFormatter();
     }
     // endregion
 
@@ -69,6 +67,7 @@ public class Catalog
     // region : public methods
     public String catalogStr()
     {
+        CatalogFormatter formatter = new CatalogFormatter();
         String head = formatter.headStr();
         String content = "";
         if(!productList.isEmpty())
@@ -91,27 +90,9 @@ public class Catalog
         return catalogHTML;
     }
 
-
-    public void displayActionPane() {
-        System.out.println(formatter.strActionPane());
-    }
     // endregion
 
 
-
-    public static void main(String[] args)
-    {
-        Catalog catalog = new Catalog();
-        CatalogUI ui = new CatalogUI(catalog);
-        ui.displayCatalogString();
-        catalog.displayActionPane();
-    }
-
-
-    public static void uploadCatalogToDatabase()
-    {
-
-    }
 
 
     // region : getters setters
@@ -123,12 +104,30 @@ public class Catalog
         this.productList = productList;
     }
 
-    public CatalogFormatter getFormatter() {
-        return formatter;
-    }
+    public Integer createNewCatalogIntoDatabase()
+    {
+        Integer maxRoomID = (Integer) jdbcUtil.readOne("select max(roomID) from roomcatalog").get("max(roomID)");
+        if (maxRoomID == null){
+            maxRoomID = 1;
+        }
 
-    public void setFormatter(CatalogFormatter formatter) {
-        this.formatter = formatter;
+        int productMax = (Integer) jdbcUtil.readOne("select max(productID) from product").get("max(productID)");
+
+        String sellerID = "";
+        if (App.currentUser == null){
+            sellerID = "A02";
+        }else {
+            sellerID = App.currentUser.getAccountID();
+        }
+
+        for (int i = 0 ; i < productList.size() ; i++)
+        {
+            String query = String.format("insert ignore into roomcatalog values (%s,%s);",maxRoomID+1,++productMax);
+            String query2 = String.format("insert ignore into product values (%s,'%s','%s',%s,'%s');",productMax-1,productList.get(i).getTitle(),productList.get(i).getDescription(),productList.get(i).getPrice(),sellerID);
+            jdbcUtil.executeCUD(query);
+            jdbcUtil.executeCUD(query2);
+        }
+        return maxRoomID+1;
     }
     // endregion
 }

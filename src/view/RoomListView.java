@@ -5,7 +5,12 @@ import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
 import application.App;
 import entity.Option;
+import entity.Room;
 import entity.RoomList;
+import view.RoomViews.BuyerRoomControlView;
+import view.RoomViews.RoomViewExe;
+
+import java.io.FileNotFoundException;
 
 public class RoomListView
 {
@@ -19,7 +24,15 @@ public class RoomListView
             {
                     new Option(i->displayOrderByTitle()),
                     new Option(i->displayOrderByLike()),
-                    new Option(i->displayOrderByReview())
+                    new Option(i->displayOrderByReview()),
+                    new Option(i-> {
+                        try {
+                            enterRoom();
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                    }),
+                    new Option(i->goBack())
             }
     );
 
@@ -51,6 +64,38 @@ public class RoomListView
         roomListUI.displayRoomList();
     }
 
+    public void goBack()
+    {
+        CMD.cls();
+        BuyerHomeView.main();
+    }
+
+    public void enterRoom() throws FileNotFoundException {
+        while (true)
+        {
+            int roomNumber = App.promptIntInput("Please select a room >> ");
+            Room chosenRoom =roomList.getUserChosenBuyer(roomNumber);
+
+            if (chosenRoom != null)
+            {
+                App.chosenRoom = chosenRoom;
+                RoomViewExe roomViewExe = new RoomViewExe();
+
+                roomViewExe.getCommentShowerShortcut().run();
+                roomViewExe.getInputPanelShortcut().run();
+
+                App.roomViewExe = roomViewExe;
+                CMD.cls();
+                BuyerRoomControlView.main(App.currentUser, chosenRoom);
+                return;
+            }
+            else
+            {
+                System.out.println("Please enter a valid room");
+            }
+        }
+    }
+
     public static void main()
     {
         RoomListView view = new RoomListView(new RoomList());
@@ -59,7 +104,7 @@ public class RoomListView
         while (number != 4)
         {
             number = App.promptIntInput("Select an action >>> ");
-            CMD.cls();
+            if (number != 4) { CMD.cls();}
             App.goToUserOption(number, view.ROOM_LIST_OPTIONS);
         }
     }

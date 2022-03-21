@@ -61,13 +61,11 @@ public class LikeList implements Comparable<LikeList>
     // endregion
 
 
-
-    // region : utility method
-    private void syncLikeDataFromDb()
+    public void syncLikeDataFromDb()
     {
         String query =
-                String.format
-                (
+                String.format(
+
                     """
                     SELECT l.accountID, value, acc.isSeller, likeTime, acc.userName
                     FROM   roomlike l, account acc
@@ -84,6 +82,7 @@ public class LikeList implements Comparable<LikeList>
         // System.out.println(query);
     }
 
+    // region : utility method
     private void classifyLike()
     {
         reinitializeClassifiedLike();
@@ -118,6 +117,20 @@ public class LikeList implements Comparable<LikeList>
         classifiedLike.put("LIKE", new ArrayList<Like>());
         classifiedLike.put("NO COMMENT", new ArrayList<Like>());
         classifiedLike.put("UNLIKE", new ArrayList<Like>());
+    }
+
+    public String toString()
+    {
+        syncLikeDataFromDb();
+        classifyLike();
+        return
+                String.format
+                (
+                        """
+                        👍 %s
+                        👎 %s
+                        """,classifiedLike.get("LIKE").size(),classifiedLike.get("UNLIKE").size()
+                );
     }
 
     public int compareTo(LikeList otherList)

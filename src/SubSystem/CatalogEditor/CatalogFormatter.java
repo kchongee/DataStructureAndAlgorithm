@@ -55,6 +55,6 @@ public class CatalogFormatter
     }
 
     public String strActionPane(){
-        return String.format("%-22s%-22s%22s%22s%22s","[1]Add","[2]Delete","[3]Insert Below","[4]Edit","[5]Quit");
+        return String.format("%-18s%-18s%-18s%18s%18s%18s","[1]Add","[2]Delete","[3]Insert Below","[4]Edit","[5]Create Room","[6]Quit");
     }
 }
