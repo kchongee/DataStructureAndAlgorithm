@@ -29,9 +29,10 @@ public class RoomListFormatter
                 [2] sort by like
                 [3] sort by review
                 [4] enter room
+                [5] go back
                 """;
         int qty = options.length();
-        int spaceSize = (LINE_SIZE - qty) / 3;
+        int spaceSize = (LINE_SIZE - qty) / 4;
         String space = repChar(spaceSize, " ");
 
         String[] optionArr = options.split("\n");
@@ -58,7 +59,6 @@ public class RoomListFormatter
             room.getLikeList().getLikeString(),
             room.getReviewList().getMajorityStarStr());
     }
-
 
     public String strTableTitle(String title)
     {

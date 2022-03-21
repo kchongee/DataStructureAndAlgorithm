@@ -1,15 +1,8 @@
 package entity;
 
 import UtilityClasses.jdbcUtil;
-import UtilityClasses.SortingAlgorithm.BubbleSort;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
-
-import java.util.Iterator;
-
-import javax.swing.*;
-
-import com.mysql.cj.x.protobuf.MysqlxCrud.Order;
 
 public class CartDetails implements Comparable<CartDetails> {
     Cart cart;
@@ -50,6 +43,19 @@ public class CartDetails implements Comparable<CartDetails> {
         }else
         {
             cartDetails.get(index).setQuantity(cartDetails.get(index).getQuantity()-quantity);
+        }
+        return true;
+    }
+
+    public boolean removeProductFromCart(int index)
+    {
+        if (index > cartDetails.size())
+        {   // remove more than available amount
+            return false;
+        }
+        else if (index < cartDetails.size())
+        {   // remove qty = product qty => remove product
+            removeProduct(index);
         }
         return true;
     }
@@ -166,11 +172,7 @@ public class CartDetails implements Comparable<CartDetails> {
             for (int i = 0; i < opTitle.size() - 1; i++) {
                 String first = opTitle.get(i).getProduct().getTitle();
                 String sec = opTitle.get(i+1).getProduct().getTitle();
-                System.out.print("  first  ="+first);
-                System.out.print("  sec  ="+sec);
-                System.out.print("Compare =" +first.compareTo(sec));
                 if (first.compareTo(sec)> 0) {
-                    System.out.print("Compare =" +first.compareTo(sec));
                     OrderProduct temp = opTitle.get(i);;
                     OrderProduct temp2 =opTitle.get(i+1);
                     opTitle.replace(i, temp2);

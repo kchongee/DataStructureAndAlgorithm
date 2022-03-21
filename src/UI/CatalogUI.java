@@ -1,5 +1,6 @@
 package UI;
 
+import SubSystem.CatalogEditor.CatalogFormatter;
 import UtilityClasses.CMD;
 import entity.Catalog;
 
@@ -25,5 +26,9 @@ public class CatalogUI
     {
         CMD.cls();
         System.out.println(catalog.catalogStr());
+    }
+
+    public void displayActionPane(){
+        System.out.println(new CatalogFormatter().strActionPane());
     }
 }

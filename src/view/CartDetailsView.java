@@ -113,10 +113,10 @@ public class CartDetailsView
         // test cart
         Cart cartTest = new Cart(1, new Account("A50","chailey1d"));
         CartDetails cartDetails = new CartDetails(cartTest);  // maybe cart no need cart details
-        // cartDetails.syncCartDetails();
-        cartDetails.getCartDetails().add(new OrderProduct(new Product("ctitle", 20.5, "description"),7));
-        cartDetails.getCartDetails().add(new OrderProduct(new Product("atitle", 50.5, "description"),3));
-        cartDetails.getCartDetails().add(new OrderProduct(new Product("stitle", 30.5, "description"),4));
+        cartDetails.syncCartDetails();
+        // cartDetails.getCartDetails().add(new OrderProduct(new Product("ctitle", 20.5, "description"),7));
+        // cartDetails.getCartDetails().add(new OrderProduct(new Product("atitle", 50.5, "description"),3));
+        // cartDetails.getCartDetails().add(new OrderProduct(new Product("stitle", 30.5, "description"),4));
 
         CartDetailsView view = new CartDetailsView(cartDetails);
         boolean endLoop = false;

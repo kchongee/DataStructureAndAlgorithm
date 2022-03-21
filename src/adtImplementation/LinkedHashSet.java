@@ -54,10 +54,7 @@ public class LinkedHashSet<E> implements Set<E>
 
     public boolean remove(E e) {
         Object o = mapAsSet.remove(e);
-        if (o != null){
-            return true;
-        }
-        return false;
+        return o != null;
     }
 
 
@@ -88,18 +85,14 @@ public class LinkedHashSet<E> implements Set<E>
 
     public static void main(String[] args)
     {
-        LinkedHashSet<Integer> test = new LinkedHashSet<Integer>();
-        test.add(1);
-        test.add(1);
-        test.add(2);
-        test.add(3);
-        test.add(4);
-        test.remove(4);
-        test.remove(1);
+        LinkedHashSet<String> test = new LinkedHashSet<String>();
+        test.add("asdf");
+        test.add("asdf");
+
 
 
         System.out.println(test.toString());
-        System.out.println(test.size());
+        System.out.println(test.contains("1"));
 
     }
 }

@@ -6,13 +6,14 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 import entity.Option;
+import view.RoomViews.SellerRoomControlView;
 
 public class SellerRoomsView {    
 
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
 
     static{
-        menuOptions.add(new Option("Create Instant Room", i -> goToPage(ii -> SellerScheduleRoomView.main())));
+        menuOptions.add(new Option("Create Instant Room", i -> goToPage(ii -> CatalogEditorView.main(new String[]{}))));
         menuOptions.add(new Option("Open & Enter Room", i -> goToPage(ii -> SellerOpenRoomView.main())));
         menuOptions.add(new Option("Schedule Room", i -> goToPage(ii -> SellerScheduleRoomView.main())));
         // menuOptions.add(new Option("Delete Room", i -> goToPage(ii -> SellerCreateRoomView.)));
