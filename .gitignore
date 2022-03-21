@@ -1,1 +1,3 @@
 *.lnk
+Executable/**
+JAR/**
