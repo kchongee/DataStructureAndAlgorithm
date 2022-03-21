@@ -9,6 +9,12 @@ public class OrderProduct {
         this.quantity = quantity;
     }
 
+    
+    public OrderProduct(int quantity) {
+        this.quantity = quantity;
+    }
+
+
     public Product getProduct() {
         return product;
     }
