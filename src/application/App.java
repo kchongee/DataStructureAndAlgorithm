@@ -291,7 +291,7 @@ public class App {
             scanner.next();         
             System.out.println("Invalid input! Please enter (decimal) number only.");                            
                 System.out.println();                
-            promptDoubleInput(text);
+            return promptDoubleInput(text);
         }
         return inputDouble;
     }
