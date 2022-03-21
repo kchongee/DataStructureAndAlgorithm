@@ -18,7 +18,16 @@ public class CartDetailsView
         new Option[]
         {
               new Option(i->addQuantity()),
-              new Option(i->decreaseQuantity())
+              new Option(i->decreaseQuantity()),
+              new Option(i->removeProduct()),
+              new Option(i->sortByTitle()),
+              new Option(i->sortByPrice()),
+              new Option(i->sortByQty()),
+              //new Option(i->checkout()),
+              //new Option(i->goBack()),
+
+
+
         }
     );
 
@@ -71,6 +80,33 @@ public class CartDetailsView
         }
     }
 
+    public void sortByTitle(){
+        CartDetails.bubbleSortTitle(cartDetails.getCartDetails());
+    }
+
+    public void sortByPrice(){
+        CartDetails.bubbleSortPrice(cartDetails.getCartDetails());
+    }
+
+    public void sortByQty(){
+        CartDetails.bubbleSortQuantity(cartDetails.getCartDetails());
+    }
+
+    public void removeProduct(){
+        int productNo = App.promptIntInput("Select a product you want to remove? >> ");
+        if (productNo > 0 && productNo <= cartDetails.getCartDetails().size())
+        {
+            boolean removed =this.cartDetails.removeProductFromCart (productNo-1);
+            
+            if (!removed)
+            {
+                CMD.pauseWithCustomScript("Error product index! press any key to proceed");
+            }
+        }else {
+            System.out.println("Please select a valid product number");
+        }
+    }
+
 
     public static void main(String[] args)
     {
@@ -89,20 +125,20 @@ public class CartDetailsView
             System.out.println(view.cartDetails.toString());
             int option = App.promptIntInput("Please select an action >> ");
 
-            if (option >= 1 && option<= 5)
+            if (option >= 1 && option<= 6)
             {   // not switch view
                 App.goToUserOption(option, view.options);
                 CMD.cls();
             }
-            else if (option >= 6 && option <= 7)
+            else if (option == 7)
             {
-                // will switch view
+                // will switch to payment view
                 endLoop = true;
                 App.goToUserOption(option, view.options);
             }
             else
             {
-                // error
+                App.goBack();
 
             }
         }
