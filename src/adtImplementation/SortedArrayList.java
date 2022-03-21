@@ -34,15 +34,6 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
   }
 
   public boolean remove(T anEntry) {
-    // check array empty
-    // return false
-    // else
-    // loop
-    // check if anEntry is found
-    // removeGap
-    // numberOfEntries--
-    // return true
-    // return false (if target entries is not found)
     if (numberOfEntries == 0) {
       return false;
     } else {
@@ -96,21 +87,6 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     }
 
     return outputStr;
-  }
-
-  private boolean isArrayFull() {
-    return numberOfEntries == array.length;
-  }
-
-  private void doubleArray() {
-    T[] oldList = array;
-    int oldSize = oldList.length;
-
-    array = (T[]) new Object[2 * oldSize];
-
-    for (int index = 0; index < oldSize; index++) {
-      array[index] = oldList[index];
-    }
   }
 
   private void makeRoom(int newPosition) {

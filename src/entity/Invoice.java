@@ -2,7 +2,6 @@ package entity;
 
 import java.time.LocalDateTime;
 import java.util.Iterator;
-
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
