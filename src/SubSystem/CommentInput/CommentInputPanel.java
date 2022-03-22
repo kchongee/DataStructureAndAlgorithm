@@ -106,7 +106,7 @@ public class CommentInputPanel implements Launchable
     // endregion
 
 
-    /* Args
+    /** Args
     -------------
     1. accountID
     2. isSeller
@@ -114,8 +114,6 @@ public class CommentInputPanel implements Launchable
     4. sellerID
     -----------
     */
-
-
     public static void main(String[] args)
     {
         CMD.cls();

@@ -12,20 +12,21 @@ public class BubbleSort<T extends Comparable<T>>
     public T[] sort(Boolean ascending)
     {
         boolean canStopSwap = false;
-        while (!canStopSwap) {
-            canStopSwap = !swappedWhileTraverse(ascending);
+        int sortTrial = 0;
+        while (!canStopSwap)
+        {
+            canStopSwap = !swappedWhileTraverse(ascending, ++sortTrial);
         }
         return arr;
     }
 
-    public boolean swappedWhileTraverse(Boolean ascending)
+    public boolean swappedWhileTraverse(Boolean ascending, int sortTrial)
     {
         boolean swapTakePlace = false;
-        for (int i = 0 ; i < arr.length-1 ; i++)
+        for (int i = 0 ; i < arr.length-sortTrial ; i++)
         {
             T currentElement = arr[i];
             T futureElement = arr[i+1];
-
 
             if (futureElement.compareTo(currentElement) > 0) // future bigger
             {
@@ -37,7 +38,8 @@ public class BubbleSort<T extends Comparable<T>>
             }
             else if (futureElement.compareTo(currentElement) < 0) // future smaller
             {
-                if (ascending){
+                if (ascending)
+                {
                     arr[i] = futureElement;
                     arr[i+1] = currentElement;
                     swapTakePlace = true;
@@ -49,7 +51,6 @@ public class BubbleSort<T extends Comparable<T>>
             }
 
         }
-
         return swapTakePlace;
     }
 

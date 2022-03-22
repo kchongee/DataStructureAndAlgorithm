@@ -74,27 +74,21 @@ public class Buyer extends Account{
         this.invoices.add(invoice);
     }
 
-    public void addProductToCart(BuyerProduct cartProduct){
+    public void addProductToCart(OrderProduct cartProduct){
         this.cart.addProduct(cartProduct);
     }
     
-    public void removeProductFromCart(BuyerProduct cartProduct){
+    public void removeProductFromCart(OrderProduct cartProduct){
         this.cart.removeProduct(cartProduct);
     }
 
-    public void checkoutCart(Seller seller){
-        Invoice invoice = new Invoice(this.cart.checkoutProducts(), this);
+    public void checkoutCart(String paymentMethod, Seller seller){        
+        Invoice invoice = new Invoice(this.cart.checkoutProducts(), paymentMethod, this);
         seller.addInvoice(invoice);
         addInvoice(invoice);        
         if(seller.getVoucher().isReleased() && seller.getVoucher().getMinSpend()>0 && invoice.getTotalAmount()>=seller.getVoucher().getMinSpend()){            
             this.receiveNotification(seller.sendVoucherNotification(this.getAccountID()));            
         }
-        // try {
-        //     Thread.sleep(1500);
-        // } catch (InterruptedException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
     }
 
     /*public void retrieveNotifications(){

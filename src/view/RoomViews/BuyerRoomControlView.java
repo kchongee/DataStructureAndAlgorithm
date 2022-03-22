@@ -9,10 +9,17 @@ import UtilityClasses.FileUtil;
 import adtImplementation.ArrayList;
 import application.App;
 import entity.*;
+import view.RoomListView;
 
 
 public class BuyerRoomControlView
 {
+    Catalog catalog;
+    public static Room room;
+    Account account;
+    CatalogUI catalogUI;
+    LikeUI likeUI;
+
     ArrayList<Option> BUYER_CONTROLS = new ArrayList<Option>
             (
                 new Option[]
@@ -20,15 +27,10 @@ public class BuyerRoomControlView
                     new Option("View Catalog",i->showCatalog()),
                     new Option("Help",i->showCommentInstructions()),
                     new Option("Like",i->likeRoom()),
-                    new Option("Review", i->reviewRoom())
+                    new Option("Review", i->reviewRoom()),
+                    new Option("Leave Room", i->leaveRoom())
                 }
             );
-
-    Catalog catalog;
-    Room room;
-    Account account;
-    CatalogUI catalogUI;
-    LikeUI likeUI;
 
     public BuyerRoomControlView(Catalog catalog, Room room, Account account)
     {
@@ -47,20 +49,22 @@ public class BuyerRoomControlView
         System.out.println(instructionDoc);
         CMD.pauseWithCustomScript("  Press any key to return...");
         CMD.cls();
-        this.main();
+        this.main(this.account, this.room);
     }
 
     public void showCatalog()
     {
         catalogUI.displayCatalogViaJPane();
         CMD.cls();
-        this.main();
+        this.main(this.account, this.room);
     }
 
 
     public void leaveRoom()
     {
-
+        CMD.cls();
+        App.roomViewExe.terminate();
+        RoomListView.main();
     }
 
     public void likeRoom()
@@ -90,8 +94,7 @@ public class BuyerRoomControlView
         {
             like.addNewLikeToDB(roomID);
         }
-
-        this.main();
+        this.main(this.account, this.room);
     }
 
     public void reviewRoom()
@@ -100,23 +103,25 @@ public class BuyerRoomControlView
         Review completeReview = new Review(account, reviewData.getStar(), reviewData.getReviewMsg(), DateTimeUtil.localTimeNow());
         completeReview.sendToDatabase(room);
         CMD.cls();
-        this.main();
+        this.main(this.account, this.room);
     }
 
-
-
-    public void main() {
-        App.menuHandler(BUYER_CONTROLS);
+    /**
+     * IMPORTANT INFO:<br>
+     * 2 MUST Arguments: [1] Account type [2] Room type<br>
+     * Account argument should have att "accountID"<br>
+     * Room argument should have att "roomID”<br>
+     */
+    public static void main(Account buyer, Room room)
+    {
+        BuyerRoomControlView view = new BuyerRoomControlView(room.fetchCatalogFromDB(), room, buyer);
+        App.menuHandler(view.BUYER_CONTROLS);
     }
     // endregion
 
-
-
+    // test
     public static void main(String[] args)
     {
-        Room testR = new Room("1");
-        Account testA = new Account("A01");
-        BuyerRoomControlView view = new BuyerRoomControlView(testR.fetchCatalogFromDB(), testR, testA);
-        view.main();
+        main(App.currentUser,App.chosenRoom);
     }
 }

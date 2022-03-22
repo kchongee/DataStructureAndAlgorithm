@@ -25,6 +25,10 @@ public class Seller extends Account{
         this.voucher = new Voucher(0,0);
     }
 
+    public Seller(String accountID) {
+        super.setAccountID(accountID);
+    }
+
     public Seller(Account acc){
         super.setAccountID(acc.getAccountID());        
         super.setAddress(acc.getAddress());

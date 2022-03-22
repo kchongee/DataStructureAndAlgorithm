@@ -68,11 +68,12 @@ public class Room
         this.timeOpen = timeOpen;
     }
 
-    public Room(String roomID, String roomTitle, boolean isOpen)
+    public Room(String roomID, String roomTitle, boolean isOpen, Seller seller)
     {
         this.roomID = roomID;
         this.roomTitle = roomTitle;
         this.isOpen = isOpen;
+        this.seller = seller;
         this.likeList = new LikeList(this);
         this.reviewList = new ReviewList(this);
     }
@@ -227,19 +228,20 @@ public class Room
                 ORDER BY rc.productID;
                 """,roomID
                 );
-
         // debug
         // System.out.println(query);
-
-
-
         ArrayList<HashMap<String, Object>> products = jdbcUtil.readAll(query);
 
-        for (int i = 0 ; i < products.size() ; i++) {
-            productList.add(new Product(products.get(i)));
+        if (products != null) {
+            for (int i = 0 ; i < products.size() ; i++) {
+                productList.add(new Product(products.get(i)));
+            }
+            return new Catalog(productList);
         }
-
-        return new Catalog(productList);
+        else
+        {
+            return null;
+        }
     }
     // endregion
 

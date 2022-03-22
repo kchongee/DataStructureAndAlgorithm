@@ -2,6 +2,7 @@ package entity;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import SubSystem.CommentDisplayer.CommentFormatter;
+import UtilityClasses.CMD;
 import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
@@ -150,7 +151,7 @@ public class Comment implements Comparable<Comment>
                 (account.getUserName().equals(comment.getAccount().getUserName())) &&
                 (commentTime.toString().equals(comment.commentTime.toString())) &&
                 (commentDate.toString().equals(comment.commentDate.toString()));
-        return identical? 1 : 0;
+        return identical? 0 : 1;
     }
     // endregion
 

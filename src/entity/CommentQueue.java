@@ -1,5 +1,6 @@
 package entity;
 
+import UtilityClasses.CMD;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.CircularQueue;
@@ -12,7 +13,6 @@ public class CommentQueue
 {
     ArrayList<HashMap<String, Object>> commentsMap;
     CircularQueue<Comment> commentQueue;
-    Comment latestComment;
     Room room;
 
 
@@ -41,14 +41,6 @@ public class CommentQueue
     public void setCommentQueue(CircularQueue<Comment> commentQueue) {
         this.commentQueue = commentQueue;
     }
-
-    public Comment getLatestComment() {
-        return latestComment;
-    }
-
-    public void setLatestComment(Comment latestComment) {
-        this.latestComment = latestComment;
-    }
     // endregion
 
 
@@ -70,16 +62,14 @@ public class CommentQueue
         * */
 
         Account acc = new Account((String)firstAcc.get("accountID"), (String)firstAcc.get("username"));
-
-        trackLatestComment(acc);
     }
 
 
     public boolean newCommentDetected()
     {
-        Comment latestComment = fetchLatestCommentFromDB();
-        Comment lastFetchedLatest = this.latestComment;
-        if (latestComment.compareTo(lastFetchedLatest) == 1){
+        Comment latestCommentDB = fetchLatestCommentFromDB();
+        Comment lastFetchedLatest = trackLatestComment();
+        if (latestCommentDB.compareTo(lastFetchedLatest) == 0){
             return false;
         }
         return true;
@@ -98,10 +88,8 @@ public class CommentQueue
 
             Account account = new Account(accountID, userName,isSeller);
             Comment tempComment = new Comment(account, room, commentsMap.get(i));
-
              // debug
              // System.out.println(tempComment.toString());
-
             commentQueue.add(tempComment);
         }
     }
@@ -121,25 +109,27 @@ public class CommentQueue
                         """,room.getRoomID()
                 );
 
-
         // debug
         // System.out.println(query);
+        ArrayList<HashMap<String, Object>> tempMap = readAll(query);
 
+        if (tempMap != null) {
+            commentsMap = readAll(query);
+        }
 
         commentsMap = readAll(query);
-
-        // debug
-        // System.out.println(commentsMap.get(0).get("content"));
-
-        // debug
-        // System.out.println(commentsMap.toString());
+        HashMap<String, Object> firstAcc = commentsMap.get(0);
     }
 
 
-    private void trackLatestComment(Account account) {
-        latestComment = new Comment(account, room, commentsMap.get(0));
+    private Comment trackLatestComment()
+    {
+        String userName = (String) commentsMap.get(0).get("username");
+        String accountID = (String) commentsMap.get(0).get("accountID");
+        int isSeller = (Integer) commentsMap.get(0).get("isSeller");
+        Account account = new Account(accountID, userName,isSeller);
+        return new Comment(account, room, commentsMap.get(0));
     }
-
 
 
     private Comment fetchLatestCommentFromDB()
@@ -158,14 +148,17 @@ public class CommentQueue
                         "WHERE acc.accountID = comm.accountID AND roomID='%s' AND commentSeq=%s;\n", room.getRoomID(), subquery
                 );
 
-          // debug
-          // System.out.println(query);
-
-
-
         HashMap<String,Object> data = readOne(query);
-        Account account = new Account((String)data.get("accountID"), (String)data.get("username"));
-        return new Comment(account, room, readOne(query));
+
+        if (data!= null)
+        {
+            Account account = new Account((String)data.get("accountID"), (String)data.get("username"), (Integer) data.get("isSeller"));
+            return new Comment(account, room, data);
+        }
+        else
+        {
+            return null;
+        }
     }
     // endregion
 }
