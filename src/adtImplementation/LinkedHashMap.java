@@ -1,9 +1,6 @@
 package adtImplementation;
-
 import adtInterfaces.MapInterface;
-
 import java.util.Iterator;
-
 import static java.lang.Math.abs;
 
 
@@ -91,12 +88,11 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         if (bucketsHaveTooMuchEntries()) {
             rehash();
         }
-
         return value;
     }
 
     public void handleCollisionOverwrite(Entry<K, V> newEntry, Entry<K, V> bucket) {
-        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
+        Entry<K, V> existingEntry = bucket.searchEntryInBucket(newEntry.getKey());
         if (existingEntry == null) {   // new entry should added
             bucket.appendCollidedEntry(newEntry);
             addForwardSequence(newEntry);
@@ -107,7 +103,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
     }
 
     public void handleCollisionPreserveOriginal(Entry<K, V> newEntry, Entry<K, V> bucket) {
-        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
+        Entry<K, V> existingEntry = bucket.searchEntryInBucket(newEntry.getKey());
         if (existingEntry == null) // new entry should added
         {
             bucket.appendCollidedEntry(newEntry);
@@ -122,7 +118,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
             if (bucket(k).getKey() == k)
                 return bucket(k).getValue();
             else
-                return bucket(k).searchEntry(k).getValue();
+                return bucket(k).searchEntryInBucket(k).getValue();
         } catch (NullPointerException e) {
             return null;
         }
@@ -133,15 +129,13 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         return totalEntries;
     }
 
-
     public boolean containsKey(K k) {
         if (bucket(k) != null) {
-            Entry<K, V> result = bucket(k).searchEntry(k);
+            Entry<K, V> result = bucket(k).searchEntryInBucket(k);
             return result != null;
         }
         return false;
     }
-
 
     public void clear() {
         initializeBuckets();
@@ -171,17 +165,13 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
 
 
     public V remove(K key) {
-        if (bucket(key) == null) { // no bucket associated with key
-            return null;
-        }
-        else {
-            Entry<K, V> target = bucket(key).searchEntry(key);
-            if (target != null) {
-                removeFromLinkedChain(target);
-                removeFromCollisionChain(target, key);
-                totalEntries--;
-                return target.value;
-            }
+        if(bucket(key) == null) { // have bucket associated with key
+            Entry<K, V> removeTarget = bucket(key).searchEntryInBucket(key);
+            removeFromLinkedChain(removeTarget);
+            removeFromBucketCollisionChain(removeTarget, key);
+            totalEntries--;
+            assert removeTarget != null;
+            return removeTarget.value;
         }
         return null;
     }
@@ -217,7 +207,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
             this.before = null;
         }
 
-        public Entry<K, V> searchEntry(K key) {
+        public Entry<K, V> searchEntryInBucket(K key) {
             @SuppressWarnings("unchecked") Entry<K, V>[] entry = new Entry[]{this, this.collidedEntry}; //[current, future]
             for (int i = 0; i < totalEntry; i++) {
                 assert entry[0] != null;
@@ -231,22 +221,24 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         }
 
 
-        private void removeCollision(Entry<K, V> toRemove) {
-            if (toRemove == this){
-                
-            }
 
-            @SuppressWarnings("unchecked")
-            Entry<K, V>[] state = new Entry[]{null, this};  // [previous, current]
-            for (int i = 0; i < this.totalEntry; i++) {
-                if (state[1] == toRemove) {
-                    assert state[0] != null;
-                    state[0].collidedEntry = state[1].collidedEntry;
-                    return;
+        /**
+         * Remove element in collision chain
+         */
+        private boolean removeCollision(Entry<K, V> toRemove) {
+            if (toRemove != this) {
+                @SuppressWarnings("unchecked")
+                Entry<K, V>[] state = new Entry[]{null, this};  // [previous, current]
+                for (int i = 0; i < this.totalEntry; i++) {
+                    if (state[1] == toRemove) {
+                        state[0].collidedEntry = state[1].collidedEntry;
+                        return true;
+                    } // progress search until last
+                    state[0] = state[1];
+                    state[1] = state[1].collidedEntry;
                 }
-                state[0] = state[1];
-                state[1] = state[1].collidedEntry;
             }
+            return false;
         }
 
 
@@ -302,7 +294,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         }
     }
 
-    private int bucketIndex(K key) {
+    public int bucketIndex(K key) {
         return abs(key.hashCode() % this.entryBuckets.length);
     }
 
@@ -356,24 +348,14 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
     }
 
 
-    private void removeFromCollisionChain(Entry<K, V> toRemove, K key) {
-        if (toRemove == bucket(key)) {   // change bucket
-            entryBuckets[bucketIndex(key)] = bucket(key).collidedEntry;
-        } else if (toRemove.next == null) {    // delete last element in bucket
-            entryBuckets[bucketIndex(key)] = null;
-        } else {   // change reference
-            removeMiddlePartOfCollision(bucket(key), toRemove);
-        }
-    }
-
-
     /**
-     * Applicable for chain > 2
+     * Applicable for chain length > 2
      */
     private boolean searchValueAlongChain(V value) {
         @SuppressWarnings("unchecked") Entry<K, V>[] state = new Entry[]{firstEntry, firstEntry.next};
-        while (state[1] != null) {
+        while (state[0] != null){
             if (compareValue(state[0], value)) {
+                System.out.println("compare " + state[0].getValue() + " with " + value);
                 return true;
             } else {
                 state[0] = state[1];
@@ -431,6 +413,13 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         return str + "}";
     }
 
+    private void removeFromBucketCollisionChain(Entry<K, V> toRemove, K key) {
+        if (toRemove == bucket(key)) {       // need remove the bucket
+            entryBuckets[bucketIndex(key)] = bucket(key).collidedEntry;
+        } else {   // change reference
+            bucket(key).removeCollision(toRemove);
+        }
+    }
 
     public static void main(String[] args) {
         LinkedHashMap<String, Integer> test = new LinkedHashMap<>();
@@ -439,7 +428,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
 
         test.put("a", 1);
         test.put("b", 2);
-        test.put("c", 2);
+        test.put("c", 3);
         System.out.println("contains3=" + test.containsValue(3));
         System.out.println("contains2=" + test.containsValue(2));
 
