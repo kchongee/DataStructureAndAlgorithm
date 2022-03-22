@@ -1,11 +1,14 @@
 package adtImplementation;
+
 import adtInterfaces.MapInterface;
+
 import java.util.Iterator;
 import static java.lang.Math.abs;
 
 
-public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInterface.Entry<K, V>> {
-    private Entry<K, V>[] entryBuckets;
+public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInterface.Entry<K, V>>
+{
+    private Entry<K,V>[] entryBuckets;
     private static final int DEFAULT_BUCKET_QTY = 16;
     private static final int DEFAULT_POWER = 4;
     private static final double LOAD_FACTOR = 0.75;
@@ -179,11 +182,6 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
     @Override
     public V[] values() {
         return null;
-    }
-
-
-    public Iterator<MapInterface.Entry<K, V>> iterator() {
-        return new LinkedHashMapIterator<>(this);
     }
 
 
@@ -469,5 +467,9 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         test.clear();
         System.out.println(test.toString());
         System.out.println(test.isEmpty());
+    }
+
+    public Iterator<MapInterface.Entry<K, V>> iterator() {
+        return new LinkedHashMapIterator<>(this);
     }
 }

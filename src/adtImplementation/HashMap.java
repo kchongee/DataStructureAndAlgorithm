@@ -1,10 +1,10 @@
 package adtImplementation;
 
+import java.util.Iterator;
+
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
-
-import java.util.Iterator;
 
 public class HashMap<K,V> implements MapInterface<K,V> {
 
