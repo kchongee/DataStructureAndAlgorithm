@@ -50,25 +50,25 @@ public class App {
         // prHashMap.put("prr2",pr1);
         // ((Seller)seller).createRoom(new Room("roomTitle", prHashMap, (Seller)seller));
 
-        BuyerProduct bp1 = new BuyerProduct(pr1, 5);
-        BuyerProduct bp2 = new BuyerProduct(pr2, 15);
-        BuyerProduct bp3 = new BuyerProduct(pr3, 25);        
+        OrderProduct bp1 = new OrderProduct(pr1, 5);
+        OrderProduct bp2 = new OrderProduct(pr2, 15);
+        OrderProduct bp3 = new OrderProduct(pr3, 25);        
 
         ((Buyer)buyer).addProductToCart(bp1);
         ((Buyer)buyer).addProductToCart(bp2);
         ((Buyer)buyer).addProductToCart(bp3);
 
-        try
-        {
-            // test
-            chosenRoom = new Room("1","s",true, new Seller("A01"));
+        // try
+        // {
+        //     // test
+        //     chosenRoom = new Room("1","s",true, new Seller("A01"));
 
-            roomViewExe = new RoomViewExe();
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
+        //     roomViewExe = new RoomViewExe();
+        // }
+        // catch (FileNotFoundException e)
+        // {
+        //     e.printStackTrace();
+        // }
         
         Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
         Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
@@ -77,7 +77,7 @@ public class App {
 
         currentUser = buyer;
                 
-        ((Buyer)buyer).checkoutCart((Seller)seller);                
+        // ((Buyer)buyer).checkoutCart("Credit Card", (Seller)seller);
 
         // ListInterface<BuyerProduct> orderProducts = new ArrayList<>();
         // orderProducts.add(bp1);
@@ -235,6 +235,13 @@ public class App {
     //         options.get(optionNum-1).execFunction();
     //     }
     // }
+
+    public static void goToHome(){        
+        while(history.size()>2){
+            history.pop();
+        }
+        history.pop().accept("Back to home");
+    }
 
     public static void goBack(){        
         if(history.isEmpty()){        

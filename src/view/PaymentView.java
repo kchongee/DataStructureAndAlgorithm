@@ -6,8 +6,10 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 import entity.Buyer;
+import entity.Invoice;
 import entity.Option;
 import entity.Product;
+import entity.Seller;
 
 public class PaymentView {
     private static final ListInterface<String> options = new ArrayList<String>();
@@ -63,11 +65,14 @@ public class PaymentView {
         }        
     }
 
-    public static void getPaymentMethod(String paymentMethod){
-        // store the payment into invoice
+    public static void getPaymentMethod(String paymentMethod){        
+        Seller seller = new Seller(); // get seller from room
+        seller.setUserName("userName");
+        Buyer buyer = (Buyer)App.currentUser;        
         
-        ((Buyer)App.buyer).checkoutCart(RoomView.currentRoom.getSeller());
-        // store the invoice into seller 
-        goToPage(i->SellerHomeView.main());
+        buyer.checkoutCart(paymentMethod, seller);
+
+        // BuyerHomeView.main();
+        App.goToHome();
     }
 }

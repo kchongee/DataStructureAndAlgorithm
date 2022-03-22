@@ -2,6 +2,7 @@ package adtInterfaces;
 
 public interface SortedListInterface<T extends Comparable<T>> {
 
+<<<<<<< HEAD
     /**
      * Task: Adds a new entry to the sorted list in its proper order.
      *
@@ -28,7 +29,17 @@ public interface SortedListInterface<T extends Comparable<T>> {
     int getNumberOfEntries();
   
     boolean isEmpty();
+=======
+    public int size();
+    public boolean add(T newEntry);
+    public boolean remove(T anEntry);
+    public boolean contains(T anEntry);
+    public void clear();
+    public T get(int index);
+    public int getNumberOfEntries();
+    public boolean isEmpty();
+>>>>>>> 0be726aea5616a112233dd516c8be364649f0eb0
   
-  } class SortedListInterfaces {
+} 
     
-}
+

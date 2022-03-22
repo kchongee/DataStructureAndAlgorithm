@@ -1,5 +1,8 @@
 package entity;
 
+import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
+
 public class OrderProduct {
     private Product product;
     private int quantity;
@@ -35,8 +38,35 @@ public class OrderProduct {
 
     @Override
     public String toString() {
-        return String.format("(Product)\n%s\nQuantity Ordered: %d\nSubtotal: %.2f",  product.toString(), quantity, getSubtotal());
+        String str = "";        
+        str += String.format("|%-24s|x%-11d|%-12.2f|%-14.2f|",  product.getTitle(), quantity, product.getPrice(), getSubtotal());
+        return str;
+        // return String.format("(Product)\n%s\nQuantity Ordered: %d\nSubtotal: %.2f",  product.toString(), quantity, getSubtotal());
     }
 
+    public static String displayAll(ListInterface<OrderProduct> orderProducts){
+        String str = "";
+        str += String.format("+%s+\n", "-".repeat(65));
+        str += String.format("|%-24s|%-12s|%-12s|%-14s|\n", "Product","Quantity","Price(RM)","Subtotal(RM)");
+        str += String.format("|%-24s+%-12s+%-12s+%-14s|\n", "-".repeat(24),"-".repeat(12),"-".repeat(12),"-".repeat(14));
+        str += orderProducts;
+        str += String.format("+%s+\n", "-".repeat(65));
+        return str;
+    }
 
+    public static void main(String[] args) {
+        OrderProduct orderProduct1 = new OrderProduct(
+            new Product("title1", 20.5, "description1"), 100);
+        OrderProduct orderProduct2 = new OrderProduct(
+            new Product("title2", 9.5, "description2"), 50);
+        OrderProduct orderProduct3 = new OrderProduct(
+            new Product("title3", 21.5, "description3"), 80);
+
+        ListInterface<OrderProduct> orderList = new ArrayList<OrderProduct>();
+        orderList.add(orderProduct1);
+        orderList.add(orderProduct2);
+        orderList.add(orderProduct3);
+
+        System.out.println(OrderProduct.displayAll(orderList));
+    }
 }
