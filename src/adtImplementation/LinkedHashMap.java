@@ -35,27 +35,16 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         this.lastEntry = null;
     }
 
-    public boolean containsValue(V value) {
-        return switch (totalEntries) {
-            case 0 -> false;
-            case 1 -> compareValue(firstEntry, value);
-            default -> searchValueAlongChain(value);
-        };
-    }
-
-
-    public V putOverwrite(MapInterface.Entry<K, V> entry) {
-        Entry<K, V> newEntry = (LinkedHashMap.Entry<K, V>) entry;
-
-        if (collisionHappen(newEntry.getKey())) {
-            handleCollisionOverwrite(newEntry, bucket(entry.getKey()));
+    public V put(K key, V value) {
+        if (collisionHappen(key)) {
+            handleCollisionPreserveOriginal(new Entry<>(key, value), bucket(key));
         } else {
-            addForwardSequence(newEntry);
-            this.totalEntries++;
+            fillNullBucketWithEntry(key, new Entry<>(key, value));
         }
-
-        rehashIfTooMuchEntries();
-        return newEntry.getValue();
+        if (bucketsHaveTooMuchEntries()) {
+            rehash();
+        }
+        return value;
     }
 
     public V put(MapInterface.Entry<K, V> entry) {
@@ -65,6 +54,20 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             handleCollisionPreserveOriginal(newEntry, bucket(entry.getKey()));
         } else {
             fillNullBucketWithEntry(entry.getKey(), newEntry);
+        }
+
+        rehashIfTooMuchEntries();
+        return newEntry.getValue();
+    }
+
+    public V putOverwrite(MapInterface.Entry<K, V> entry) {
+        Entry<K, V> newEntry = (LinkedHashMap.Entry<K, V>) entry;
+
+        if (collisionHappen(newEntry.getKey())) {
+            handleCollisionOverwrite(newEntry, bucket(entry.getKey()));
+        } else {
+            addForwardSequence(newEntry);
+            this.totalEntries++;
         }
 
         rehashIfTooMuchEntries();
@@ -82,16 +85,13 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         return value;
     }
 
-    public V put(K key, V value) {
-        if (collisionHappen(key)) {
-            handleCollisionPreserveOriginal(new Entry<>(key, value), bucket(key));
-        } else {
-            fillNullBucketWithEntry(key, new Entry<>(key, value));
-        }
-        if (bucketsHaveTooMuchEntries()) {
-            rehash();
-        }
-        return value;
+
+    public boolean containsValue(V value) {
+        return switch (totalEntries) {
+            case 0 -> false;
+            case 1 -> compareValue(firstEntry, value);
+            default -> searchValueAlongChain(value);
+        };
     }
 
     public void handleCollisionOverwrite(Entry<K, V> newEntry, Entry<K, V> bucket) {
@@ -107,8 +107,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
     public void handleCollisionPreserveOriginal(Entry<K, V> newEntry, Entry<K, V> bucket) {
         Entry<K, V> existingEntry = bucket.searchEntryInBucket(newEntry.getKey());
-        if (existingEntry == null) // new entry should added
-        {
+        if (existingEntry == null) {
             bucket.appendCollidedEntry(newEntry);
             addForwardSequence(newEntry);
             this.totalEntries++;
@@ -161,14 +160,14 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
     @Override
     public void putAll(MapInterface<K, V> map) {
-        for (MapInterface.Entry<K, V> entry : this) {
+        for (MapInterface.Entry<K, V> entry : map) {
             this.put(entry.getKey(), entry.getValue());
         }
     }
 
 
     public V remove(K key) {
-        if(bucket(key) == null) { // have bucket associated with key
+        if(bucket(key) != null) { // have bucket associated with key
             Entry<K, V> removeTarget = bucket(key).searchEntryInBucket(key);
             removeFromLinkedChain(removeTarget);
             removeFromBucketCollisionChain(removeTarget, key);
@@ -450,7 +449,48 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         test.put("r", 2);
         test.put("s", 2);
         test.put("s", 4);
-
+        test.put("g", 2);
+        test.put("h", 2);
+        test.put("i", 2);
+        test.put("j", 2);
+        test.put("k", 2);
+        test.put("l", 2);
+        test.put("m", 2);
+        test.put("n", 2);
+        test.put("o", 2);
+        test.put("p", 2);
+        test.put("q", 2);
+        test.put("r", 2);
+        test.put("s", 2);
+        test.put("s", 4);
+        test.put("g", 2);
+        test.put("h", 2);
+        test.put("i", 2);
+        test.put("j", 2);
+        test.put("k", 2);
+        test.put("l", 2);
+        test.put("m", 2);
+        test.put("n", 2);
+        test.put("o", 2);
+        test.put("p", 2);
+        test.put("q", 2);
+        test.put("r", 2);
+        test.put("s", 2);
+        test.put("s", 4);
+        test.put("g", 2);
+        test.put("h", 2);
+        test.put("i", 2);
+        test.put("j", 2);
+        test.put("k", 2);
+        test.put("l", 2);
+        test.put("m", 2);
+        test.put("n", 2);
+        test.put("o", 2);
+        test.put("p", 2);
+        test.put("q", 2);
+        test.put("r", 2);
+        test.put("s", 2);
+        test.put("s", 4);
         test.put("t", 2);
         test.remove("a");
         test.remove("s");
@@ -467,6 +507,39 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         test.clear();
         System.out.println(test.toString());
         System.out.println(test.isEmpty());
+
+
+
+        test.clear();
+        test.put("s",2);
+        System.out.println(test.containsKey("m"));
+
+        test.clear();
+        test.put("s",2);
+        test.put("4",8);
+        test.remove("9");
+        System.out.println(test.size());
+
+
+        test.clear();
+        System.out.println(test.keySet().toString());
+
+        LinkedHashMap<String, Integer> merger = new LinkedHashMap<>();
+
+        merger.put("a",1);
+        merger.put("b",2);
+        merger.put("b",3);
+
+        System.out.println(merger.toString());
+
+        test.putAll(merger);
+
+
+        System.out.println(test.toString());
+
+
+
+
     }
 
     public Iterator<MapInterface.Entry<K, V>> iterator() {
