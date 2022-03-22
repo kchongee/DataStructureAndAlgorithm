@@ -54,7 +54,7 @@ public class RoomListFormatter
         return String.format
         (
             rowFormat(),
-            Integer.toString(rowNo),
+                rowNo,
             room.getRoomTitle(),
             room.getLikeList().getLikeString(),
             room.getReviewList().getMajorityStarStr());

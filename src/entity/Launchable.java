@@ -1,5 +1,5 @@
 package entity;
 
 public interface Launchable {
-    public static void main(String[] args){};
+    static void main(String[] args){}
 }

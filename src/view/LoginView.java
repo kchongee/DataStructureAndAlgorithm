@@ -1,7 +1,6 @@
 package view;
 
 import entity.Account;
-import entity.AccountList;
 import application.App;
 import entity.Buyer;
 import entity.Seller;

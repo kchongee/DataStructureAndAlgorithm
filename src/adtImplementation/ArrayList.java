@@ -18,7 +18,7 @@ public class ArrayList<T> implements ListInterface<T> {
         size=0;
     }
 
-    public ArrayList(T arr[]) {
+    public ArrayList(T[] arr) {
         this.arr = arr;
         size= arr.length;
     }
@@ -264,10 +264,10 @@ public class ArrayList<T> implements ListInterface<T> {
     {
         ArrayList<String> a = new ArrayList<String>();
         a.add("1");
-        System.out.println(a.toString());
+        System.out.println(a);
         a.add("2");
-        System.out.println(a.toString());
+        System.out.println(a);
         a.add(1, "4", true);
-        System.out.println(a.toString());
+        System.out.println(a);
     }
 }

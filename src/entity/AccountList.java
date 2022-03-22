@@ -6,7 +6,7 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
 public class AccountList {
-    private ListInterface<Account> accountList;
+    private final ListInterface<Account> accountList;
 
     public AccountList(int size){
         accountList = new ArrayList<Account>(size);

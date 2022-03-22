@@ -201,10 +201,10 @@ public class Invoice {
     
 
     public Invoice(ListInterface<Invoice> invoiceList, Account account, Product product, CartDetails cartDetails, double subtotal, double total) {
-        this.invoiceList = invoiceList;
-        this.account = account;
-        this.product = product;
-        this.cartDetails = cartDetails;
+        Invoice.invoiceList = invoiceList;
+        Invoice.account = account;
+        Invoice.product = product;
+        Invoice.cartDetails = cartDetails;
         this.subtotal = subtotal;
         this.total = total;
     }
@@ -214,7 +214,7 @@ public class Invoice {
     }
 
     public void setAccount(Account account) {
-        this.account = account;
+        Invoice.account = account;
     }
 
     public Product getProduct() {
@@ -222,7 +222,7 @@ public class Invoice {
     }
 
     public void setProduct(Product product) {
-        this.product = product;
+        Invoice.product = product;
     }
 
     public CartDetails getCartDetails() {
@@ -230,7 +230,7 @@ public class Invoice {
     }
 
     public void setCartDetails(CartDetails cartDetails) {
-        this.cartDetails = cartDetails;
+        Invoice.cartDetails = cartDetails;
     }
 
     public double getSubtotal() {

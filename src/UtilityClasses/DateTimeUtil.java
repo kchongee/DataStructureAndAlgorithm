@@ -10,7 +10,7 @@ public class DateTimeUtil
     private final static DateTimeFormatter APP_TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss");
     private final static DateTimeFormatter APP_DATE_FORMAT = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private DateTimeUtil(){};
+    private DateTimeUtil(){}
 
 
     // region 001: convert something to Date or Time class

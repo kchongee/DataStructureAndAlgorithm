@@ -110,10 +110,10 @@ public class App {
         System.out.print(promptText);
         String input = scanner.next();
         scanner.nextLine();           
-        if(input.toLowerCase().equals("y")){
+        if(input.equalsIgnoreCase("y")){
             System.out.println();
             return true;
-        }else if(input.toLowerCase().equals("n")){            
+        }else if(input.equalsIgnoreCase("n")){
             return false;
         }else{
             System.out.println("Please enter Y or N only.");                
@@ -363,11 +363,7 @@ public class App {
     }
 
     public static boolean checkIsNextLine(String str){
-        if(str.replaceAll("[\\r\\n]+\\s", "").equals("")){
-            return true;
-        }else{
-            return false;
-        }
+        return str.replaceAll("[\\r\\n]+\\s", "").equals("");
     }
 
     public static void printTitle(String title){

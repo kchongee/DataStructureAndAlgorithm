@@ -9,10 +9,10 @@ import java.util.Queue;
 
 public class CircularQueue<T> implements QueueInterface<T> {
     private final static int DEFAULT_SIZE = 5;
-    private T elements[];
+    private T[] elements;
     private int starting;
     private int nextInsertion;
-    private int size;
+    private final int size;
     private int elementQty;
 
     public CircularQueue(){

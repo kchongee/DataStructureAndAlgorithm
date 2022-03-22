@@ -118,7 +118,7 @@ public class Review
     public static void main(String[] args)
     {
         Review rev = ReviewUI.showReviewGrid();
-        System.out.println(rev.toString());
+        System.out.println(rev);
     }
 }
 

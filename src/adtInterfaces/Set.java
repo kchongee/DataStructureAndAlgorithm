@@ -5,18 +5,18 @@ import java.util.Iterator;
 
 public interface Set<E>
 {
-    public int size();
-    public boolean isEmpty();
-    public boolean contains(E o);
+    int size();
+    boolean isEmpty();
+    boolean contains(E o);
     // public Iterator<E> iterator();
-    public E[] toArray();
-    public boolean add(E e);
-    public boolean remove(E o);
+    E[] toArray();
+    boolean add(E e);
+    boolean remove(E o);
 //    public boolean containsAll(Collection<?> c);
 //    public boolean addAll(Collection<? extends String> c);
 //    public boolean retainAll(Collection<?> c);
 //    public boolean removeAll(Collection<?> c);
-    public void clear();
-    public boolean equals(Object o);
-    public int hashCode();
+void clear();
+    boolean equals(Object o);
+    int hashCode();
 }

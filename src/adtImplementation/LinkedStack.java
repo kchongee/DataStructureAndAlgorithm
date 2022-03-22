@@ -97,7 +97,7 @@ public class LinkedStack<T> implements StackInterface<T>{
         }        
     }
     private class Node{
-        private T element;        
+        private final T element;
         private Node nextNode;
 
         private Node(T element){

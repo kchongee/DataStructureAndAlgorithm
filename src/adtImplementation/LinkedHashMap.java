@@ -1,28 +1,25 @@
 package adtImplementation;
 
 import adtInterfaces.MapInterface;
-import adtInterfaces.Set;
 
 import java.util.Iterator;
 
 import static java.lang.Math.abs;
 
 
-public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInterface.Entry<K, V>>
-{
-    private Entry[] entryBuckets;
+public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInterface.Entry<K, V>> {
+    private Entry<K, V>[] entryBuckets;
     private static final int DEFAULT_BUCKET_QTY = 16;
     private static final int DEFAULT_POWER = 4;
-    private int power; // 2 ^ 4 = 16 buckets
     private static final double LOAD_FACTOR = 0.75;
+    private int power; // 2 ^ 4 = 16 buckets
     private int totalEntries;
-    private Entry<K,V> firstEntry;
-    private Entry<K,V> lastEntry;
+    private Entry<K, V> firstEntry;
+    private Entry<K, V> lastEntry;
 
 
-    public LinkedHashMap()
-    {
-        this.entryBuckets = new Entry[DEFAULT_BUCKET_QTY];
+    public LinkedHashMap() {
+        initializeBuckets();
         this.power = DEFAULT_POWER;
         this.totalEntries = 0;
         this.firstEntry = null;
@@ -30,94 +27,105 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    private LinkedHashMap(int newSize)
-    {
-        this.entryBuckets = new Entry[newSize];
+    private LinkedHashMap(int newSize) {
+        initializeBuckets(newSize);
         this.power = DEFAULT_POWER;
         this.totalEntries = 0;
         this.firstEntry = null;
         this.lastEntry = null;
     }
 
-
-    public V put(K key, V value)
-    {
-        int bucketIndex = convertKeyToBucketIndex(key);
-        Entry entry = entryBuckets[bucketIndex];
-        Entry<K,V> newEntry = new Entry<K,V>(key, value);
-
-        if (collisionHappen(bucketIndex))
-        {
-            Entry existingEntry = entry.searchEntry(key);
-            if (existingEntry == null) // new entry
-            {
-                entry.appendCollidedEntry(newEntry);
-                updateSequence(newEntry);
-                this.totalEntries++;
-            }
-            else { // old entry = > update value
-                existingEntry.value = value;
-            }
-        }
-        else // np collision
-        {
-            entryBuckets[bucketIndex] = newEntry;
-            updateSequence(newEntry);
-            this.totalEntries++;
-        }
-
-        if (bucketsHaveTooMuchEntries()) {
-            rehash();
-        }
-        return value;
+    public boolean containsValue(V value) {
+        return switch (totalEntries) {
+            case 0 -> false;
+            case 1 -> compareValue(firstEntry, value);
+            default -> searchValueAlongChain(value);
+        };
     }
 
-    public V put(Entry<K,V> newEntry)
-    {
-        int bucketIndex = convertKeyToBucketIndex(newEntry.key);
-        Entry<K,V>bucket = entryBuckets[bucketIndex];
-        if (collisionHappen(bucketIndex)) {
-            handleCollision(newEntry, bucket);
-        }
-        else // np collision
-        {
-            entryBuckets[bucketIndex] = newEntry;
-            updateSequence(newEntry);
+
+    public V putOverwrite(MapInterface.Entry<K, V> entry) {
+        Entry<K, V> newEntry = (LinkedHashMap.Entry<K, V>) entry;
+
+        if (collisionHappen(newEntry.getKey())) {
+            handleCollisionOverwrite(newEntry, bucket(entry.getKey()));
+        } else {
+            addForwardSequence(newEntry);
             this.totalEntries++;
         }
-        if (bucketsHaveTooMuchEntries()) {
-            rehash();
-        }
+
+        rehashIfTooMuchEntries();
         return newEntry.getValue();
     }
 
+    public V put(MapInterface.Entry<K, V> entry) {
+        Entry<K, V> newEntry = (LinkedHashMap.Entry<K, V>) entry;
 
-    public void handleCollision(Entry<K, V> newEntry, Entry<K, V> bucket)
-    {
-        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
-        if (existingEntry == null) // new entry should added
-        {
-            bucket.appendCollidedEntry(newEntry);
-            updateSequence(newEntry);
-            this.totalEntries++;
+        if (collisionHappen(entry.getKey())) {
+            handleCollisionPreserveOriginal(newEntry, bucket(entry.getKey()));
+        } else {
+            fillNullBucketWithEntry(entry.getKey(), newEntry);
         }
-        else { // overwrite old entry
+
+        rehashIfTooMuchEntries();
+        return newEntry.getValue();
+    }
+
+    public V putOverwrite(K key, V value) {
+        if (collisionHappen(key)) {
+            handleCollisionOverwrite(new Entry<>(key, value), bucket(key));
+        } else {
+            fillNullBucketWithEntry(key, new Entry<>(key, value));
+        }
+
+        rehashIfTooMuchEntries();
+        return value;
+    }
+
+    public V put(K key, V value) {
+        if (collisionHappen(key)) {
+            handleCollisionPreserveOriginal(new Entry<>(key, value), bucket(key));
+        } else {
+            fillNullBucketWithEntry(key, new Entry<>(key, value));
+        }
+        if (bucketsHaveTooMuchEntries()) {
+            rehash();
+        }
+
+        return value;
+    }
+
+    public void handleCollisionOverwrite(Entry<K, V> newEntry, Entry<K, V> bucket) {
+        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
+        if (existingEntry == null) {   // new entry should added
+            bucket.appendCollidedEntry(newEntry);
+            addForwardSequence(newEntry);
+            this.totalEntries++;
+        } else { // overwrite old entry
             existingEntry.value = newEntry.getValue();
         }
     }
 
-
-    public V get(K k)
-    {
-        Entry<K,V> bucket = getBucketFromKey(k);
-        if (bucket != null)
+    public void handleCollisionPreserveOriginal(Entry<K, V> newEntry, Entry<K, V> bucket) {
+        Entry<K, V> existingEntry = bucket.searchEntry(newEntry.getKey());
+        if (existingEntry == null) // new entry should added
         {
-            if (bucket.getKey() == k)
-                return bucket.getValue();
-            else
-                return bucket.searchEntry(k).value;
+            bucket.appendCollidedEntry(newEntry);
+            addForwardSequence(newEntry);
+            this.totalEntries++;
         }
-        return null;
+    }
+
+    // reason why use try catch is fasten access, no need check null condition
+    public V get(K k) {
+        try {
+            if (bucket(k).getKey() == k)
+                return bucket(k).getValue();
+            else
+                return bucket(k).searchEntry(k).getValue();
+        } catch (NullPointerException e) {
+            return null;
+        }
     }
 
 
@@ -126,38 +134,20 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    public boolean containsKey(K k)
-    {
-        Entry entry = getBucketFromKey(k);
-        if (entry != null)
-        {
-            Entry result = entry.searchEntry(k);
+    public boolean containsKey(K k) {
+        if (bucket(k) != null) {
+            Entry<K, V> result = bucket(k).searchEntry(k);
             return result != null;
         }
         return false;
     }
 
 
-    public void clear()
-    {
-        this.totalEntries =0;
-        this.entryBuckets = new Entry[DEFAULT_BUCKET_QTY];
+    public void clear() {
+        initializeBuckets();
+        this.totalEntries = 0;
         this.firstEntry = null;
         this.power = 4;
-    }
-
-
-    public boolean containsValue(V Value)
-    {
-        Entry<K,V> next = null;
-        for (int i = 0 ; i < totalEntries && (next.forwardSequnce != null || i == 0) ; i++)
-        {
-            if (i == 0)
-                next = firstEntry;
-            else
-                next = next.forwardSequnce;
-        }
-        return false;
     }
 
 
@@ -166,32 +156,29 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    public Set keySet() {
-        return null;
+    public LinkedHashSet<K> keySet() {
+        @SuppressWarnings("unchecked")
+        LinkedHashMap<K, Object> casted = (LinkedHashMap<K, Object>) this;
+        return new LinkedHashSet<>(casted);
     }
 
     @Override
-    public void putAll(LinkedHashMap map) {
-
+    public void putAll(MapInterface<K, V> map) {
+        for (MapInterface.Entry<K, V> entry : this) {
+            this.put(entry.getKey(), entry.getValue());
+        }
     }
 
 
-
-    public void putAll(MapInterface<K,V> map) {
-
-    }
-
-
-    public V remove(K key)
-    {
-        Entry<K,V> bucket = getBucketFromKey(key);
-        if (bucket != null)
-        {
-            Entry<K,V> target = bucket.searchEntry(key);
-            if (target != null)
-            {
-                cutAndJoin(target);
-                removeFromBucket(bucket, target, convertKeyToBucketIndex(key));
+    public V remove(K key) {
+        if (bucket(key) == null) { // no bucket associated with key
+            return null;
+        }
+        else {
+            Entry<K, V> target = bucket(key).searchEntry(key);
+            if (target != null) {
+                removeFromLinkedChain(target);
+                removeFromCollisionChain(target, key);
                 totalEntries--;
                 return target.value;
             }
@@ -205,170 +192,66 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    private void cutAndJoin(Entry<K, V> entry)
-    {
-        Entry before = entry.backwardSequence;
-        Entry after = entry.forwardSequnce;
-        if (before == null) {    // remove first entry
-            firstEntry = entry.forwardSequnce;
-        }
-        else if (after == null) { // remove last entry
-            before.addforwardLink(null);
-            lastEntry = before;
-        }
-        else {
-            before.addforwardLink(after);
-        }
-    }
-
-
-    private void removeFromBucket(Entry<K, V> bucket, Entry<K, V> toRemove, int buketIndex)
-    {
-        if (toRemove == bucket)
-        {   // change bucket
-            entryBuckets[buketIndex] = bucket.collidedEntry;
-        }
-        else if (toRemove.forwardSequnce == null)
-        {    // delete last element in bucket
-            entryBuckets[buketIndex] = null;
-        }
-        else
-        {   // chanage reference
-            removeMiddlePartOfCollision(bucket, toRemove);
-        }
-    }
-
-
-    private void removeMiddlePartOfCollision(Entry<K, V> bucket, Entry<K, V> toRemove)
-    {
-        Entry[] state = new Entry[] {null, bucket}; // [previous, current]
-        for (int i = 0 ; i < bucket.totalEntry ; i++)
-        {
-            if (state[1] == toRemove)
-            {
-                state[0].collidedEntry = state[1].collidedEntry;
-                return;
-            }
-            state[0] = state[1];
-            state[1] = state[1].collidedEntry;
-        }
-    }
-
-
-    private Entry getBucketFromKey(K key)
-    {
-        int bucketIndex = convertKeyToBucketIndex(key);
-        Entry entry = entryBuckets[bucketIndex];
-        return entry;
-    }
-
-
-    private int convertKeyToBucketIndex(K key){
-        return abs(key.hashCode() % this.entryBuckets.length);
-    }
-
-
-    private boolean collisionHappen(int bucketIndex){
-        return  entryBuckets[bucketIndex] != null;
-    }
-
-
-    private boolean bucketsHaveTooMuchEntries() {
-
-        // bug
-        // System.out.println(totalEntries);
-        // System.out.println(entryQtyLimit());
-
-        return totalEntries > entryQtyLimit();
-    }
-
-
-    private int entryQtyLimit(){
-        return (int) (entryBuckets.length * LOAD_FACTOR);
-    }
-
-
-    private void updateSequence(Entry<K, V> entry){
-        if (totalEntries == 0)
-        {
-            this.firstEntry = entry;
-            this.lastEntry = entry;
-        }
-        else
-        {
-
-            //bug
-            //System.out.println("Linked " + lastEntry.getKey() + " to " + entry.getKey());
-
-
-            entry.addbackwardLink(lastEntry);
-            lastEntry.addforwardLink(entry);
-            this.lastEntry = entry;
-        }
-    }
-
-
     public Iterator<MapInterface.Entry<K, V>> iterator() {
-        return new LinkedHashMapIterator<K,V>(this);
+        return new LinkedHashMapIterator<>(this);
     }
 
 
-    private static class Entry<K, V> implements MapInterface.Entry<K,V>
-    {
-        private K key;
+    private static class Entry<K, V> implements MapInterface.Entry<K, V> {
+        private final K key;
         private V value;
-        private Entry<K,V> collidedEntry;
-        private Entry<K,V> lastEntry;
+        private Entry<K, V> collidedEntry;
+        private Entry<K, V> lastEntry;
         private int totalEntry;
-        Entry forwardSequnce;
-        Entry backwardSequence;
+        Entry<K, V> next;
+        Entry<K, V> before;
 
 
-        public Entry(K key, V value)
-        {
+        public Entry(K key, V value) {
             this.key = key;
             this.value = value;
             this.lastEntry = this;
             this.collidedEntry = null;
             this.totalEntry = 1;
-            this.forwardSequnce = null;
-            this.backwardSequence = null;
+            this.next = null;
+            this.before = null;
         }
 
-
-        public Entry<K,V>[] toArray()
-        {
-            Entry<K,V>[] entryChain = new Entry[totalEntry];
-            Entry<K,V> nextEntry = this;
-
-            for(int i = 0 ; i < totalEntry ; i++){
-                entryChain[i] = nextEntry;
-                nextEntry = nextEntry.collidedEntry;
-            }
-            return entryChain;
-        }
-
-
-        public Entry<K,V> searchEntry(K key)
-        {
-            Entry result = null;
-            Entry[] entry = new Entry[]{this, this.collidedEntry};
-            for (int i = 0 ; i < totalEntry ; i++)
-            {
-                if (entry[0].getKey() == key || entry[0].getKey().equals(key))
-                {   // key matched
+        public Entry<K, V> searchEntry(K key) {
+            @SuppressWarnings("unchecked") Entry<K, V>[] entry = new Entry[]{this, this.collidedEntry}; //[current, future]
+            for (int i = 0; i < totalEntry; i++) {
+                assert entry[0] != null;
+                if (entry[0].getKey() == key || entry[0].getKey().equals(key)) {   // key matched
                     return entry[0];
                 }
                 entry[0] = entry[1];
-                entry[1] = entry[1] == null? null: entry[1].collidedEntry;
+                entry[1] = entry[1] == null ? null : entry[1].collidedEntry; // null = no method can use
             }
-            return result;
+            return null;
         }
 
 
-        public void appendCollidedEntry(Entry<K,V> entry)
-        {
-            this.lastEntry.collidedEntry =entry;
+        private void removeCollision(Entry<K, V> toRemove) {
+            if (toRemove == this){
+                
+            }
+
+            @SuppressWarnings("unchecked")
+            Entry<K, V>[] state = new Entry[]{null, this};  // [previous, current]
+            for (int i = 0; i < this.totalEntry; i++) {
+                if (state[1] == toRemove) {
+                    assert state[0] != null;
+                    state[0].collidedEntry = state[1].collidedEntry;
+                    return;
+                }
+                state[0] = state[1];
+                state[1] = state[1].collidedEntry;
+            }
+        }
+
+
+        public void appendCollidedEntry(Entry<K, V> entry) {
+            this.lastEntry.collidedEntry = entry;
             this.lastEntry = entry;
             this.totalEntry += 1;
         }
@@ -384,73 +267,204 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         }
 
 
-        public void addforwardLink(Entry<K,V> entry) {
-            this.forwardSequnce = entry;
+        public void addForwardLink(Entry<K, V> entry) {
+            this.next = entry;
         }
 
 
-        public void addbackwardLink(Entry<K,V> entry){
-            this.backwardSequence = entry;
+        public void addBackwardLink(Entry<K, V> entry) {
+            this.before = entry;
         }
 
 
-        public Entry getForwardSequnce() {
-            return forwardSequnce;
-        }
-
-        public void setForwardSequence(Entry forwardSequnce) {
-            this.forwardSequnce = forwardSequnce;
+        public Entry<K, V> getNext() {
+            return next;
         }
     }
 
 
     // region : utility method
-    private void rehash()
-    {
-        LinkedHashMap<K,V> newMap = new LinkedHashMap<K,V>((int)Math.pow(2, ++this.power));
+    private void rehash() {
+        LinkedHashMap<K, V> newMap = new LinkedHashMap<>((int) Math.pow(2, ++this.power));
         for (MapInterface.Entry<K, V> entry : this) {
-            newMap.put((Entry<K, V>) entry);
+            newMap.put(entry);
         }
         this.entryBuckets = newMap.entryBuckets;
+    }
+
+    private boolean compareValue(Entry<K, V> entry, V value) {
+        return entry.getValue() == value || entry.getValue().equals(value);
+    }
+
+    private void rehashIfTooMuchEntries() {
+        if (bucketsHaveTooMuchEntries()) {
+            rehash();
+        }
+    }
+
+    private int bucketIndex(K key) {
+        return abs(key.hashCode() % this.entryBuckets.length);
+    }
+
+
+    private boolean collisionHappen(K key) {
+        return entryBuckets[bucketIndex(key)] != null;
+    }
+
+
+    private boolean bucketsHaveTooMuchEntries() {
+        return totalEntries > entryQtyLimit();
+    }
+
+
+    private int entryQtyLimit() {
+        return (int) (entryBuckets.length * LOAD_FACTOR);
+    }
+
+
+    private void addForwardSequence(Entry<K, V> entry) {
+        if (totalEntries == 0) {
+            this.firstEntry = entry;
+            this.lastEntry = entry;
+        } else {
+            entry.addBackwardLink(lastEntry);
+            lastEntry.addForwardLink(entry);
+            this.lastEntry = entry;
+        }
+    }
+
+    private void fillNullBucketWithEntry(K key, Entry<K, V> entry) {
+        entryBuckets[bucketIndex(key)] = entry;
+        addForwardSequence(entry);
+        this.totalEntries++;
+    }
+
+    private Entry<K, V> bucket(K key) {
+        return entryBuckets[bucketIndex(key)];
+    }
+
+
+    private void removeFromLinkedChain(Entry<K, V> entry) {
+        if (entry == firstEntry) {    // remove first entry
+            firstEntry = entry.next;
+        } else if (entry == lastEntry) { // remove last entry
+            entry.before.addForwardLink(null);
+            lastEntry = entry.before;
+        } else {
+            entry.before.addForwardLink(entry.next);
+        }
+    }
+
+
+    private void removeFromCollisionChain(Entry<K, V> toRemove, K key) {
+        if (toRemove == bucket(key)) {   // change bucket
+            entryBuckets[bucketIndex(key)] = bucket(key).collidedEntry;
+        } else if (toRemove.next == null) {    // delete last element in bucket
+            entryBuckets[bucketIndex(key)] = null;
+        } else {   // change reference
+            removeMiddlePartOfCollision(bucket(key), toRemove);
+        }
+    }
+
+
+    /**
+     * Applicable for chain > 2
+     */
+    private boolean searchValueAlongChain(V value) {
+        @SuppressWarnings("unchecked") Entry<K, V>[] state = new Entry[]{firstEntry, firstEntry.next};
+        while (state[1] != null) {
+            if (compareValue(state[0], value)) {
+                return true;
+            } else {
+                state[0] = state[1];
+                state[1] = state[1] == null ? null : state[1].next;
+            }
+        }
+        return false;
+    }
+
+    private void initializeBuckets() {
+        @SuppressWarnings("unchecked")
+        Entry<K, V>[] buckets = new Entry[DEFAULT_BUCKET_QTY];
+        this.entryBuckets = buckets;
+    }
+
+    private void initializeBuckets(int size) {
+        @SuppressWarnings("unchecked")
+        Entry<K, V>[] buckets = new Entry[size];
+        this.entryBuckets = buckets;
     }
     // endregion : utility method
 
 
-    public String toString()
-    {
-        String map = "{";
-        for (MapInterface.Entry<K,V> entry : this){
-            map = map + entry.getKey() + ":" + entry.getValue() + ", ";
-        }
-        return map+"}";
+    public Entry<K, V> getFirstEntry() {
+        return firstEntry;
     }
 
-    public static void main(String[] args)
-    {
-        LinkedHashMap<String,Integer> test = new LinkedHashMap<String, Integer>();
-        test.put("a",1);
-        test.put("b",2);
-        test.put("c",2);
-        test.put("d",2);
-        test.put("e",7);
-        test.put("f",8);
 
-        test.put("g",2);
-        test.put("h",2);
-        test.put("i",2);
-        test.put("j",2);
-        test.put("k",2);
-        test.put("l",2);
-        test.put("m",2);
-        test.put("n",2);
-        test.put("o",2);
-        test.put("p",2);
-        test.put("q",2);
-        test.put("r",2);
-        test.put("s",2);
-        test.put("s",4);
+    private static class LinkedHashMapIterator<K, V> implements Iterator<MapInterface.Entry<K, V>> {
+        LinkedHashMap.Entry<K, V> current;
 
-        test.put("t",2);
+        public LinkedHashMapIterator(LinkedHashMap<K, V> linkedHashMap) {
+            current = linkedHashMap.getFirstEntry();
+        }
+
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        public final MapInterface.Entry<K, V> next() {
+            Entry<K, V> data = current;
+            current = current.getNext();
+            return data;
+        }
+    }
+
+    public String toString() {
+        StringBuilder str = new StringBuilder("{");
+        for (MapInterface.Entry<K, V> entry : this) {
+            str.append(entry.getKey()).append(":").append(entry.getValue());
+            if (entry != lastEntry) {
+                str.append(" ,");
+            }
+        }
+        return str + "}";
+    }
+
+
+    public static void main(String[] args) {
+        LinkedHashMap<String, Integer> test = new LinkedHashMap<>();
+        System.out.println("test null= " + test.get("1"));
+        System.out.println("Keyset= " + test.keySet().toString());
+
+        test.put("a", 1);
+        test.put("b", 2);
+        test.put("c", 2);
+        System.out.println("contains3=" + test.containsValue(3));
+        System.out.println("contains2=" + test.containsValue(2));
+
+        test.put("d", 2);
+        test.put("e", 7);
+        test.put("f", 8);
+
+        System.out.println("Keyset= " + test.keySet().toString());
+
+        test.put("g", 2);
+        test.put("h", 2);
+        test.put("i", 2);
+        test.put("j", 2);
+        test.put("k", 2);
+        test.put("l", 2);
+        test.put("m", 2);
+        test.put("n", 2);
+        test.put("o", 2);
+        test.put("p", 2);
+        test.put("q", 2);
+        test.put("r", 2);
+        test.put("s", 2);
+        test.put("s", 4);
+
+        test.put("t", 2);
         test.remove("a");
         test.remove("s");
 
@@ -467,31 +481,4 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
         System.out.println(test.toString());
         System.out.println(test.isEmpty());
     }
-
-    public Entry<K, V> getFirstEntry() {
-        return firstEntry;
-    }
-
-
-    public static class LinkedHashMapIterator<K,V> implements Iterator<MapInterface.Entry<K,V>>
-    {
-        LinkedHashMap.Entry<K, V> current;
-
-        public LinkedHashMapIterator(LinkedHashMap<K, V> linkedHashMap) {
-            current = linkedHashMap.getFirstEntry();
-        }
-
-
-        public boolean hasNext() {
-            return current != null;
-        }
-
-        public final MapInterface.Entry next()
-        {
-            Entry data = current;
-            current = current.getForwardSequnce();
-            return data;
-        }
-    }
-
 }

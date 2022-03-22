@@ -9,23 +9,17 @@ import UtilityClasses.FileUtil;
 import adtImplementation.ArrayList;
 import application.App;
 import entity.*;
-<<<<<<< HEAD
-=======
 import view.RoomListView;
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
 
 
 public class BuyerRoomControlView
 {
-<<<<<<< HEAD
-=======
     Catalog catalog;
     Room room;
     Account account;
     CatalogUI catalogUI;
     LikeUI likeUI;
 
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
     ArrayList<Option> BUYER_CONTROLS = new ArrayList<Option>
             (
                 new Option[]
@@ -33,24 +27,11 @@ public class BuyerRoomControlView
                     new Option("View Catalog",i->showCatalog()),
                     new Option("Help",i->showCommentInstructions()),
                     new Option("Like",i->likeRoom()),
-<<<<<<< HEAD
-                    new Option("Review", i->reviewRoom())
-                }
-            );
-
-    Catalog catalog;
-    Room room;
-    Account account;
-    CatalogUI catalogUI;
-    LikeUI likeUI;
-
-=======
                     new Option("Review", i->reviewRoom()),
                     new Option("Leave Room", i->leaveRoom())
                 }
             );
 
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
     public BuyerRoomControlView(Catalog catalog, Room room, Account account)
     {
         this.catalog = catalog;
@@ -68,34 +49,22 @@ public class BuyerRoomControlView
         System.out.println(instructionDoc);
         CMD.pauseWithCustomScript("  Press any key to return...");
         CMD.cls();
-<<<<<<< HEAD
-        this.main();
-=======
-        this.main(this.account, this.room);
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
+        BuyerRoomControlView.main(this.account, this.room);
     }
 
     public void showCatalog()
     {
         catalogUI.displayCatalogViaJPane();
         CMD.cls();
-<<<<<<< HEAD
-        this.main();
-=======
-        this.main(this.account, this.room);
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
+        BuyerRoomControlView.main(this.account, this.room);
     }
 
 
     public void leaveRoom()
     {
-<<<<<<< HEAD
-
-=======
         CMD.cls();
         App.roomViewExe.terminate();
         RoomListView.main();
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
     }
 
     public void likeRoom()
@@ -125,12 +94,7 @@ public class BuyerRoomControlView
         {
             like.addNewLikeToDB(roomID);
         }
-<<<<<<< HEAD
-
-        this.main();
-=======
-        this.main(this.account, this.room);
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
+        BuyerRoomControlView.main(this.account, this.room);
     }
 
     public void reviewRoom()
@@ -139,27 +103,7 @@ public class BuyerRoomControlView
         Review completeReview = new Review(account, reviewData.getStar(), reviewData.getReviewMsg(), DateTimeUtil.localTimeNow());
         completeReview.sendToDatabase(room);
         CMD.cls();
-<<<<<<< HEAD
-        this.main();
-    }
-
-
-
-    public void main() {
-        App.menuHandler(BUYER_CONTROLS);
-    }
-    // endregion
-
-
-
-    public static void main(String[] args)
-    {
-        Room testR = new Room("1");
-        Account testA = new Account("A01");
-        BuyerRoomControlView view = new BuyerRoomControlView(testR.fetchCatalogFromDB(), testR, testA);
-        view.main();
-=======
-        this.main(this.account, this.room);
+        BuyerRoomControlView.main(this.account, this.room);
     }
 
     /**
@@ -178,7 +122,7 @@ public class BuyerRoomControlView
     // test
     public static void main(String[] args)
     {
+        CMD.cls();
         main(App.currentUser,App.chosenRoom);
->>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
     }
 }

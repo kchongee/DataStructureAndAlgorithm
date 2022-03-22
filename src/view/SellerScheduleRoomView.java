@@ -16,8 +16,8 @@ import entity.Room;
 import entity.Seller;
 
 public class SellerScheduleRoomView {
-    private static ListInterface<Option> menuOptions = new ArrayList<Option>();
-    private static ListInterface<Option> productOptions = new ArrayList<Option>();    
+    private static final ListInterface<Option> menuOptions = new ArrayList<Option>();
+    private static final ListInterface<Option> productOptions = new ArrayList<Option>();
     private static ListInterface<Product> products = new ArrayList<Product>();        
     private static Product tempProduct = null;
 

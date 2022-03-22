@@ -148,7 +148,7 @@ public class Like
         }
 
         return "NO COMMENT"; // default = like
-    };
+    }
     // endregion
 
 

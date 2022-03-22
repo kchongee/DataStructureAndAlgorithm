@@ -153,7 +153,7 @@ public class CartDetails implements Comparable<CartDetails> {
 
             for (int i = 0; i < op.size() - k; i++) {
                 if (op.get(i).getQuantity() > op.get(i + 1).getQuantity()) {
-                    OrderProduct temp = op.get(i);;
+                    OrderProduct temp = op.get(i);
                     OrderProduct temp2 =op.get(i+1);
                     op.replace(i, temp2);
                     op.replace(i + 1, temp);
@@ -173,7 +173,7 @@ public class CartDetails implements Comparable<CartDetails> {
                 String first = opTitle.get(i).getProduct().getTitle();
                 String sec = opTitle.get(i+1).getProduct().getTitle();
                 if (first.compareTo(sec)> 0) {
-                    OrderProduct temp = opTitle.get(i);;
+                    OrderProduct temp = opTitle.get(i);
                     OrderProduct temp2 =opTitle.get(i+1);
                     opTitle.replace(i, temp2);
                     opTitle.replace(i + 1, temp);
@@ -192,7 +192,7 @@ public class CartDetails implements Comparable<CartDetails> {
 
             for (int i = 0; i < opPrice.size() - k; i++) {
                 if (opPrice.get(i).getProduct().getPrice()> opPrice.get(i + 1).getProduct().getPrice()) {
-                    OrderProduct temp = opPrice.get(i);;
+                    OrderProduct temp = opPrice.get(i);
                     OrderProduct temp2 =opPrice.get(i+1);
                     opPrice.replace(i, temp2);
                     opPrice.replace(i + 1, temp);

@@ -75,13 +75,13 @@ public class SellerVoucherManageView{
             System.out.println();
             return;
         }
-        if(!newVoucherReleaseStatusStr.toLowerCase().equals("y") && !newVoucherReleaseStatusStr.toLowerCase().equals("n")){            
+        if(!newVoucherReleaseStatusStr.equalsIgnoreCase("y") && !newVoucherReleaseStatusStr.equalsIgnoreCase("n")){
             System.out.println("Please enter Y or N only! Else press Enter to skip!");
             System.out.println();
             askVoucherReleaseStatus();
         }                    
         System.out.println();
-        voucher.setReleased(newVoucherReleaseStatusStr.toLowerCase().equals("y")?true:false);        
+        voucher.setReleased(newVoucherReleaseStatusStr.equalsIgnoreCase("y"));
     }
 
     public static void askForMinSpend(){

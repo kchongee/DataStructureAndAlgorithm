@@ -67,9 +67,12 @@ public class CommentDisplayer implements Launchable
                 String errMsg =
 
                 """
-                Please provide following arguments:\n
-                1. accountID\n
-                2. roomID\n
+                Please provide following arguments:
+                
+                1. accountID
+                
+                2. roomID
+                
                 """;
 
                 throw new IllegalArgumentException(errMsg);

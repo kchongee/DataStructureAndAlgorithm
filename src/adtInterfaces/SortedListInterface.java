@@ -8,8 +8,8 @@ public interface SortedListInterface<T extends Comparable<T>> {
      * @param newEntry the object to be added as a new entry
      * @return true if the addition is successful
      */
-    public int size();
-    public boolean add(T newEntry);
+    int size();
+    boolean add(T newEntry);
   
     /**
      * Task: Removes a specified entry from the sorted list.
@@ -17,17 +17,17 @@ public interface SortedListInterface<T extends Comparable<T>> {
      * @param anEntry the object to be removed
      * @return true if anEntry was located and removed
      */
-    public boolean remove(T anEntry);
+    boolean remove(T anEntry);
   
-    public boolean contains(T anEntry);
+    boolean contains(T anEntry);
   
-    public void clear();
+    void clear();
 
-    public T get(int index);
+    T get(int index);
   
-    public int getNumberOfEntries();
+    int getNumberOfEntries();
   
-    public boolean isEmpty();
+    boolean isEmpty();
   
   } class SortedListInterfaces {
     

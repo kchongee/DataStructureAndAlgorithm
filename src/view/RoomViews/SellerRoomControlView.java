@@ -42,7 +42,7 @@ public class SellerRoomControlView
         CMD.cls();
         LikeList list = new LikeList(room);
         list.syncLikeDataFromDb();
-        out.println(list.toString());
+        out.println(list);
         CMD.pauseWithCustomScript("press any key to return...");
         this.main();
     }
@@ -52,7 +52,7 @@ public class SellerRoomControlView
         CMD.cls();
         ReviewList list = new ReviewList(room);
         list.syncReviewDataFromDb();
-        out.println(list.toString());
+        out.println(list);
         CMD.pauseWithCustomScript("press any key to return...");
         this.main();
     }

@@ -7,9 +7,9 @@ public final class jdbcUtil
 {
     private static ResultSet queryRslt;
     private static Connection dbLink;
-    private static String url = "jdbc:mysql://127.0.0.1:3306/LiveSaleSystemDB?allowMultiQueries=true&rewriteBatchedStatements=true";
-    private static String user = "liveSale";
-    private static String pwrd = "liveSale";
+    private static final String url = "jdbc:mysql://127.0.0.1:3306/LiveSaleSystemDB?allowMultiQueries=true&rewriteBatchedStatements=true";
+    private static final String user = "liveSale";
+    private static final String pwrd = "liveSale";
     private static Statement SQL;
     private final static jdbcUtil INSTANCE = new jdbcUtil();
 

@@ -28,7 +28,7 @@ public class CatalogFormatter
     {
         return String.format(
                 noColF+nameColF+priceColF+descColF,
-                Integer.toString(rowNo), product.getTitle(), product.getPrice(),
+                rowNo, product.getTitle(), product.getPrice(),
                 product.getDescription());
     }
 

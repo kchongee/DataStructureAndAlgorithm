@@ -69,10 +69,7 @@ public class CommentQueue
     {
         Comment latestCommentDB = fetchLatestCommentFromDB();
         Comment lastFetchedLatest = trackLatestComment();
-        if (latestCommentDB.compareTo(lastFetchedLatest) == 0){
-            return false;
-        }
-        return true;
+        return latestCommentDB.compareTo(lastFetchedLatest) != 0;
     }
     // endregion
 

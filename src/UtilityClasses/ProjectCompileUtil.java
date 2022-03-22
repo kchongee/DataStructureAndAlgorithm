@@ -51,7 +51,7 @@ public final class ProjectCompileUtil
     {
         compileJava(obj);
         String line1 = "cd " + getSourceFilePath() + "\n";
-        String line2 = "java -cp " + wrapQuotes(getSQLjarPath()) + "; " + obj.getClass().getName().toString() + "\npause";
+        String line2 = "java -cp " + wrapQuotes(getSQLjarPath()) + "; " + obj.getClass().getName() + "\npause";
         return  line1 + line2;
     }
 

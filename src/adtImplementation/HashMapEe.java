@@ -9,7 +9,7 @@ public class HashMapEe<K, V> implements MapInterfaceEe<K,V>{
     private int size = 0;
     private int capacity = 16;
     private Entry<K, V>[] entries = new Entry[capacity];
-    private double loadFactor = 0.75;
+    private final double loadFactor = 0.75;
 
     private static class Entry<K, V> {
         private final K key;

@@ -1,3 +1,7 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
+Main-Class: SubSystem.CommentInput.CommentInputPanel
+=======
 Main-Class: SubSystem.CommentDisplayer.CommentDisplayer
+>>>>>>> c2df553563047dbd70c8df121fba7797210e6be2
 

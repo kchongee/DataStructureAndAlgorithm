@@ -4,7 +4,7 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 
 public class NotificationHolder {
-    private ListInterface<Notification> notificationHolder;
+    private final ListInterface<Notification> notificationHolder;
 
     public NotificationHolder(int size){
         notificationHolder = new ArrayList<Notification>(size);

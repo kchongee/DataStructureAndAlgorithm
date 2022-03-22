@@ -10,10 +10,10 @@ import entity.Option;
 import entity.Product;
 
 public class PaymentView {
-    private static ListInterface<String> options = new ArrayList<String>();    
-    private static String creditCard = "Credit Card";
-    private static String bankAccount = "Bank Account";
-    private static String eWallet = "E-Wallet"; 
+    private static final ListInterface<String> options = new ArrayList<String>();
+    private static final String creditCard = "Credit Card";
+    private static final String bankAccount = "Bank Account";
+    private static final String eWallet = "E-Wallet";
 
     static{                       
         options.add(creditCard);

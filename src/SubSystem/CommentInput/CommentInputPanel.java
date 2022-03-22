@@ -47,7 +47,7 @@ public class CommentInputPanel implements Launchable
             DateTimeUtil.localTimeToString(comment.getCommentTime()),
             room.getRoomID(),
             comment.getContent(),
-            Boolean.toString(comment.retrieveMsgData().isEmpty())
+                comment.retrieveMsgData().isEmpty()
         );
 
         jdbcUtil.executeCUD(query);

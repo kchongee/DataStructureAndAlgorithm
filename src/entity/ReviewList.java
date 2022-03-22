@@ -4,8 +4,10 @@ import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
+import adtImplementation.LinkedHashMap;
+import adtInterfaces.MapInterface;
+
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ReviewList implements Comparable<ReviewList>
@@ -179,7 +181,7 @@ public class ReviewList implements Comparable<ReviewList>
     public String toString()
     {
         String str = "";
-        Iterator<Map.Entry<Integer, ArrayList<Review>>> itr = this.classifiedReview.entrySet().iterator();
+        Iterator<MapInterface.Entry<Integer, ArrayList<Review>>> itr = this.classifiedReview.iterator();
 
         while (itr.hasNext())
         {

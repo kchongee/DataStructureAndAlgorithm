@@ -4,6 +4,8 @@ import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
 
+import java.util.Iterator;
+
 public class HashMap<K,V> implements MapInterface<K,V> {
 
     //Default length of the array, initial value is 16
@@ -98,12 +100,12 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     }
 
     @Override
-    public void putAll(LinkedHashMap map) {
-
+    public Iterator iterator(){
+        throw new UnsupportedOperationException("unsupported");
     }
 
-
-    public void putAll() {
+    @Override
+    public void putAll(MapInterface<K,V> map) {
 
     }
 

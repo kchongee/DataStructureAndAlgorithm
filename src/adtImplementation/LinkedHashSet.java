@@ -16,6 +16,9 @@ public class LinkedHashSet<E> implements Set<E>
         this.mapAsSet = new LinkedHashMap<E,Object>();
     }
 
+    public LinkedHashSet(LinkedHashMap<E,Object>map){
+        this.mapAsSet = map;
+    }
 
     public int size() {
         return mapAsSet.size();
@@ -91,7 +94,7 @@ public class LinkedHashSet<E> implements Set<E>
 
 
 
-        System.out.println(test.toString());
+        System.out.println(test);
         System.out.println(test.contains("1"));
 
     }

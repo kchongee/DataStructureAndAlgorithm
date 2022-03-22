@@ -194,7 +194,7 @@ public class LinkedDeque<T> implements DequeInterface<T>{
     }
 
     private class Node{
-        private T element;        
+        private final T element;
         private Node prevNode,nextNode;
 
         private Node(T element){
