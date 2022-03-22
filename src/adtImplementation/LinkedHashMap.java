@@ -1,6 +1,6 @@
 package adtImplementation;
 
-import adtInterfaces.MapInterface;
+import adtInterfaces.HashMapInterface;
 import adtInterfaces.Set;
 
 import java.util.Iterator;
@@ -8,7 +8,7 @@ import java.util.Iterator;
 import static java.lang.Math.abs;
 
 
-public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInterface.Entry<K, V>>
+public class LinkedHashMap<K, V> implements HashMapInterface<K,V>, Iterable<HashMapInterface.Entry<K, V>>
 {
     private Entry[] entryBuckets;
     private static final int DEFAULT_BUCKET_QTY = 16;
@@ -177,7 +177,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
 
 
 
-    public void putAll(MapInterface<K,V> map) {
+    public void putAll(HashMapInterface<K,V> map) {
 
     }
 
@@ -308,12 +308,12 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    public Iterator<MapInterface.Entry<K, V>> iterator() {
+    public Iterator<HashMapInterface.Entry<K, V>> iterator() {
         return new LinkedHashMapIterator<K,V>(this);
     }
 
 
-    private static class Entry<K, V> implements MapInterface.Entry<K,V>
+    private static class Entry<K, V> implements HashMapInterface.Entry<K,V>
     {
         private K key;
         private V value;
@@ -408,7 +408,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     private void rehash()
     {
         LinkedHashMap<K,V> newMap = new LinkedHashMap<K,V>((int)Math.pow(2, ++this.power));
-        for (MapInterface.Entry<K, V> entry : this) {
+        for (HashMapInterface.Entry<K, V> entry : this) {
             newMap.put((Entry<K, V>) entry);
         }
         this.entryBuckets = newMap.entryBuckets;
@@ -419,7 +419,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     public String toString()
     {
         String map = "{";
-        for (MapInterface.Entry<K,V> entry : this){
+        for (HashMapInterface.Entry<K,V> entry : this){
             map = map + entry.getKey() + ":" + entry.getValue() + ", ";
         }
         return map+"}";
@@ -473,7 +473,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
     }
 
 
-    public static class LinkedHashMapIterator<K,V> implements Iterator<MapInterface.Entry<K,V>>
+    public static class LinkedHashMapIterator<K,V> implements Iterator<HashMapInterface.Entry<K,V>>
     {
         LinkedHashMap.Entry<K, V> current;
 
@@ -486,7 +486,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K,V>, Iterable<MapInter
             return current != null;
         }
 
-        public final MapInterface.Entry next()
+        public final HashMapInterface.Entry next()
         {
             Entry data = current;
             current = current.getForwardSequnce();

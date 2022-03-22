@@ -1,6 +1,6 @@
 package adtImplementation;
 
-import adtInterfaces.MapInterface;
+import adtInterfaces.HashMapInterface;
 import adtInterfaces.Set;
 
 import java.util.Iterator;
@@ -35,7 +35,7 @@ public class LinkedHashSet<E> implements Set<E>
     {
         E[] arr = (E[]) new Object[size()];
         int i = 0;
-        for (MapInterface.Entry e : mapAsSet){
+        for (HashMapInterface.Entry e : mapAsSet){
             arr[i] = (E) e;
         }
         return arr;
@@ -65,7 +65,7 @@ public class LinkedHashSet<E> implements Set<E>
     public String toString()
     {
         String set = "{";
-        for (MapInterface.Entry element : mapAsSet)
+        for (HashMapInterface.Entry element : mapAsSet)
         {
             set = set + element.getKey() + ", ";
         }

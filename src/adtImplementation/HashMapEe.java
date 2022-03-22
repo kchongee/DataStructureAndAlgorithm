@@ -2,7 +2,7 @@ package adtImplementation;
 
 import java.util.Objects;
 
-import adtInterfaces.MapInterface;
+import adtInterfaces.HashMapInterface;
 import adtInterfaces.MapInterfaceEe;
 
 public class HashMapEe<K, V> implements MapInterfaceEe<K,V>{

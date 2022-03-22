@@ -92,6 +92,7 @@ public class ArrayList<T> implements ListInterface<T> {
         return true;
     }
 
+    @Override
     public boolean remove(T element) {
         for(int i=0;i<arr.length;i++){
             if(element.equals(arr[i])){
@@ -131,10 +132,11 @@ public class ArrayList<T> implements ListInterface<T> {
         return returned;
     }
 
-    public int get(T anEntry) {    
+    @Override
+    public int get(T element) {    
         if(!isEmpty()){
             for (int index = 0; index < size; index++) {
-                if (anEntry.equals(arr[index])) {
+                if (element.equals(arr[index])) {
                   return index;
                 }
             }
@@ -151,7 +153,7 @@ public class ArrayList<T> implements ListInterface<T> {
         return false;
     }
 
-    public boolean addAll(T[] elements) {
+    /*public boolean addAll(T[] elements) {
         boolean isSuccessful = true;
     
         if(arr.length < elements.length){
@@ -161,7 +163,7 @@ public class ArrayList<T> implements ListInterface<T> {
         size = elements.length;
     
         return isSuccessful;
-    }
+    }*/
 
     @Override
     public boolean isEmpty() {        

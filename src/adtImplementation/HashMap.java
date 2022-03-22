@@ -1,10 +1,10 @@
 package adtImplementation;
 
 import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
+import adtInterfaces.HashMapInterface;
 import adtInterfaces.Set;
 
-public class HashMap<K,V> implements MapInterface<K,V> {
+public class HashMap<K,V> implements HashMapInterface<K,V> {
 
     //Default length of the array, initial value is 16
     private static int defaultLength = 16;
@@ -117,7 +117,7 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return null;
     }
 
-    private class Entry<K, V> implements  MapInterface.Entry<K, V> {
+    private class Entry<K, V> implements  HashMapInterface.Entry<K, V> {
         K k;
         V v;
         

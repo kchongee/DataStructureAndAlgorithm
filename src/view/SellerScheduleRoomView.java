@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
+import adtInterfaces.HashMapInterface;
 import application.App;
 import entity.Catalog;
 import entity.Option;

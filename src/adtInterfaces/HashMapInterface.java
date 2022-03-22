@@ -4,7 +4,7 @@ import adtImplementation.LinkedHashMap;
 
 import java.util.Iterator;
 
-public interface MapInterface<K,V> {
+public interface HashMapInterface<K,V> {
     V put(K k, V v);
     /**
      * get function
