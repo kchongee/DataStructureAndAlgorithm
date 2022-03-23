@@ -2,7 +2,6 @@ package entity;
 
 import java.util.Iterator;
 
-import adtInterfaces.ListInterface;
 import adtInterfaces.StackInterface;
 import application.App;
 public class Notification {

@@ -2,16 +2,12 @@ package view;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
-
-import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
-import adtImplementation.LinkedStack;
 import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
 import application.App;
 import application.Option;
 import entity.Buyer;
-import entity.Inbox;
 import entity.Notification;
 
 public class BuyerNotificationView {
@@ -48,11 +44,7 @@ public class BuyerNotificationView {
     }
 
     public static void fetchNotificationList(){
-        notifications.clear();
-        // Object[] objs = ((ArrayList)((Buyer)App.currentUser).getInbox().getNotifications()).toArray();        
-        // for(Object obj: objs){            
-        //     notifications.addLast((Notification)obj);
-        // }
+        notifications.clear();        
         Iterator<Notification> notificationIterator = ((Buyer)App.currentUser).getInbox().getNotifications().iterator();        
         while(notificationIterator.hasNext()){
             notifications.addLast(notificationIterator.next());
@@ -76,13 +68,13 @@ public class BuyerNotificationView {
 
     public static void printCurrentNotification(){
         currentNotification = notifications.peekFirst();
-        //((Buyer)App.currentUser).getInbox().openNotification(currentNotification);
+        ((Buyer)App.currentUser)
+            .getInbox()
+            .openNotification(currentNotification);
         currentNotification.setRead(true);
-        // jdbcUtil.executeCUD(String.format("UPDATE Notification SET isRead=%b WHERE notificationID='%s';",true,currentNotification.getNotificationID()));
 
         App.clearScreen();
         System.out.println(currentNotification);
-        // System.out.println();
         
         App.menuHandler(menuOptions);
     }
