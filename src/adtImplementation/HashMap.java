@@ -1,10 +1,10 @@
 package adtImplementation;
 
-import java.util.Iterator;
-
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
+
+import java.util.Iterator;
 
 public class HashMap<K,V> implements MapInterface<K,V> {
 
@@ -105,8 +105,8 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     }
 
     @Override
-    public void putAll(MapInterface<K,V> map) {
-
+    public int putAll(MapInterface<K,V> map) {
+        return 0;
     }
 
     @Override
