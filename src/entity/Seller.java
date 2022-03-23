@@ -1,13 +1,9 @@
 package entity;
 
-import entity.Account;
-
 import java.time.LocalDate;
 
-import UtilityClasses.DateTimeUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
-import application.App;
 
 public class Seller extends Account{
 

@@ -5,12 +5,10 @@ import java.time.LocalTime;
 import java.util.function.Consumer;
 
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
-import adtInterfaces.MapInterface;
 import application.App;
+import application.Option;
 import entity.Catalog;
-import entity.Option;
 import entity.Product;
 import entity.Room;
 import entity.Seller;

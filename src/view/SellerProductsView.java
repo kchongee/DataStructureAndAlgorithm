@@ -5,8 +5,7 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Option;
-import entity.Seller;
+import application.Option;
 
 public class SellerProductsView{
 

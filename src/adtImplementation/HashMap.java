@@ -1,11 +1,16 @@
 package adtImplementation;
 
+<<<<<<< HEAD
 import java.util.Iterator;
 import java.util.Objects;
 
+=======
+>>>>>>> 774ad366aafb3ca4631513c088cff4a75937ec96
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
+
+import java.util.Iterator;
 
 public class HashMap<K,V> implements MapInterface<K,V> {
 
@@ -111,8 +116,13 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     }
 
     @Override
+<<<<<<< HEAD
     public void putAll(MapInterface<K,V> map) {
         throw new UnsupportedOperationException();  
+=======
+    public int putAll(MapInterface<K,V> map) {
+        return 0;
+>>>>>>> 774ad366aafb3ca4631513c088cff4a75937ec96
     }
 
     @Override

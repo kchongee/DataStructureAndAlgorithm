@@ -5,18 +5,12 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Option;
+import application.Option;
 import entity.Product;
 import entity.Seller;
 
 public class SellerAddProductView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
-    
-    static {
-        // menuOptions.add(new Option("Add Product", i -> System.out.println("Add Product")));
-        // menuOptions.add(new Option("Remove Product", i -> System.out.println("Remove Product")));        
-        // menuOptions.add(new Option("View Product in details", i -> System.out.println("Remove Product")));        
-    }
 
     public static void main(String[] args) {
         main();

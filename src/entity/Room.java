@@ -12,11 +12,9 @@ import adtInterfaces.QueueInterface;
 public class Room
 {
     private Seller seller;
-    private String roomID,roomTitle;    
-    // private ListInterface<Buyer> likes;
+    private String roomID,roomTitle;        
     private ListInterface<Buyer> buyers;
-    private QueueInterface<Comment> comments;    
-    // private MapInterface<String,Product> catalog;
+    private QueueInterface<Comment> comments;        
     private Catalog catalog;
     private LocalDate dateOpen;
     private LocalTime timeOpen;
@@ -83,30 +81,6 @@ public class Room
         return roomID;
     }    
 
-    // public boolean addLike(Buyer buyer){
-    //     int buyerIndex = likes.get(buyer);
-    //     if(buyerIndex==-1){
-    //         likes.add(buyer);
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // public boolean removeLike(Buyer buyer){
-    //     int buyerIndex = likes.get(buyer);
-    //     if(buyerIndex!=-1){
-    //         likes.remove(buyerIndex);
-    //         return true;
-    //     }        
-    //     return false;
-    // }
-
-//    public boolean addComment(Account acc, String text){
-//        Comment comment = new Comment(acc, text);
-//        comments.add(comment);
-//        return false;
-//    }
-
     public void openRoom(){
         this.setOpen(true);
     }
@@ -120,11 +94,7 @@ public class Room
     }    
 
 
-    //region: getter setters
-    // public ListInterface<Buyer> getLikes() {
-    //     return likes;
-    // }
-
+    //region: getter setters    
     public ListInterface<Buyer> getBuyers() {
         return buyers;
     }
@@ -156,12 +126,6 @@ public class Room
     public void setRoomTitle(String roomTitle) {
         this.roomTitle = roomTitle;
     }
-
-
-    // public void setLikes(ListInterface<Buyer> likes) {
-    //     this.likes = likes;
-    // }
-
 
     public void setBuyers(ListInterface<Buyer> buyers) {
         this.buyers = buyers;
@@ -199,10 +163,6 @@ public class Room
     public static void setId(int id) {
         Room.id = id;
     }
-
-    // public ListInterface<Buyer> getBuyers() {
-    //     return buyers;
-    // }
 
     public Seller getSeller() {
         return seller;
@@ -248,8 +208,7 @@ public class Room
     public String toString() {
         return "Room{" +
                 "roomID='" + roomID + '\'' +
-                ", roomTitle='" + roomTitle + '\'' +
-                // ", likes=" + likes +
+                ", roomTitle='" + roomTitle + '\'' +                
                 ", buyers=" + buyers +
                 ", comments=" + comments +
                 ", catalog=" + catalog +
