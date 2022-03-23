@@ -177,7 +177,7 @@ public class ArrayList<T> implements ListInterface<T> {
     //     System.arraycopy(arr, 0, newArr, 0, size());
     //     return (T[])newArr;
     // }    
-
+    @Override
     public Object[] toArray(){
         Object[] newArr = new Object[size()];        
         System.arraycopy(arr, 0, newArr, 0, size());        
@@ -244,6 +244,7 @@ public class ArrayList<T> implements ListInterface<T> {
     public Iterator<T> iterator(){
         return new ListIterator();
     }
+    
     private class ListIterator implements Iterator<T>{   
         private int currIndex = 0;     
 

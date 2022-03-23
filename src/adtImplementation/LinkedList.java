@@ -214,6 +214,12 @@ public class LinkedList<T> implements ListInterface<T>{
 
     private class Node {
 
+        @Override
+        public String toString() {
+            // TODO Auto-generated method stub
+            return super.toString();
+        }
+
         private T element;
         private Node nextNode;
 
@@ -245,5 +251,11 @@ public class LinkedList<T> implements ListInterface<T>{
             }
             return null;
         }
+    }
+
+    @Override
+    public Object[] toArray() {
+        // TODO Auto-generated method stub
+        return null;
     }
 }
