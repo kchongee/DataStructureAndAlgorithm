@@ -1,6 +1,5 @@
 package application;
 
-import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -23,9 +22,7 @@ public class App {
     public static Account currentUser = new Account();
     public static Account buyer = new Buyer();
     public static Account seller = new Seller();
-    public static AccountList accountList = new AccountList(100);
-    public static NotificationHolder notificationList = new NotificationHolder(100);
-    //public static StackInterface<Notification> inbox = new LinkedStack<Notification>();
+    public static AccountList accountList = new AccountList(100);    
     public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
     public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
     public static Room chosenRoom =new Room();
@@ -56,19 +53,7 @@ public class App {
 
         ((Buyer)buyer).addProductToCart(bp1);
         ((Buyer)buyer).addProductToCart(bp2);
-        ((Buyer)buyer).addProductToCart(bp3);
-
-        // try
-        // {
-        //     // test
-        //     chosenRoom = new Room("1","s",true, new Seller("A01"));
-
-        //     roomViewExe = new RoomViewExe();
-        // }
-        // catch (FileNotFoundException e)
-        // {
-        //     e.printStackTrace();
-        // }
+        ((Buyer)buyer).addProductToCart(bp3);        
         
         Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
         Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
@@ -184,57 +169,7 @@ public class App {
         }else{
             options.get(optionNum-1).execFunction();
         }
-    }
-    
-    // public static void menuHandler(HashMap<String, Product> catalog){
-    //     printMenuOption(catalog);
-    //     promptUserInputOptionAndGo();
-    // }
-
-    // public static void printThroughList(ListInterface<?> list) {                
-    //     if(!list.isEmpty()){
-    //         for (int i=0;i<list.size();i++) {        
-    //             System.out.printf("%2d    %s\n",i+1,list.get(i).toString());
-    //         }            
-    //     }            
-    // }  
-
-    // public static void printMenuOption(HashMap<String, Product> catalog) {        
-    //     System.out.println("========= Menu =========");
-    //     if(!catalog.getKey()){
-    //         for (int i=0;i<catalog.size();i++) {        
-    //             System.out.printf("%2d    %s\n",i+1,catalog.get(i).getText());
-    //         }            
-    //     }    
-    //     System.out.printf("%2d    %s\n",0,(history.isEmpty()?"Exit":"Back"));                          
-    //     System.out.println("========================");        
-    // }    
-
-    // public static void promptUserInputOptionAndGo(ListInterface<Option> options) {     
-    //     System.out.print("Enter your option: ");
-    //     int inputOption = -1;
-    //     try {
-    //         inputOption = scanner.nextInt();            
-    //         goToUserOption(inputOption,options);         
-    //     } catch (InputMismatchException ime) {
-    //         scanner.next();
-    //         System.out.println("Invalid input! Please enter number only.");
-    //         System.out.println();
-    //         promptUserInputOptionAndGo(options);
-    //     }        
-    // }          
-
-    // public static void goToUserOption(int optionNum,ListInterface<Option> options){
-    //     if(optionNum<0 || optionNum>options.size()){
-    //         System.out.println("Invalid numbering! Please enter the numbering provided.");
-    //         System.out.println();
-    //         promptUserInputOptionAndGo(options);
-    //     }else if(optionNum==0){
-    //         goBack();
-    //     }else{
-    //         options.get(optionNum-1).execFunction();
-    //     }
-    // }
+    }        
 
     public static void goToHome(){        
         while(history.size()>2){

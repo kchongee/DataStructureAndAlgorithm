@@ -6,9 +6,6 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 import entity.Buyer;
-import entity.Invoice;
-import entity.Option;
-import entity.Product;
 import entity.Seller;
 
 public class PaymentView {

@@ -9,10 +9,10 @@ import adtImplementation.LinkedStack;
 import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
 import application.App;
+import application.Option;
 import entity.Buyer;
 import entity.Inbox;
 import entity.Notification;
-import entity.Option;
 
 public class BuyerNotificationView {
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();

@@ -1,6 +1,5 @@
-package entity;
+package application;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class Option{
     private String text;

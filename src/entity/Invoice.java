@@ -4,10 +4,8 @@ import java.time.LocalDateTime;
 import java.util.Iterator;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
-import application.App;
 
-public class Invoice {
-    // CE part
+public class Invoice {    
     private String invoiceId;
     private ListInterface<OrderProduct> invoiceProducts;
     private LocalDateTime invoiceDateTime;
@@ -134,123 +132,64 @@ public class Invoice {
         return str;
     }
 
-    public static void main(String[] args) {
-        Invoice invoice = new Invoice()
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title1", 50.5, "description1"), 
-                    5
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title2", 20.5, "description2"), 
-                    2
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title3", 30.5, "description3"), 
-                    3
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title4", 40.5, "description4"), 
-                    4
-                )
-            );     
+    // public static void main(String[] args) {
+    //     Invoice invoice = new Invoice()
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title1", 50.5, "description1"), 
+    //                 5
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title2", 20.5, "description2"), 
+    //                 2
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title3", 30.5, "description3"), 
+    //                 3
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title4", 40.5, "description4"), 
+    //                 4
+    //             )
+    //         );     
 
-        Invoice invoice2 = new Invoice()
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title1", 50.5, "description1"), 
-                    5
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title2", 20.5, "description2"), 
-                    2
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title3", 30.5, "description3"), 
-                    3
-                )
-            )
-            .addOrderProduct(
-                new OrderProduct(
-                    new Product("title4", 40.5, "description4"), 
-                    4
-                )
-            );     
+    //     Invoice invoice2 = new Invoice()
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title1", 50.5, "description1"), 
+    //                 5
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title2", 20.5, "description2"), 
+    //                 2
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title3", 30.5, "description3"), 
+    //                 3
+    //             )
+    //         )
+    //         .addOrderProduct(
+    //             new OrderProduct(
+    //                 new Product("title4", 40.5, "description4"), 
+    //                 4
+    //             )
+    //         );     
 
-        ListInterface<Invoice> invoices = new ArrayList<>();
-        invoices.add(invoice);
-        invoices.add(invoice2);
+    //     ListInterface<Invoice> invoices = new ArrayList<>();
+    //     invoices.add(invoice);
+    //     invoices.add(invoice2);
 
-        App.clearScreen();
-        System.out.println(displayAll(invoices));
-    }
-
-    // Chooi Li part
-    private static ListInterface<Invoice> invoiceList;
-    static Account account;
-    static Product product;
-    static CartDetails cartDetails;
-    private double subtotal;
-    private double total;
-
-    
-
-    public Invoice(ListInterface<Invoice> invoiceList, Account account, Product product, CartDetails cartDetails, double subtotal, double total) {
-        Invoice.invoiceList = invoiceList;
-        Invoice.account = account;
-        Invoice.product = product;
-        Invoice.cartDetails = cartDetails;
-        this.subtotal = subtotal;
-        this.total = total;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        Invoice.account = account;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        Invoice.product = product;
-    }
-
-    public CartDetails getCartDetails() {
-        return cartDetails;
-    }
-
-    public void setCartDetails(CartDetails cartDetails) {
-        Invoice.cartDetails = cartDetails;
-    }
-
-    public double getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(double subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
+    //     App.clearScreen();
+    //     System.out.println(displayAll(invoices));
+    // }    
 }

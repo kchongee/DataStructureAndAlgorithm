@@ -1,10 +1,6 @@
 package view;
 
-import java.sql.SQLException;
-import java.sql.SQLSyntaxErrorException;
 import java.util.regex.Pattern;
-
-import com.mysql.cj.jdbc.exceptions.SQLError;
 
 import UtilityClasses.CMD;
 import UtilityClasses.jdbcUtil;
