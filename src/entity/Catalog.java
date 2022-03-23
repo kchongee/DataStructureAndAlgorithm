@@ -1,24 +1,23 @@
 package entity;
+
 import SubSystem.CatalogEditor.CatalogFormatter;
 import adtImplementation.ArrayList;
 import UtilityClasses.jdbcUtil;
+import adtInterfaces.ListInterface;
 import application.App;
 
-public class Catalog
-{    
-    private ArrayList<Product> productList;
-
+public class Catalog {
+    private ListInterface<Product> productList;
 
     // region : constructor
     public Catalog() {
         this.productList = new ArrayList<Product>();
     }
 
-    public Catalog(ArrayList<Product> productList) {
+    public Catalog(ListInterface<Product> productList) {
         this.productList = productList;
     }
     // endregion
-
 
 
     // region : list manipulation
@@ -30,96 +29,73 @@ public class Catalog
         productList.remove(number);
     }
 
-    public void insertBelow(int number, Product product)
-    {
+    public void insertBelow(int number, Product product) {
         int index = number;
-        if (index == productList.size()-1)
-        {   // is last element
+        if (index == productList.size() - 1) {   // is last element
             productList.add(product);
-        }
-        else
-        {   // not last element
-            productList.add(index+1, product);
+        } else {   // not last element
+            productList.add(index + 1, product);
         }
     }
 
-    public void replace(int number, Product product){
+    public void replace(int number, Product product) {
         productList.replace(number, product);
     }
 
-    // endregion
-
-
-    /*
-    * Problem
-    * Statement : Catalog can't be zero in product list
-    **/
-
-
-    // region : public methods
-    public String catalogStr()
-    {
+    public String catalogStr() {
         CatalogFormatter formatter = new CatalogFormatter();
         String head = formatter.headStr();
         String content = "";
-        if(!productList.isEmpty())
-        {
-            for (int i = 0 ; i < productList.size() ; i++)
-            {
+        if (!productList.isEmpty()) {
+            for (int i = 0; i < productList.size(); i++) {
                 Product tempProduct = productList.get(i);
-                content = content + (formatter.toRow(i+1, tempProduct)) + "\n";
+                content = content + (formatter.toRow(i + 1, tempProduct)) + "\n";
             }
             content = content + formatter.lineStr();
         }
         return head + "\n" + content;
     }
 
-    public String catalogHtml()
-    {
+    public String catalogHtml() {
         String catalogHTML = catalogStr().replace("\n", "<br>");
         catalogHTML = catalogHTML.replace(" ", "&nbsp;");
-        catalogHTML= "<html>" + catalogHTML +"</html>";
+        catalogHTML = "<html>" + catalogHTML + "</html>";
         return catalogHTML;
     }
 
-    // endregion
-
-
-
-
-    // region : getters setters
-    public ArrayList<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(ArrayList<Product> productList) {
-        this.productList = productList;
-    }
-
-    public Integer createNewCatalogIntoDatabase()
-    {
+    public Integer createNewCatalogIntoDatabase() {
         Integer maxRoomID = (Integer) jdbcUtil.readOne("select max(roomID) from roomcatalog").get("max(roomID)");
-        if (maxRoomID == null){
+        if (maxRoomID == null) {
             maxRoomID = 1;
         }
 
         int productMax = (Integer) jdbcUtil.readOne("select max(productID) from product").get("max(productID)");
 
         String sellerID = "";
-        if (App.currentUser == null){
+        if (App.currentUser == null) {
             sellerID = "A02";
-        }else {
+        } else {
             sellerID = App.currentUser.getAccountID();
         }
 
-        for (int i = 0 ; i < productList.size() ; i++)
-        {
-            String query = String.format("insert ignore into roomcatalog values (%s,%s);",maxRoomID+1,++productMax);
-            String query2 = String.format("insert ignore into product values (%s,'%s','%s',%s,'%s');",productMax-1,productList.get(i).getTitle(),productList.get(i).getDescription(),productList.get(i).getPrice(),sellerID);
+        for (int i = 0; i < productList.size(); i++) {
+            String query = String.format("insert ignore into roomcatalog values (%s,%s);", maxRoomID + 1, ++productMax);
+            String query2 = String.format("insert ignore into product values (%s,'%s','%s',%s,'%s');", productMax - 1, productList.get(i).getTitle(), productList.get(i).getDescription(), productList.get(i).getPrice(), sellerID);
             jdbcUtil.executeCUD(query);
             jdbcUtil.executeCUD(query2);
         }
-        return maxRoomID+1;
+        return maxRoomID + 1;
+    }
+    // endregion
+
+
+    // region : getters setters
+    public ListInterface<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(ArrayList<Product> productList) {
+        this.productList = productList;
     }
     // endregion
 }

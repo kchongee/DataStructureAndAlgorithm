@@ -7,6 +7,7 @@ import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
+import adtInterfaces.MapInterface;
 import adtInterfaces.QueueInterface;
 
 public class Room
@@ -189,7 +190,7 @@ public class Room
                 );
         // debug
         // System.out.println(query);
-        ArrayList<HashMap<String, Object>> products = jdbcUtil.readAll(query);
+        ListInterface<MapInterface<String, Object>> products = jdbcUtil.readAll(query);
 
         if (products != null) {
             for (int i = 0 ; i < products.size() ; i++) {

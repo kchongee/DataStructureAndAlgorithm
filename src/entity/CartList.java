@@ -3,6 +3,8 @@ package entity;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
+import adtInterfaces.ListInterface;
+import adtInterfaces.MapInterface;
 
 public class CartList {
     ArrayList<Cart> cart;
@@ -13,7 +15,7 @@ public class CartList {
         this.cart = new ArrayList<Cart>();
     }
 
-    public ArrayList<HashMap<String, Object>> fetchCartFromDb() {
+    public ListInterface<MapInterface<String, Object>> fetchCartFromDb() {
         String query = String.format(
                         """
                            Select cartID,sellerID, A.userName
@@ -44,7 +46,7 @@ public class CartList {
 
     public void syncCart(){
         cart.clear();
-        ArrayList<HashMap<String, Object>> cartList =  fetchCartFromDb() ;
+        ListInterface<MapInterface<String, Object>> cartList =  fetchCartFromDb() ;
         for (int i=0; i<cartList.size(); i++){
             int cartID = (int)cartList.get(i).get("cartID");
             String sellerID = (String)cartList.get(i).get("sellerID");

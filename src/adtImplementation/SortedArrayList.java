@@ -4,7 +4,7 @@ import adtInterfaces.SortedListInterface;
 
 public class SortedArrayList<T extends Comparable<T>> implements SortedListInterface<T> {
 
-  private T[] array;
+  private final T[] array;
   private int numberOfEntries;
   private static final int DEFAULT_CAPACITY = 25;
   private int arrayQty;

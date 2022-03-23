@@ -16,8 +16,6 @@ public class RoomListView
 {
     RoomList roomList;
     RoomListUI roomListUI;
-
-
     ArrayList<Option> ROOM_LIST_OPTIONS = new ArrayList<Option>
     (
             new Option[]
@@ -74,7 +72,7 @@ public class RoomListView
         while (true)
         {
             int roomNumber = App.promptIntInput("Please select a room >> ");
-            Room chosenRoom =roomList.getUserChosenBuyer(roomNumber);
+            Room chosenRoom =roomList.getRoomGivenIndex(roomNumber);
 
             if (chosenRoom != null)
             {

@@ -32,7 +32,7 @@ public class CartDetailsView
     );
 
     public CartDetailsView(CartDetails cartDetails) {
-        this.cartDetails = cartDetails;
+        CartDetailsView.cartDetails = cartDetails;
     }
 
 //    public static void main(Cart cart)
@@ -55,7 +55,7 @@ public class CartDetailsView
         if (productNo > 0 && productNo <= cartDetails.getCartDetails().size())
         {
             int productQty = App.promptIntInput("How many want to add? >> ");
-            boolean added =this.cartDetails.addQuantity(productNo-1, productQty);
+            boolean added = cartDetails.addQuantity(productNo-1, productQty);
             if (!added){
                 CMD.pauseWithCustomScript("Error quantity! press any key to proceed");
             }
@@ -69,7 +69,7 @@ public class CartDetailsView
         if (productNo > 0 && productNo <= cartDetails.getCartDetails().size())
         {
             int productQty = App.promptIntInput("How many want to decrease? >> ");
-            boolean decreased =this.cartDetails.decreaseQuantity(productQty, productNo-1);
+            boolean decreased = cartDetails.decreaseQuantity(productQty, productNo-1);
 
             if (!decreased)
             {
@@ -123,7 +123,7 @@ public class CartDetailsView
 
         while (!endLoop)
         {
-            System.out.println(view.cartDetails.toString());
+            System.out.println(CartDetailsView.cartDetails.toString());
             int option = App.promptIntInput("Please select an action >> ");
 
             if (option == 0 ){                

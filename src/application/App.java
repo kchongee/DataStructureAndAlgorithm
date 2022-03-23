@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import adtImplementation.HashMap;
 import UtilityClasses.jdbcUtil;
+import adtInterfaces.MapInterface;
 import entity.*;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
@@ -23,8 +24,8 @@ public class App {
     public static Account buyer = new Buyer();
     public static Account seller = new Seller();
     public static AccountList accountList = new AccountList(100);    
-    public static ArrayList<HashMap<String, Object>> hashAccount = new ArrayList<HashMap<String, Object>>(100);
-    public static ArrayList<HashMap<String, Object>> hashNotifications = new ArrayList<HashMap<String, Object>>(100);
+    public static ListInterface<MapInterface<String, Object>> hashAccount = new ArrayList<>(100);
+    public static ListInterface<MapInterface<String, Object>> hashNotifications = new ArrayList<>(100);
     public static Room chosenRoom =new Room();
     public static RoomViewExe roomViewExe;
     public static Integer sellerCreatedRoomID = 0;

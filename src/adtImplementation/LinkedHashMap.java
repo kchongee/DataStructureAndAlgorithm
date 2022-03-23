@@ -133,7 +133,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
     public V remove(K key) {
         if (bucket(key) != null) {       // have bucket associated with key
             removeFromLinkedChainIfExist(key); // using hash, no iteration required
-            Entry<K, V> removed = removeFromBucketCollisionChain(key);
+            Entry<K, V> removed = removeFromBucket(key);
             if (removed != null) {      // successfully removed
                 --totalEntries;
                 return removed.getValue();
@@ -272,7 +272,8 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
      * Below are the region for utility methods
      */
     private boolean keyMatch(Entry<K, V> entry, K key) {
-        return entry.getKey() == key || entry.getKey().equals(key);
+        return entry.getKey().hashCode() == key.hashCode() &&
+                (key.equals(entry.getKey()) || entry.getKey().hashCode() == key.hashCode());
     }
 
     private V handleCollision(K key, V value, HandlingMode<K, V> handle) {
@@ -360,11 +361,10 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
             removeFirstEntry();
         else if (keyMatch(lastEntry, key))
             removeLastEntry();
-        else
+        else // confirm have at least 3 element
             removeFromMiddlePartOfChainIfKeyExist(key);
     }
 
-    // entry must not first and last
     private void removeFromMiddlePartOfChainIfKeyExist(K key) {
         Entry<K, V> entry = bucket(key).searchCollision(key);
         if (entry != null) {
@@ -407,7 +407,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         }
     }
 
-    private Entry<K, V> removeFromBucketCollisionChain(K key) {
+    private Entry<K, V> removeFromBucket(K key) {
         if (keyMatch(bucket(key), key))
             return alterBucket(key);
         else
@@ -417,7 +417,6 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
     private Entry<K, V> alterBucket(K key) {
         Entry<K, V> removed = entryBuckets[bucketIndex(key)];
         entryBuckets[bucketIndex(key)] = bucket(key).collidedEntry;
-        System.out.println(this.containsKey(key));
         return removed;
     }
 
@@ -433,6 +432,22 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         }
         return null;
     }
+
+    /**
+     * Below is functional interface(aka lambdas)
+     */
+    @FunctionalInterface
+    private interface HandlingMode<K, V> {
+        V settleCollision(LinkedHashMap.Entry<K, V> entry, V value);
+    }
+
+    private final HandlingMode<K, V> overwrite = (entry, value) -> {
+        entry.value = value;
+        return value;
+    };
+    private final HandlingMode<K, V> nonOverwrite = (entry, value) -> {
+        return null;
+    };
     // endregion : utility method
 
 
@@ -501,7 +516,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         System.out.println(test.get("s"));
         System.out.println(test.get("g"));
         System.out.println(test.get("i"));
-        System.out.println(test.toString());
+        System.out.println(test);
 
         test.put("k", 2);
         test.put("l", 2);
@@ -548,7 +563,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         test.put("o", 2);
         test.put("p", 2);
         test.put("q", 2);
-        System.out.println(test.toString());
+        System.out.println(test);
         System.out.println(test.containsValue(2));
         System.out.println(test.containsValue(4));
         test.containsValue(759);
@@ -1348,7 +1363,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         test.remove("a");
         test.remove("s");
 
-        System.out.println(test.toString());
+        System.out.println(test);
 
         System.out.println(test.containsKey("a"));
         System.out.println(test.containsKey("o"));
@@ -1358,7 +1373,7 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         System.out.println(test.get("b"));
 
         test.clear();
-        System.out.println(test.toString());
+        System.out.println(test);
         System.out.println(test.isEmpty());
 
 
@@ -1382,12 +1397,12 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         merger.put("b", 2);
         merger.put("b", 3);
 
-        System.out.println(merger.toString());
+        System.out.println(merger);
 
         test.putAll(merger);
 
 
-        System.out.println(test.toString());
+        System.out.println(test);
 
 
         test.clear();
@@ -1403,28 +1418,28 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         merger.putOverwrite("b", 4);
         merger.put("d", 9);
         merger.put("z", 2);
-        System.out.println(merger.toString());
+        System.out.println(merger);
 
 
         merger.remove("a");
         test.values();
         merger.remove("z");
 
-        System.out.println(merger.toString());
+        System.out.println(merger);
 
 
         merger.remove("d");
         merger.remove("z");
         test.values();
         merger.remove("a");
-        System.out.println(merger.toString());
+        System.out.println(merger);
         merger.remove("e");
 
-        System.out.println(merger.toString());
+        System.out.println(merger);
         System.out.println("size=" + merger.size());
 
 
-        System.out.println(merger.toString());
+        System.out.println(merger);
         System.out.println("size=" + merger.size());
 
         System.out.println(merger);
@@ -1432,31 +1447,16 @@ public class LinkedHashMap<K, V> implements MapInterface<K, V>, Iterable<MapInte
         merger.clear();
 
 
-        System.out.println("Before rem=" + merger.toString());
+        System.out.println("Before rem=" + merger);
         System.out.println("Before rem=" + merger.containsKey("a"));
 
         merger.remove("z");
         merger.remove("a");
-        System.out.println("Before rem=" + merger.toString());
+        System.out.println("Before rem=" + merger);
         System.out.println("Before rem=" + merger.containsKey("a"));
         System.out.println("szie = " + merger.size());
 
         merger.clear();
     }
-
-    // utility lambdas
-    @FunctionalInterface
-    private interface HandlingMode<K, V> {
-        public V settleCollision(LinkedHashMap.Entry<K, V> entry, V value);
-    }
-
-    private final HandlingMode<K, V> overwrite = (entry, value) -> {
-        entry.value = value;
-        return value;
-    };
-
-    private final HandlingMode<K, V> nonOverwrite = (entry, value) -> {
-        return null;
-    };
 }
 

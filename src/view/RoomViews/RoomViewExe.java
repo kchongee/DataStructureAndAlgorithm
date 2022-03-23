@@ -46,13 +46,14 @@ public class RoomViewExe
         } else {
             roomID = App.chosenRoom.getRoomID();
         }
+
         return
                 new String[]
                         {
                                 App.currentUser.getAccountID(),
-                                String.valueOf(App.currentUser.getIsSeller()),
+                                App.currentUser.getIsSeller() == null? "0":String.valueOf(App.currentUser.getIsSeller()),
                                 roomID,
-                                App.chosenRoom.getSeller().getAccountID()
+                                App.chosenRoom.getSeller() == null? "A01":App.chosenRoom.getSeller().getAccountID()
                         };
 
     }
@@ -95,5 +96,9 @@ public class RoomViewExe
         String command2 = EXEHandler.wrapStringWithQuotes(EXEHandler.getExecuteablePath()+"\\"+"TerminateCommentDisplay.bat");
         CMD.executeWindowsCommand(command);
         CMD.executeWindowsCommand(command2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(App.currentUser.getIsSeller());
     }
 }

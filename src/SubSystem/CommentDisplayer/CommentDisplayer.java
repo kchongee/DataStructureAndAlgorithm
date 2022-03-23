@@ -29,15 +29,11 @@ public class CommentDisplayer implements Launchable
     {
         while (!CommentQueue.getCommentQueue().isEmpty())
         {
-
-            System.out.println
-            (
-                CommentQueue
-                .getCommentQueue()
-                .poll()
-                .getFormatter()
-                .toBlockString()
-            );
+            CommentFormatter formatter =
+                    new CommentFormatter(CommentQueue
+                    .getCommentQueue()
+                    .poll());
+            System.out.println(formatter.toBlockString());
         }
     }
     // endregion
