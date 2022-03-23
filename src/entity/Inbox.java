@@ -1,50 +1,16 @@
 package entity;
 
 import UtilityClasses.jdbcUtil;
-import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
-import adtInterfaces.ListInterface;
 import adtInterfaces.StackInterface;
 
 public class Inbox{
-    private ListInterface<Notification> notifications;
-    private StackInterface<Notification> notificationStack;
+    private StackInterface<Notification> notificationStack;    
 
-    public Inbox(int size){
-        notificationStack=new LinkedStack<Notification>();
-    }
-
-    public Inbox(){
-        this.notifications = new ArrayList<>();
+    public Inbox(){    
         this.notificationStack = new LinkedStack<Notification>();
     }    
-
-    // public ListInterface<Notification> getNotifications() {
-    //     return notifications;
-    // }
-
-    // public void setNotifications(ListInterface<Notification> notifications) {
-    //     this.notifications = notifications;
-    // }
-
-    // public void addNotification(Notification notification){
-    //     this.notifications.add(notification);
-    // }
-
-    // public void removeNotification(Notification notification){
-    //     this.notifications.remove(notification);
-    // }
-
-    // public void openNotification(Notification notification){
-    //     if(!notification.isRead())
-    //         notification.setRead(true);
-    // } 
     
-    // public void openNotificationByIndex(int index){
-    //     Notification notification = this.notifications.get(index);
-    //     this.openNotification(notification);
-    // } 
-
     public StackInterface<Notification> getNotifications() {
         return notificationStack;
     }
@@ -57,11 +23,11 @@ public class Inbox{
         this.notificationStack.push(notification);
     }    
 
-    /*public void openNotification(Notification notification){
+    public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
             jdbcUtil.executeCUD(String.format("UPDATE Notification SET title=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
-    }*/
+    }
 
     @Override
     public String toString() {        

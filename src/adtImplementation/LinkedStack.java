@@ -14,13 +14,14 @@ public class LinkedStack<T> implements StackInterface<T>{
     }    
 
     @Override
-    public void push(T element) {                
+    public boolean push(T element) {                
         Node newNode = new Node(element);
         if(!isEmpty()){
             newNode.nextNode = topNode;
         }        
         topNode = newNode;
         nodeCount++;
+        return true;
     }
 
     @Override
@@ -45,6 +46,21 @@ public class LinkedStack<T> implements StackInterface<T>{
             return null;
         }        
         return topNode.element;
+    }
+
+    @Override
+    public boolean contains(T element) {
+        boolean found = false;
+        Node currentNode = topNode;
+
+        while (!found && (currentNode != null)) {
+            if (element.equals(currentNode.element)) {
+                found = true;
+            } else {
+                currentNode = currentNode.nextNode;
+            }
+        }
+        return found;
     }
 
     @Override

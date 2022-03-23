@@ -5,10 +5,10 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Buyer;
-import entity.Option;
+import application.Option;
 import entity.Room;
 import entity.Seller;
+import view.RoomViews.BuyerRoomControlView;
 
 public class SellerOpenRoomView {    
 
@@ -37,7 +37,7 @@ public class SellerOpenRoomView {
             System.out.println("Please enter the option provided.");
         }else{
             Room room = rooms.get(roomOption);
-            goToPage(ii->RoomView.main());
+            goToPage(ii->BuyerRoomControlView.main(new String[0]));
         }
     }
     

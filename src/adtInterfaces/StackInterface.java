@@ -3,9 +3,10 @@ package adtInterfaces;
 import java.util.Iterator;
 
 public interface StackInterface<T> {
-    void push(T element);
+    boolean push(T element);
     T pop();
     T peek();
+    boolean contains(T element);
     boolean isEmpty();
     int size();
     void clear();

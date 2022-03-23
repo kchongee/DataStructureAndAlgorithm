@@ -7,7 +7,7 @@ import adtImplementation.LinkedDeque;
 import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Option;
+import application.Option;
 import entity.Product;
 import entity.Seller;
 

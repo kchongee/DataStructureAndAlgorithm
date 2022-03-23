@@ -2,17 +2,13 @@ package entity;
 
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
-import application.App;
-
-import static entity.Invoice.cartDetails;
 
 public class Cart {
     private int cartID;
     private ListInterface<OrderProduct> cartProducts;
     private CartDetails productList;
     private Account buyer;
-    private Account seller;
-    private Payment payment;
+    private Account seller;    
     
 
     public Cart(){
@@ -104,14 +100,6 @@ public class Cart {
 
     public void setSeller(Account seller) {
         this.seller = seller;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
     }
 
     /*

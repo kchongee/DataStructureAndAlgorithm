@@ -1,19 +1,11 @@
 package entity;
 import SubSystem.CatalogEditor.CatalogFormatter;
-import UI.CatalogUI;
-import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
 import UtilityClasses.jdbcUtil;
-import adtImplementation.ArrayList;
 import application.App;
-// import adtInterfaces.ListInterface;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class Catalog
-{
-    // private ListInterfaceEe<Product> productList = new ArrayListEe<Product>();    
+{    
     private ArrayList<Product> productList;
 
 

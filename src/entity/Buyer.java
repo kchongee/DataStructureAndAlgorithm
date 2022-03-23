@@ -44,20 +44,20 @@ public class Buyer extends Account{
     }
 
     public Inbox getInbox() {
-        // App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
+        App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
 
-        // inbox.getNotifications().clear();
-        // for(int i=0;i<App.hashNotifications.size();i++){      
-        //     Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
+        inbox.getNotifications().clear();
+        for(int i=0;i<App.hashNotifications.size();i++){      
+            Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
             
-        //     App.hashNotifications.get(i).get("accountID"),
-        //     App.hashNotifications.get(i).get("sellerName"),
-        //     App.hashNotifications.get(i).get("title"),
-        //     App.hashNotifications.get(i).get("message"),
-        //     App.hashNotifications.get(i).get("date"),
-        //     App.hashNotifications.get(i).get("isRead"));         
-        //     inbox.pushNotification(n);
-        // } 
+            App.hashNotifications.get(i).get("accountID"),
+            App.hashNotifications.get(i).get("sellerName"),
+            App.hashNotifications.get(i).get("title"),
+            App.hashNotifications.get(i).get("message"),
+            App.hashNotifications.get(i).get("date"),
+            App.hashNotifications.get(i).get("isRead"));         
+            inbox.pushNotification(n);
+        } 
         return inbox;
     }
 
@@ -90,17 +90,4 @@ public class Buyer extends Account{
             this.receiveNotification(seller.sendVoucherNotification(this.getAccountID()));            
         }
     }
-
-    /*public void retrieveNotifications(){
-        App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
-
-        for(int i=0;i<App.hashNotifications.size();i++){      
-            Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
-            App.hashNotifications.get(i).get("accountID"),
-            App.hashNotifications.get(i).get("userName"),
-            App.hashNotifications.get(i).get("message"),
-            App.hashNotifications.get(i).get("date"));         
-            ((Buyer)App.currentUser).getInbox().pushNotification(n);
-        } 
-    }*/
 }

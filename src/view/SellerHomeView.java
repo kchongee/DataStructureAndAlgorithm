@@ -5,8 +5,7 @@ import java.util.function.Consumer;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
-import entity.Option;
-import entity.Seller;
+import application.Option;
 
 public class SellerHomeView{
 
@@ -15,7 +14,7 @@ public class SellerHomeView{
     static {
         menuOptions.add(new Option("Rooms", i -> goToPage(ii->SellerRoomsView.main())));
         menuOptions.add(new Option("Products", i -> goToPage(ii->SellerProductsView.main())));
-        menuOptions.add(new Option("Invoices", i -> goToPage(ii->SellerInvoicesView.main())));        
+        menuOptions.add(new Option("Invoices", i -> goToPage(ii->InvoiceView.main())));        
         menuOptions.add(new Option("Manage Voucher", i -> goToPage(ii->SellerVoucherManageView.main())));
     }
 
