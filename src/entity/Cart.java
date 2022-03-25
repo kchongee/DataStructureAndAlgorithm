@@ -1,11 +1,13 @@
 package entity;
 
-import adtImplementation.ArrayList;
-import adtInterfaces.ListInterface;
+//import adtImplementation.ArrayList;
+//import adtInterfaces.ListInterface;
+import adtInterfaces.SortedListInterface;
+import adtImplementation.SortedArrayList;
 
 public class Cart {
     private int cartID;
-    private ListInterface<OrderProduct> cartProducts;
+    private SortedListInterface<OrderProduct> cartProducts;
     private CartDetails productList;
     private Account buyer;
     private Account seller;    
@@ -16,15 +18,15 @@ public class Cart {
     }
 
 
-    public Cart(ListInterface<OrderProduct> cartProducts) {
+    public Cart(SortedListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 
-    public ListInterface<OrderProduct> getCartProducts() {
+    public SortedListInterface<OrderProduct> getCartProducts() {
         return cartProducts;
     }
 
-    public void setCartProducts(ListInterface<OrderProduct> cartProducts) {
+    public void setCartProducts(SortedListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
     }
 
@@ -37,11 +39,11 @@ public class Cart {
     }
 
     public void clearProducts(){
-        this.cartProducts = new ArrayList<>();
+        this.cartProducts = new SortedArrayList<>();
     }
 
-    public ListInterface<OrderProduct> checkoutProducts(){
-        ListInterface<OrderProduct> products = this.cartProducts;
+    public SortedListInterface<OrderProduct> checkoutProducts(){
+        SortedListInterface<OrderProduct> products = this.cartProducts;
         clearProducts();
         return products;
     }
@@ -67,8 +69,6 @@ public class Cart {
     public Cart(CartDetails productList) {
         this.productList = productList;
     }
-
-
 
     public int getCartID() {
         return cartID;

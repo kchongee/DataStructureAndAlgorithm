@@ -1,5 +1,7 @@
 package adtInterfaces;
 
+import java.util.Iterator;
+
 public interface SortedListInterface<T extends Comparable<T>> {
 
     int size();
@@ -10,7 +12,7 @@ public interface SortedListInterface<T extends Comparable<T>> {
     T get(int index);
     int getNumberOfEntries();
     boolean isEmpty();
-  
+    Iterator<T> iterator();
 } 
     
 

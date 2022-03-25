@@ -2,9 +2,9 @@ package entity;
 
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
+
 
 public class CartList {
     ArrayList<Cart> cart;
