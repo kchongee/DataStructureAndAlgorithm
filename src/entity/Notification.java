@@ -137,7 +137,8 @@ public class Notification {
         String str = "";                        
         str += String.format("From: %s\n", sellerName);                
         str += String.format("Title: %s\n", title);                    
-        str += String.format("Message: %s\n", message);                
+        str += String.format("Message: %s\n", message); 
+        str += String.format("Date: %s\n", date);                
         return str;
     }
 
