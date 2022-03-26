@@ -1,9 +1,5 @@
 package entity;
-
-import adtImplementation.ArrayList;
-import adtInterfaces.ListInterface;
 import adtInterfaces.SortedListInterface;
-import adtImplementation.SortedArrayList;
 
 public class OrderProduct implements Comparable<OrderProduct>{
     private Product product;

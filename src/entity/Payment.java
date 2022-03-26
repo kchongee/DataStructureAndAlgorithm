@@ -1,8 +1,6 @@
 package entity;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
-
 import UtilityClasses.DateTimeUtil;
 import UtilityClasses.jdbcUtil;
 
