@@ -20,7 +20,7 @@ public class ArrayList<T> implements ListInterface<T> {
 
     public ArrayList(T[] arr) {
         this.arr = arr;
-        size= arr.length;
+        this.size= arr.length;
     }
 
     @Override

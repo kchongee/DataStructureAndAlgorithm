@@ -1,11 +1,5 @@
 package adtImplementation;
 
-<<<<<<< HEAD
-import java.util.Iterator;
-import java.util.Objects;
-
-=======
->>>>>>> 774ad366aafb3ca4631513c088cff4a75937ec96
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
 import adtInterfaces.Set;
@@ -79,6 +73,32 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return table[index].getValue();
     }
 
+    
+    @Override
+    public V remove(K key) {
+
+        int i=indexOf(key);
+
+        Entry<K,V> prev = table[i];
+        Entry<K,V> e = prev;
+
+        while(e!=null){
+            if (e.getKey() != null && e.getKey().equals(key)){
+                size--;
+                if(prev==e){
+                    table[i]=e.next;
+                } else{
+                    prev.next=e.next;
+                }
+            } else{
+                prev = e;
+                e = e.next;
+            }
+            return e.getValue();
+        }
+        return e.getValue();
+    }
+
     @Override
     public int size() {
         return this.size;
@@ -87,6 +107,12 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     @Override
     public void clear() {
         this.size=0;
+        defaultLength = 16;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.size==0;
     }
 
     @Override
@@ -94,11 +120,6 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         throw new UnsupportedOperationException();
     }
 
-
-    @Override
-    public boolean isEmpty() {
-        return this.size==0;
-    }
 
     @Override
     public boolean containsValue(V Value) {
@@ -116,31 +137,10 @@ public class HashMap<K,V> implements MapInterface<K,V> {
     }
 
     @Override
-<<<<<<< HEAD
-    public void putAll(MapInterface<K,V> map) {
-        throw new UnsupportedOperationException();  
-=======
     public int putAll(MapInterface<K,V> map) {
         return 0;
->>>>>>> 774ad366aafb3ca4631513c088cff4a75937ec96
     }
 
-    @Override
-    public V remove(K key) {
-        int i=indexOf(key);
-
-        while(table[i]!=null){
-            if (table[i].getKey() != null && table[i].getKey().equals(key)){
-                V store;
-                store = table[i].getValue();
-                table[i].next
-                size--;
-                return store;
-            }
-        }
-
-
-    }
 
     @Override
     public V[] values() {
