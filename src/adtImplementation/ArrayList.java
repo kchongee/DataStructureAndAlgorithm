@@ -44,7 +44,7 @@ public class ArrayList<T> implements ListInterface<T> {
     * Statement : default add method = overwrite
     * */
 
-    public boolean add(int index, T element, boolean hold)
+    public boolean add(int index, T element)
     {
         if (index >= size) {
             throw new IndexOutOfBoundsException("please insert with range");
@@ -66,19 +66,6 @@ public class ArrayList<T> implements ListInterface<T> {
     // @Override
     // public boolean add(int newIndex, T newElement) {
     //     boolean isSuccessful = false;
-    @Override
-    public boolean add(int newIndex, T newElement) {
-        boolean isSuccessful = false;
-    
-        if ((newIndex >= 0) && (newIndex < size)) {
-            addAGap(newIndex);
-            arr[newIndex] = newElement;
-            size++;
-        } 
-    
-        return isSuccessful;
-    }
-
     @Override
     public boolean remove(int index) {        
         if ((index >= 0) && (index < size)) {
@@ -270,7 +257,7 @@ public class ArrayList<T> implements ListInterface<T> {
         System.out.println(a);
         a.add("2");
         System.out.println(a);
-        a.add(1, "4", true);
+        a.add(1, "4");
         System.out.println(a);
     }
 }

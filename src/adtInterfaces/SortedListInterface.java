@@ -1,16 +1,18 @@
 package adtInterfaces;
 
+import java.util.Iterator;
+
 public interface SortedListInterface<T extends Comparable<T>> {
 
-    public int size();
-    public boolean add(T newEntry);
-    public boolean remove(T anEntry);
-    public boolean contains(T anEntry);
-    public void clear();
-    public T get(int index);
-    public int getNumberOfEntries();
-    public boolean isEmpty();
-  
+    int size();
+    boolean add(T newEntry);
+    boolean remove(T anEntry);
+    boolean contains(T anEntry);
+    void clear();
+    T get(int index);
+    int getNumberOfEntries();
+    boolean isEmpty();
+    Iterator<T> iterator();
 } 
     
 

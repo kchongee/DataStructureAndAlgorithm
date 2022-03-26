@@ -2,6 +2,8 @@ package view;
 
 import java.util.function.Consumer;
 
+import javax.swing.JOptionPane;
+
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
@@ -68,6 +70,7 @@ public class PaymentView {
         Buyer buyer = (Buyer)App.currentUser;        
         
         buyer.checkoutCart(paymentMethod, seller);
+        JOptionPane.showMessageDialog(null, "Payment proceed successfully");
 
         // BuyerHomeView.main();
         App.goToHome();

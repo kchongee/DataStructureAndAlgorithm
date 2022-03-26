@@ -1,8 +1,10 @@
 package TestingPage;
 
 import SubSystem.CommentDisplayer.CommentDisplayer;
+import SubSystem.CommentDisplayer.CommentFormatter;
 import UtilityClasses.ProjectCompileUtil;
 import adtImplementation.CircularQueue;
+import adtInterfaces.QueueInterface;
 import entity.Comment;
 
 
@@ -13,10 +15,11 @@ class displayDemo
         // (ISSUE)
         ProjectCompileUtil.compileAndGenerate(new displayDemo());
         CommentDisplayer cd = new CommentDisplayer();
-        CircularQueue<Comment> cq = cd.getCommentQueue().getCommentQueue();
+        QueueInterface<Comment> cq = cd.getCommentQueue().getCommentQueue();
         while (!cq.isEmpty())
         {
-            System.out.println(cq.poll().getFormatter().toBlockString());
+            CommentFormatter formatter = new CommentFormatter(cq.poll());
+            System.out.println(formatter.toBlockString());
         }
     }
 }

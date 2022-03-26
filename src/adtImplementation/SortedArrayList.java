@@ -1,10 +1,12 @@
 package adtImplementation;
 
+import java.util.Iterator;
+
 import adtInterfaces.SortedListInterface;
 
 public class SortedArrayList<T extends Comparable<T>> implements SortedListInterface<T> {
 
-  private T[] array;
+  private final T[] array;
   private int numberOfEntries;
   private static final int DEFAULT_CAPACITY = 25;
   private int arrayQty;
@@ -13,13 +15,18 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
     this(DEFAULT_CAPACITY);
   }
 
-  public int size() {
-    return arrayQty;
-  }
-
   public SortedArrayList(int initialCapacity) {
     numberOfEntries = 0;
     array = (T[]) new Comparable[initialCapacity];
+  }
+
+  public SortedArrayList(T[] array) {
+    this.array = array;
+    numberOfEntries = array.length;
+  }
+
+  public int size() {
+    return arrayQty;
   }
 
   public boolean add(T newEntry) {
@@ -106,4 +113,27 @@ public class SortedArrayList<T extends Comparable<T>> implements SortedListInter
       array[index] = array[index + 1];
     }
   }
+
+  @Override
+  public Iterator<T> iterator(){
+    return new ListIterator();
+}
+private class ListIterator implements Iterator<T>{   
+    private int currIndex = 0;     
+
+    @Override
+    public boolean hasNext() {
+        return currIndex < numberOfEntries;
+    }
+
+    @Override
+    public T next() {
+    if(hasNext()){
+        T data = array[currIndex];
+        currIndex++;
+        return data;
+    }      
+    return null;
+    }    
+}    
 }

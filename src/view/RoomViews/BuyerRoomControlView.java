@@ -36,7 +36,7 @@ public class BuyerRoomControlView
     public BuyerRoomControlView(Catalog catalog, Room room, Account account)
     {
         this.catalog = catalog;
-        this.room = room;
+        BuyerRoomControlView.room = room;
         this.account = account;
         this.catalogUI = new CatalogUI(this.catalog);
     }
@@ -50,14 +50,14 @@ public class BuyerRoomControlView
         System.out.println(instructionDoc);
         CMD.pauseWithCustomScript("  Press any key to return...");
         CMD.cls();
-        BuyerRoomControlView.main(this.account, this.room);
+        BuyerRoomControlView.main(this.account, room);
     }
 
     public void showCatalog()
     {
         catalogUI.displayCatalogViaJPane();
         CMD.cls();
-        BuyerRoomControlView.main(this.account, this.room);
+        BuyerRoomControlView.main(this.account, room);
     }
 
 
@@ -70,7 +70,7 @@ public class BuyerRoomControlView
 
     public void likeRoom()
     {
-        String likeVal = Like.showOptions();
+        String likeVal = LikeUI.showOptions();
         System.out.println(likeVal);
         Like like = new Like(account, likeVal, DateTimeUtil.localTimeNow());
         this.likeUI = new LikeUI(like);
@@ -95,7 +95,7 @@ public class BuyerRoomControlView
         {
             like.addNewLikeToDB(roomID);
         }
-        BuyerRoomControlView.main(this.account, this.room);
+        BuyerRoomControlView.main(this.account, room);
     }
 
     public void reviewRoom()
@@ -104,7 +104,7 @@ public class BuyerRoomControlView
         Review completeReview = new Review(account, reviewData.getStar(), reviewData.getReviewMsg(), DateTimeUtil.localTimeNow());
         completeReview.sendToDatabase(room);
         CMD.cls();
-        BuyerRoomControlView.main(this.account, this.room);
+        BuyerRoomControlView.main(this.account, room);
     }
 
     /**

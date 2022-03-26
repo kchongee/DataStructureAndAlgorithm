@@ -94,8 +94,11 @@ public class EXEHandler
     public static String getExecuteablePath()
     {
         String executablePath = System.getProperty("user.dir");
-        if (!executablePath.contains("scr")) {
-            executablePath = executablePath+ "\\src\\Executable";
+        if (executablePath.contains("scr")) {
+            executablePath = executablePath.replace("src","Executable");
+            System.out.println(executablePath);
+        }else {
+            executablePath = executablePath + "\\Executable";
         }
         return executablePath;
     }
@@ -147,7 +150,7 @@ public class EXEHandler
 
 
     public static void main(String[] args) throws IOException {
-        EXEHandler handler = new EXEHandler("ExeArgTest.exe",new String[]{"a","b","c"},"exe");
+        EXEHandler handler = new EXEHandler("CommentInput.lnk",new String[]{"a","b","c"},"lnk");
         handler.run();
     }
 }

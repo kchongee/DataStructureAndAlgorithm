@@ -8,11 +8,10 @@ import java.time.LocalTime;
 
 public class Review
 {
-    Account account;
-    int star;
-    String reviewMsg;
-    LocalTime revTime;
-
+    private Account account;
+    private int star;
+    private String reviewMsg;
+    private LocalTime revTime;
 
 
     // region : Constructors
@@ -44,8 +43,6 @@ public class Review
 
     // endregion
 
-
-
     public void sendToDatabase(Room room)
     {
         String query = String.format(
@@ -61,12 +58,6 @@ public class Review
 
         jdbcUtil.executeCUD(query);
     }
-    // endregion
-
-
-
-
-
 
 
     // region : getter setters
@@ -102,7 +93,6 @@ public class Review
         this.revTime = revTime;
     }
     // endregion
-
 
 
     public String toString()

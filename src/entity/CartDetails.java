@@ -2,18 +2,19 @@ package entity;
 
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
-import adtImplementation.HashMap;
+import adtInterfaces.ListInterface;
+import adtInterfaces.MapInterface;
 
 public class CartDetails implements Comparable<CartDetails> {
     Cart cart;
-    ArrayList<OrderProduct> cartDetails;
+    ListInterface<OrderProduct> cartDetails;
 
     public CartDetails(Cart cart) {
         this.cart = cart;
         this.cartDetails = new ArrayList<OrderProduct>();
     }
 
-    public ArrayList<OrderProduct> getCartDetails() {
+    public ListInterface<OrderProduct> getCartDetails() {
         return cartDetails;
     }
 
@@ -68,7 +69,7 @@ public class CartDetails implements Comparable<CartDetails> {
         cartDetails.get(index).setQuantity(quantity);
     }
 
-    public ArrayList<HashMap<String, Object>> fetchCartDetailsFromDb() {
+    public ListInterface<MapInterface<String, Object>> fetchCartDetailsFromDb() {
         String query = String.format(
                 """
                            Select P.title, P.price, CD.productQty
@@ -86,7 +87,7 @@ public class CartDetails implements Comparable<CartDetails> {
 
     public void syncCartDetails() {
         cartDetails.clear();
-        ArrayList<HashMap<String, Object>> productDetails = fetchCartDetailsFromDb();
+        ListInterface<MapInterface<String, Object>> productDetails = fetchCartDetailsFromDb();
         for (int i = 0; i < productDetails.size(); i++) {
             String title = (String) productDetails.get(i).get("title");
             double price = (double) productDetails.get(i).get("price");
@@ -145,7 +146,7 @@ public class CartDetails implements Comparable<CartDetails> {
         return title.compareTo(o.title);
     }
 
-    public static void bubbleSortQuantity(ArrayList<OrderProduct> op) {
+    public static void bubbleSortQuantity(ListInterface<OrderProduct> op) {
         boolean needNextPass = true;
 
         for (int k = 1; k < op.size() && needNextPass; k++) {
@@ -163,7 +164,7 @@ public class CartDetails implements Comparable<CartDetails> {
         }
     }
 
-    public static void bubbleSortTitle(ArrayList<OrderProduct> opTitle) {
+    public static void bubbleSortTitle(ListInterface<OrderProduct> opTitle) {
         boolean needNextPass = true;
 
         for (int k = 0; k < opTitle.size() && needNextPass; k++) {
@@ -184,7 +185,7 @@ public class CartDetails implements Comparable<CartDetails> {
         }
     }
 
-    public static void bubbleSortPrice(ArrayList<OrderProduct> opPrice) {
+    public static void bubbleSortPrice(ListInterface<OrderProduct> opPrice) {
         boolean needNextPass = true;
 
         for (int k = 1; k < opPrice.size() && needNextPass; k++) {

@@ -3,11 +3,13 @@ package entity;
 import java.time.LocalDateTime;
 import java.util.Iterator;
 import adtImplementation.ArrayList;
+import adtImplementation.SortedArrayList;
 import adtInterfaces.ListInterface;
+import adtInterfaces.SortedListInterface;
 
-public class Invoice {    
+public class Invoice implements Comparable<Invoice> {    
     private String invoiceId;
-    private ListInterface<OrderProduct> invoiceProducts;
+    private SortedListInterface<OrderProduct> invoiceProducts;
     private LocalDateTime invoiceDateTime;
     private Buyer buyer;    
     private String paymentMethod;
@@ -17,12 +19,12 @@ public class Invoice {
     private Invoice()
     {
         this.invoiceId = String.format("INV%4s", id).replace(' ', '0');   
-        this.invoiceProducts = new ArrayList<>();
+        this.invoiceProducts = new SortedArrayList<>();
         this.invoiceDateTime = LocalDateTime.now();
         id++;
     }    
 
-    public Invoice(ListInterface<OrderProduct> invoiceProducts, String paymentMethod, Buyer buyer){
+    public Invoice(SortedListInterface<OrderProduct> invoiceProducts, String paymentMethod, Buyer buyer){
         this();
         this.buyer = buyer;
         this.invoiceProducts = invoiceProducts;
@@ -37,11 +39,11 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    public ListInterface<OrderProduct> getOrderProducts() {
+    public SortedListInterface<OrderProduct> getOrderProducts() {
         return invoiceProducts;
     }
 
-    public void setOrderProducts(ListInterface<OrderProduct> invoiceProducts) {
+    public void setOrderProducts(SortedListInterface<OrderProduct> invoiceProducts) {
         this.invoiceProducts = invoiceProducts;
     }
 
@@ -63,7 +65,7 @@ public class Invoice {
         return this.totalAmount;
     }    
 
-    public ListInterface<OrderProduct> getOrderProduct(){
+    public SortedListInterface<OrderProduct> getOrderProduct(){
         return this.invoiceProducts;
     }
 
@@ -80,11 +82,11 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    public ListInterface<OrderProduct> getInvoiceProducts() {
+    public SortedListInterface<OrderProduct> getInvoiceProducts() {
         return invoiceProducts;
     }
 
-    public void setInvoiceProducts(ListInterface<OrderProduct> invoiceProducts) {
+    public void setInvoiceProducts(SortedListInterface<OrderProduct> invoiceProducts) {
         this.invoiceProducts = invoiceProducts;
     }
 
@@ -126,10 +128,16 @@ public class Invoice {
         return str;
     }
 
-    public static String displayAll(ListInterface<Invoice> invoices) {
+    public static String displayAll(ListInterface<Invoice> listInterface) {
         String str = "";                
-        str += invoices;
+        str += listInterface;
         return str;
+    }
+
+    @Override
+    public int compareTo(Invoice o) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
     // public static void main(String[] args) {

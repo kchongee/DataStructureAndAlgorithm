@@ -13,7 +13,7 @@ public class BuyerHomeView{
     
     static {
         menuOptions.add(new Option("Rooms", i -> goToPage(ii->RoomListView.main())));
-        menuOptions.add(new Option("Carts", i -> goToPage(ii->BuyerHomeView.main())));
+        menuOptions.add(new Option("Carts", i -> goToPage(ii->CartDetailsView.main())));
         menuOptions.add(new Option("Invoices", i -> goToPage(ii->InvoiceView.main())));
         menuOptions.add(new Option("Inbox", i -> goToPage(ii->BuyerInboxView.main())));
     }
