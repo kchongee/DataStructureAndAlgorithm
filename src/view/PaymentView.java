@@ -1,5 +1,4 @@
 package view;
-
 import java.util.function.Consumer;
 
 import javax.swing.JOptionPane;
@@ -9,6 +8,7 @@ import adtInterfaces.ListInterface;
 import application.App;
 import entity.Buyer;
 import entity.Seller;
+
 
 public class PaymentView {
     private static final ListInterface<String> options = new ArrayList<String>();

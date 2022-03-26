@@ -1,5 +1,4 @@
 package entity;
-
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
@@ -221,6 +220,4 @@ public class CartDetails implements Comparable<CartDetails> {
         // }
         //System.out.print(op.toString());
     }
-    
-
 }

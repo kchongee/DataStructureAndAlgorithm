@@ -1,7 +1,5 @@
 package view;
-
 import java.util.function.Consumer;
-
 import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
 import application.App;
@@ -9,8 +7,7 @@ import application.Option;
 import entity.Account;
 import entity.Cart;
 import entity.CartDetails;
-import entity.OrderProduct;
-import entity.Product;
+
 
 public class CartDetailsView
 {

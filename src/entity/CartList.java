@@ -1,10 +1,8 @@
 package entity;
-
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import adtInterfaces.MapInterface;
-
 
 public class CartList {
     ArrayList<Cart> cart;
