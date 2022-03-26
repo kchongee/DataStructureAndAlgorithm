@@ -93,7 +93,7 @@ public class CartDetailsView
         int productNo = App.promptIntInput("Select a product >> ");
         if (productNo > 0 && productNo <= cartDetails.getCartDetails().size())
         {            
-            cartDetails.removeProduct(productNo);
+            cartDetails.removeProductFromCart(productNo);
         }else {
             System.out.println("Please select a valid product number");
         }
