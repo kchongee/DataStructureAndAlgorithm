@@ -31,36 +31,36 @@ public class App {
 
     static{        
         // currentUser = seller;
-        Product pr1 = new Product("title1", 20, "description1");
-        Product pr2 = new Product("title2", 30, "description2");
-        Product pr3 = new Product("title3", 40, "description3");
-        ((Seller)seller).addProduct(pr1);
-        ((Seller)seller).addProduct(pr2);
-        ((Seller)seller).addProduct(pr3);
+        // Product pr1 = new Product("title1", 20, "description1");
+        // Product pr2 = new Product("title2", 30, "description2");
+        // Product pr3 = new Product("title3", 40, "description3");
+        // ((Seller)seller).addProduct(pr1);
+        // ((Seller)seller).addProduct(pr2);
+        // ((Seller)seller).addProduct(pr3);
 
-        seller.setUserName("Jessy");
-        ((Seller)seller).getVoucher().setMinSpend(100);
-        ((Seller)seller).getVoucher().setDiscountPercentage(10);        
+        // seller.setUserName("Jessy");
+        // ((Seller)seller).getVoucher().setMinSpend(100);
+        // ((Seller)seller).getVoucher().setDiscountPercentage(10);        
 
-        // MapInterface<String,Product> prHashMap = new HashMap<>();
-        // prHashMap.put("prr1",pr1);
-        // prHashMap.put("prr2",pr1);
-        // ((Seller)seller).createRoom(new Room("roomTitle", prHashMap, (Seller)seller));
+        // // MapInterface<String,Product> prHashMap = new HashMap<>();
+        // // prHashMap.put("prr1",pr1);
+        // // prHashMap.put("prr2",pr1);
+        // // ((Seller)seller).createRoom(new Room("roomTitle", prHashMap, (Seller)seller));
 
-        OrderProduct bp1 = new OrderProduct(pr1, 5);
-        OrderProduct bp2 = new OrderProduct(pr2, 15);
-        OrderProduct bp3 = new OrderProduct(pr3, 25);        
+        // OrderProduct bp1 = new OrderProduct(pr1, 5);
+        // OrderProduct bp2 = new OrderProduct(pr2, 15);
+        // OrderProduct bp3 = new OrderProduct(pr3, 25);        
 
-        ((Buyer)buyer).addProductToCart(bp1);
-        ((Buyer)buyer).addProductToCart(bp2);
-        ((Buyer)buyer).addProductToCart(bp3);        
+        // ((Buyer)buyer).addProductToCart(bp1);
+        // ((Buyer)buyer).addProductToCart(bp2);
+        // ((Buyer)buyer).addProductToCart(bp3);        
         
-        Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
-        Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
-        ((Buyer)buyer).receiveNotification(n1);
-        ((Buyer)buyer).receiveNotification(n2);
+        // Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
+        // Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
+        // ((Buyer)buyer).receiveNotification(n1);
+        // ((Buyer)buyer).receiveNotification(n2);
 
-        currentUser = buyer;
+        // // currentUser = buyer;
                 
         // ((Buyer)buyer).checkoutCart("Credit Card", (Seller)seller);
 

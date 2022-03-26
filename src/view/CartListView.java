@@ -23,6 +23,10 @@ public class CartListView
 
     public static void main(String[] args) 
     {
+        main();
+    }
+
+    public static void main() {
         Account acc = new Account("A01");
         CartListView view = new CartListView(acc);
         int maxChoice = view.cartList.getCart().size();

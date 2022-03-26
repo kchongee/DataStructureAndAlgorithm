@@ -17,7 +17,6 @@ public class AccountList {
             }
         }
         boolean successful = accountList.add(inputAccount);
-        System.out.println(successful);
         if(successful){
             inputAccount.toString();
         } else{

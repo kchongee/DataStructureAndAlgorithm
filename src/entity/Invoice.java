@@ -126,9 +126,8 @@ public class Invoice {
         return str;
     }
 
-    public static String displayAll(ListInterface<Invoice> invoices) {
-        String str = "";                
-        str += invoices;
+    public static String displayAll(ListInterface<Invoice> invoices) {                
+        String str = invoices.size()>0?invoices.toString():"You don't have any invoice yet.\n";        
         return str;
     }
 
