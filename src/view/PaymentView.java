@@ -81,9 +81,6 @@ public class PaymentView {
         selectedPaymentMethod = paymentMethod;
         updateCart();
         JOptionPane.showMessageDialog(null, "Payment proceed successfully");
-        
-
-        // BuyerHomeView.main();
         App.goToHome();
     }
 
@@ -91,7 +88,6 @@ public class PaymentView {
     public static void updateCart (){
         Payment py = new Payment(cart,selectedPaymentMethod);
         py.updateCart(PaymentView.cart.getCartID(), selectedPaymentMethod);
-        //py.updateCart(PaymentView.cart.getCartID(), PaymentView.getPaymentMethod(selectedPaymentMethod));
     }
     
 }

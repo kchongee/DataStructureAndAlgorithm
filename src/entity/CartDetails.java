@@ -77,9 +77,6 @@ public class CartDetails implements Comparable<CartDetails> {
 
                         """, cart.getCartID());
 
-        // dead bug
-        // System.out.println(query);
-
         return jdbcUtil.readAll(query);
 
     }
@@ -203,6 +200,7 @@ public class CartDetails implements Comparable<CartDetails> {
         }
     }
 
+    /*
     public static void main(String[] args) {
         ArrayList<OrderProduct> op = new ArrayList<OrderProduct>();
         op.add(new OrderProduct(new Product("milo", 12, "bla"), 6));
@@ -211,13 +209,14 @@ public class CartDetails implements Comparable<CartDetails> {
         op.add(new OrderProduct(new Product("acccc", 12, "bla"), 6));
         op.add(new OrderProduct(new Product("bo", 2.50, "bla2"), 4));
         op.add(new OrderProduct(new Product("zbr", 5, "bla3"), 1));
-        //op = CartDetails.bubbleSortQuantity(op);
-        //CartDetails.bubbleSortTitle(op);
-        //System.out.println("temp" + new Integer(1));
-        //CartDetails.bubbleSortPrice(op);
-        // for (int i = 0; i < op.size(); i++) {
-        //     System.out.print(op.toString());
-        // }
-        //System.out.print(op.toString());
+        op = CartDetails.bubbleSortQuantity(op);
+        CartDetails.bubbleSortTitle(op);
+        System.out.println("temp" + new Integer(1));
+        CartDetails.bubbleSortPrice(op);
+        for (int i = 0; i < op.size(); i++) {
+            System.out.print(op.toString());
+        }
+        System.out.print(op.toString());
     }
+    */
 }
