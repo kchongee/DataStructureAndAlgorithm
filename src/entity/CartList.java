@@ -52,9 +52,6 @@ public class CartList {
             String sellerName = (String)cartList.get(i).get("userName");
             Cart c = new Cart(cartID, new Account(sellerID,sellerName,0));
             cart.add(c);
-            //System.out.println(cartID);
-            //System.out.println(sellerID);
-            //System.out.println(sellerName);
         }
     }
 
@@ -68,9 +65,6 @@ public class CartList {
             int cartID = tempOrder.getCartID();
             String sellerID = tempOrder.getSeller().getAccountID();
             String sellerName = tempOrder.getSeller().getUserName();
-            //System.out.println(cartID);
-            //System.out.println(sellerID);
-            //System.out.println(sellerName);
             String tempString = String.format("%-5s %-10s %-10s %-20s",i+1, cartID,sellerID, sellerName);
             completeString = completeString+tempString+"\n";
         } 

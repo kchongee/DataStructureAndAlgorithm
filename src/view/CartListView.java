@@ -5,7 +5,6 @@ import entity.Account;
 import entity.CartList;
 import entity.Buyer;
 import entity.Cart;
-import entity.CartDetails;
 
 import javax.swing.*;
 
@@ -24,10 +23,10 @@ public class CartListView
     //String[] args
     public static void main() 
     {
-        //Account acc = new Account("A01");
         Buyer buyer = (Buyer)App.currentUser;  
         CartListView view = new CartListView(buyer);
         int maxChoice = view.cartList.getCart().size();
+        
 
         while (true)
         {
@@ -39,7 +38,9 @@ public class CartListView
             if (containError)
             {
                 JOptionPane.showMessageDialog(null, "Please enter number between 1 and " + maxChoice, "Warning", JOptionPane.WARNING_MESSAGE);
-            }else{
+            }
+            
+            else{
                 Cart cartSelected = view.cartList.getCart().get(userChoice-1);
                 CartDetailsView.main(cartSelected);
                 break;

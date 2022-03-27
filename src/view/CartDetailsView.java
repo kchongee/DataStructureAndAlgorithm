@@ -4,11 +4,9 @@ import UtilityClasses.CMD;
 import adtImplementation.ArrayList;
 import application.App;
 import application.Option;
-import entity.Account;
 import entity.Buyer;
 import entity.Cart;
 import entity.CartDetails;
-import entity.CartList;
 
 
 public class CartDetailsView
@@ -90,16 +88,11 @@ public class CartDetailsView
 
     public static void main(Cart cart)
     {
-        // // pass cart to here from cart list [seller ID + cartID + username]
-        Buyer buyer = (Buyer)App.currentUser;
-        //CartList cartlist = new CartList(new Account("A50"));
-        // // test cart
-        //Cart cartTest = new Cart(1, new Account("A50","chailey1d"));
+        
+        //Buyer buyer = (Buyer)App.currentUser;
         CartDetails cartDetails = new CartDetails(cart);  // maybe cart no need cart details
         cartDetails.syncCartDetails();
-        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("ctitle", 20.5, "description"),7));
-        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("atitle", 50.5, "description"),3));
-        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("stitle", 30.5, "description"),4));
+        
 
         CartDetailsView view = new CartDetailsView(cartDetails);
         view.cart=cart;
@@ -120,7 +113,6 @@ public class CartDetailsView
             }            
             else
             {
-                // error
                 System.out.println("Please select a valid number");
             }
         }
