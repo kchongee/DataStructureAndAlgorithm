@@ -80,7 +80,6 @@ public class PaymentView {
         buyer.checkoutCart(paymentMethod, seller);
         selectedPaymentMethod = paymentMethod;
         updateCart();
-        System.out.print("Error");
         JOptionPane.showMessageDialog(null, "Payment proceed successfully");
         
 

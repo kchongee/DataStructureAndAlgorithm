@@ -89,7 +89,7 @@ public class Payment {
                     where cartID =%s;
 
                  """, DateTimeUtil.strDateNow(), DateTimeUtil.strTimeNow(), paymentMethod, cartID
-        );System.out.print(query);
+        );
         jdbcUtil.executeCUD(query);
     }
 
