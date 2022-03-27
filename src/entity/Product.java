@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import adtImplementation.HashMap;
 import adtInterfaces.ListInterface;
+import adtInterfaces.MapInterface;
 import application.App;
 
 public class Product{
@@ -35,7 +36,7 @@ public class Product{
     }
 
 
-    public Product(HashMap<String, Object> productMap)
+    public Product(MapInterface<String, Object> productMap)
     {
         this.productID = Integer.toString((Integer) productMap.get("productID"));
         this.title = (String) productMap.get("title");

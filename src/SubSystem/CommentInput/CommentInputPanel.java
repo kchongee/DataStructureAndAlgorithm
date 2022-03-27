@@ -5,6 +5,7 @@ import UtilityClasses.DateTimeUtil;
 import UtilityClasses.ProjectCompileUtil;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
+import adtInterfaces.ListInterface;
 import application.App;
 import entity.*;
 import javax.swing.*;
@@ -147,7 +148,7 @@ public class CommentInputPanel implements Launchable
                 input
             );
 
-            ArrayList<Comment.MsgData> orderData = comment.retrieveMsgData();
+            ListInterface<Comment.MsgData> orderData = comment.retrieveMsgData();
 
             if (!orderData.isEmpty() && arg.account.getIsSeller() == 0)
             {

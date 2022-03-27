@@ -102,8 +102,8 @@ public class Seller extends Account{
     public Notification sendVoucherNotification(String accountID) {        
         return voucherNotification = new Notification(
             accountID,
-            this.getUserName(),
-            "You have one voucher from "+super.getName(), 
+            super.getUserName(),
+            "You have one voucher from "+super.getUserName(), 
             String.format(
                     "You spent over RM%.2f, "+ 
                     "and here is your %.2f%% discount voucher." +

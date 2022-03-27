@@ -1,27 +1,26 @@
 package view;
 
-import UI.CatalogUI;
+import SubSystem.CatalogEditor.CatalogFormatter;
 import UtilityClasses.CMD;
-import UtilityClasses.EXEHandler;
 import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedHashSet;
+import adtInterfaces.ListInterface;
 import application.App;
 import application.Option;
 import entity.Catalog;
 import entity.Product;
 import view.RoomViews.RoomViewExe;
 import view.RoomViews.SellerRoomControlView;
-
 import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 
 import static application.App.roomViewExe;
 
 public class CatalogEditorView
 {
-    private Catalog catalog;
-    private CatalogUI catalogUI;
+    ListInterface<Product> catalog;
     private LinkedHashSet<String> productNames;
 
     private final ArrayList<Option> EDIT_OPTIONS = new ArrayList(new Option[]
@@ -34,13 +33,14 @@ public class CatalogEditorView
             new Option(i->quit())
     });
 
-    public CatalogEditorView(){}
+    public CatalogEditorView(){
+        this.catalog = new ArrayList<>();
+    }
 
 
     public CatalogEditorView(Catalog catalog)
     {
-        this.catalog = catalog;
-        this.catalogUI = new CatalogUI(this.catalog);
+        this.catalog = new ArrayList<Product>();
         this.productNames = new LinkedHashSet<String>();
     }
 
@@ -51,14 +51,14 @@ public class CatalogEditorView
         boolean userWantAddProduct = true;
         while (userWantAddProduct)
         {
-            catalogUI.displayCatalogString();
+            displayCatalogString();
             Product product= sellerProductData();
 
             boolean exist = this.productNames.contains(product.getTitle());
             if (!exist)
             {
                 catalog.add(product);
-                catalogUI.displayCatalogString();
+                displayCatalogString();
                 userWantAddProduct = App.promptYesOrNo("Successfully added! add again? (y/n) >>> ");
                 this.productNames.add(product.getTitle());
             }
@@ -74,16 +74,19 @@ public class CatalogEditorView
     public void deleteProduct()
     {
         boolean userWantDeleteProduct = true;
-        while (userWantDeleteProduct)
+        while (userWantDeleteProduct && catalog.size() >= 1)
         {
             /*
             ProblemCo
             Statement : Input exeption handling
              */
-            catalogUI.displayCatalogString();
-            catalog.delete(productNoToDelete()-1);
-            catalogUI.displayCatalogString();
-            userWantDeleteProduct = App.promptYesOrNo("Successfully deleted! delete again? (y/n) >>> ");
+            displayCatalogString();
+            catalog.remove(productNoToDelete()-1);
+            displayCatalogString();
+
+            if (catalog.size() >=1){
+                userWantDeleteProduct = App.promptYesOrNo("Successfully deleted! delete again? (y/n) >>> ");
+            }
         }
         App.clearScreen();
         this.main();
@@ -92,9 +95,9 @@ public class CatalogEditorView
     public void insertBelow()
     {
         boolean userWantInsertData = true;
-        while (userWantInsertData)
+        while (userWantInsertData && catalog.size() >= 1)
         {
-            catalogUI.displayCatalogString();
+            displayCatalogString();
             Product product = sellerProductData();
             boolean successfullyAdded = this.productNames.add(product.getTitle());
             if (!successfullyAdded)
@@ -103,9 +106,11 @@ public class CatalogEditorView
             }
             else
             {
-                catalog.insertBelow(productNoToInsertBelow()-1, product);
-                catalogUI.displayCatalogString();
-                userWantInsertData = App.promptYesOrNo("Successfully inserted! insert again? (y/n) >>> ");
+                catalog.add(productNoToInsertBelow()-1, product);
+                displayCatalogString();
+                if (catalog.size() >= 1){
+                    userWantInsertData = App.promptYesOrNo("Successfully inserted! insert again? (y/n) >>> ");
+                }
             }
         }
         App.clearScreen();
@@ -117,7 +122,7 @@ public class CatalogEditorView
         boolean userWantEditData = true;
         while (userWantEditData)
         {
-            catalogUI.displayCatalogString();
+            displayCatalogString();
             Product product = sellerProductData();
 
             boolean successfullAdded = this.productNames.add(product.getTitle());
@@ -125,7 +130,7 @@ public class CatalogEditorView
             if (successfullAdded)
             {
                 catalog.replace(productNoToDelete()-1, product);
-                catalogUI.displayCatalogString();
+                displayCatalogString();
                 userWantEditData = App.promptYesOrNo("Successfully edited! edit again? (y/n) >>> ");
             }
             else
@@ -160,7 +165,7 @@ public class CatalogEditorView
         while (true)
         {
             int number =App.promptIntInput("Enter product number : ");
-            if   (number > 0 && number <= catalog.getProductList().size()) { return number; }
+            if   (number > 0 && number <= catalog.size()) { return number; }
             else { CMD.pauseWithCustomScript("please input a valid product number\nPress any key to continue...");}
         }
     }
@@ -171,7 +176,7 @@ public class CatalogEditorView
         while (true)
         {
             int number = App.promptIntInput("Put below which product? : ");
-            if   (number > 0 && number <= catalog.getProductList().size()) { return number; }
+            if   (number > 0 && number <= catalog.size()) { return number; }
             else { CMD.pauseWithCustomScript("please input a valid product number\nPress any key to continue...");}
         }
     }
@@ -190,7 +195,7 @@ public class CatalogEditorView
 
     public void createRoom()
     {
-        if (catalog.getProductList().size() <= 0)
+        if (catalog.size() <= 0)
         {
             JOptionPane.showMessageDialog(null,"Please add at least 1 product into catalog","Error",JOptionPane.WARNING_MESSAGE);
             this.main();
@@ -199,14 +204,16 @@ public class CatalogEditorView
         {
             String roomTitle = JOptionPane.showInputDialog("Please enter a title for your room");
             if (roomTitle == "" || roomTitle == null){ roomTitle = "seller too lazy to create title";}
-            int roomID = catalog.createNewCatalogIntoDatabase();
+
+            Catalog catalogObj = new Catalog(catalog);
+            int roomID = catalogObj.createNewCatalogIntoDatabase();
             App.sellerCreatedRoomID = roomID;
 
             String accountId = "A01";
-            if (!(App.currentUser == null)){
+            if (App.currentUser != null && App.currentUser.getAccountID() !=null){
                 accountId = App.currentUser.getAccountID();
             }
-            jdbcUtil.executeCUD(String.format("insert ignore into room values (%s,'%s',%s,'%s')",roomID, roomTitle, 1,accountId));
+            jdbcUtil.executeCUD(String.format("insert ignore into room values (%s,'%s',%s,'%s')",roomID, roomTitle, 1, accountId));
 
             try
             {
@@ -238,12 +245,32 @@ public class CatalogEditorView
     public void main()
     {
         CMD.cls();
-        this.catalogUI.displayCatalogString();
-        this.catalogUI.displayActionPane();
+        displayCatalogString();
+        displayActionPane();
         System.out.println("\n");
         int number = App.promptIntInput("Select an action >>> ");
         CMD.cls();
         App.goToUserOption(number, this.EDIT_OPTIONS);
+    }
+
+
+    public void displayCatalogViaJPane()
+    {
+        Catalog tempCatalog = new Catalog(catalog);
+        JLabel label = new JLabel(tempCatalog.catalogHtml());
+        label.setFont(new Font("Consolas", Font.BOLD, 16));
+        JOptionPane.showMessageDialog(null, label);
+    }
+
+    public void displayCatalogString()
+    {
+        CMD.cls();
+        Catalog tempCatalog = new Catalog(catalog);
+        System.out.println(tempCatalog.catalogStr());
+    }
+
+    public void displayActionPane(){
+        System.out.println(new CatalogFormatter().strActionPane());
     }
 
     public static void main(String[] args)
@@ -254,3 +281,5 @@ public class CatalogEditorView
     }
     // endregion
 }
+
+

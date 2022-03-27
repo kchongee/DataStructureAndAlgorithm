@@ -1,49 +1,23 @@
 package entity;
-
-import adtImplementation.ArrayList;
-import adtInterfaces.ListInterface;
+import adtInterfaces.SortedListInterface;
+import adtImplementation.SortedArrayList;
 
 public class Cart {
     private int cartID;
-    private ListInterface<OrderProduct> cartProducts;
+    private SortedListInterface<OrderProduct> cartProducts;
     private CartDetails productList;
     private Account buyer;
     private Account seller;    
     
 
     public Cart(){
+        this.productList = new CartDetails(this);
         clearProducts();
     }
 
 
-    public Cart(ListInterface<OrderProduct> cartProducts) {
+    public Cart(SortedListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
-    }
-
-    public ListInterface<OrderProduct> getCartProducts() {
-        return cartProducts;
-    }
-
-    public void setCartProducts(ListInterface<OrderProduct> cartProducts) {
-        this.cartProducts = cartProducts;
-    }
-
-    public void addProduct(OrderProduct cartProduct){
-        this.cartProducts.add(cartProduct);
-    }
-
-    public void removeProduct(OrderProduct cartProduct){
-        this.cartProducts.remove(cartProduct);
-    }
-
-    public void clearProducts(){
-        this.cartProducts = new ArrayList<>();
-    }
-
-    public ListInterface<OrderProduct> checkoutProducts(){
-        ListInterface<OrderProduct> products = this.cartProducts;
-        clearProducts();
-        return products;
     }
 
     public Cart(Account buyer, Account seller, int cartID, CartDetails productList)
@@ -68,7 +42,31 @@ public class Cart {
         this.productList = productList;
     }
 
+    public SortedListInterface<OrderProduct> getCartProducts() {
+        return cartProducts;
+    }
 
+    public void setCartProducts(SortedListInterface<OrderProduct> cartProducts) {
+        this.cartProducts = cartProducts;
+    }
+
+    public void addProduct(OrderProduct cartProduct){
+        this.cartProducts.add(cartProduct);
+    }
+
+    public void removeProduct(OrderProduct cartProduct){
+        this.cartProducts.remove(cartProduct);
+    }
+
+    public void clearProducts(){
+        this.cartProducts = new SortedArrayList<>();
+    }
+
+    public SortedListInterface<OrderProduct> checkoutProducts(){
+        SortedListInterface<OrderProduct> products = this.cartProducts;
+        clearProducts();
+        return products;
+    }
 
     public int getCartID() {
         return cartID;
@@ -115,5 +113,4 @@ public class Cart {
 
     }
     */
-
 }

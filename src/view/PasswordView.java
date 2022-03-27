@@ -1,5 +1,6 @@
 package view;
 
+import UtilityClasses.CMD;
 import UtilityClasses.jdbcUtil;
 import application.App;
 
@@ -18,13 +19,7 @@ public class PasswordView {
             System.out.println("Your password has been changed. You will now be redirected to proceed to log in");
 
         } else{
-            System.out.println("Your attempt to change your password was not successful. Please try again");
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            CMD.pauseWithCustomScript("Your attempt to change your password was not successful, press any key to try again");
             App.clearScreen();
             PasswordView.main();
         }

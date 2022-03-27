@@ -1,9 +1,7 @@
 package entity;
+import adtInterfaces.SortedListInterface;
 
-import adtImplementation.ArrayList;
-import adtInterfaces.ListInterface;
-
-public class OrderProduct {
+public class OrderProduct implements Comparable<OrderProduct>{
     private Product product;
     private int quantity;
 
@@ -12,11 +10,9 @@ public class OrderProduct {
         this.quantity = quantity;
     }
 
-    
     public OrderProduct(int quantity) {
         this.quantity = quantity;
     }
-
 
     public Product getProduct() {
         return product;
@@ -44,7 +40,7 @@ public class OrderProduct {
         // return String.format("(Product)\n%s\nQuantity Ordered: %d\nSubtotal: %.2f",  product.toString(), quantity, getSubtotal());
     }
 
-    public static String displayAll(ListInterface<OrderProduct> orderProducts){
+    public static String displayAll(SortedListInterface<OrderProduct> orderProducts){
         String str = "";
         str += String.format("+%s+\n", "-".repeat(65));
         str += String.format("|%-24s|%-12s|%-12s|%-14s|\n", "Product","Quantity","Price(RM)","Subtotal(RM)");
@@ -54,6 +50,14 @@ public class OrderProduct {
         return str;
     }
 
+    @Override
+    public int compareTo(OrderProduct o) {
+        return product.getTitle().compareTo(o.product.getTitle());
+    }
+
+    
+    
+    /*
     public static void main(String[] args) {
         OrderProduct orderProduct1 = new OrderProduct(
             new Product("title1", 20.5, "description1"), 100);
@@ -69,4 +73,6 @@ public class OrderProduct {
 
         System.out.println(OrderProduct.displayAll(orderList));
     }
+    */
+
 }

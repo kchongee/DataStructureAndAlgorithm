@@ -1,6 +1,8 @@
 package application;
 
 import UtilityClasses.jdbcUtil;
+import adtInterfaces.ListInterface;
+import adtInterfaces.MapInterface;
 import entity.AccountList;
 import adtImplementation.ArrayList;
 import adtImplementation.HashMap;
@@ -9,7 +11,7 @@ import entity.Account;
 public class jdbcTest {
 
     public static AccountList accountList = new AccountList(100);
-    public static ArrayList<HashMap<String, Object>> hashList = new ArrayList<HashMap<String, Object>>(100);
+    public static ListInterface<MapInterface<String, Object>> hashList = new ArrayList<>(100);
     public static void main(String[] args) {
 
     

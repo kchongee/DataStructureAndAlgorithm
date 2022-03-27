@@ -26,7 +26,7 @@ public class Inbox{
     public void openNotification(Notification notification){
         if(!notification.isRead())
             notification.setRead(true);
-            jdbcUtil.executeCUD(String.format("UPDATE Notification SET title=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
+            jdbcUtil.executeCUD(String.format("UPDATE Notification SET isRead=%b WHERE notificationID='%s';",true,notification.getNotificationID()));
     }
 
     @Override

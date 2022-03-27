@@ -44,20 +44,20 @@ public class Buyer extends Account{
     }
 
     public Inbox getInbox() {
-        App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
+        // App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
 
-        inbox.getNotifications().clear();
-        for(int i=0;i<App.hashNotifications.size();i++){      
-            Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
+        // inbox.getNotifications().clear();
+        // for(int i=0;i<App.hashNotifications.size();i++){      
+        //     Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
             
-            App.hashNotifications.get(i).get("accountID"),
-            App.hashNotifications.get(i).get("sellerName"),
-            App.hashNotifications.get(i).get("title"),
-            App.hashNotifications.get(i).get("message"),
-            App.hashNotifications.get(i).get("date"),
-            App.hashNotifications.get(i).get("isRead"));         
-            inbox.pushNotification(n);
-        } 
+        //     App.hashNotifications.get(i).get("accountID"),
+        //     App.hashNotifications.get(i).get("sellerName"),
+        //     App.hashNotifications.get(i).get("title"),
+        //     App.hashNotifications.get(i).get("message"),
+        //     App.hashNotifications.get(i).get("date"),
+        //     App.hashNotifications.get(i).get("isRead"));         
+        //     inbox.pushNotification(n);
+        // } 
         return inbox;
     }
 
@@ -66,7 +66,6 @@ public class Buyer extends Account{
     }
 
     public void receiveNotification(Notification notification){
-        // this.inbox.addNotification(notification);
         this.inbox.pushNotification(notification);
     }    
 
@@ -84,6 +83,7 @@ public class Buyer extends Account{
 
     public void checkoutCart(String paymentMethod, Seller seller){        
         Invoice invoice = new Invoice(this.cart.checkoutProducts(), paymentMethod, this);
+        System.out.println(this.getUserName());
         seller.addInvoice(invoice);
         addInvoice(invoice);        
         if(seller.getVoucher().isReleased() && seller.getVoucher().getMinSpend()>0 && invoice.getTotalAmount()>=seller.getVoucher().getMinSpend()){            

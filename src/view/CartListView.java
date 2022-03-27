@@ -1,12 +1,9 @@
 package view;
-
 import UtilityClasses.CMD;
 import application.App;
 import entity.Account;
 import entity.CartList;
-
 import javax.swing.*;
-
 
 public class CartListView
 {

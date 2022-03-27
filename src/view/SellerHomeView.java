@@ -12,8 +12,8 @@ public class SellerHomeView{
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();  
 
     static {
-        menuOptions.add(new Option("Rooms", i -> goToPage(ii->SellerRoomsView.main())));
-        menuOptions.add(new Option("Products", i -> goToPage(ii->SellerProductsView.main())));
+        menuOptions.add(new Option("Create & Open Live Room", i -> goToPage(ii -> CatalogEditorView.main(new String[]{}))));        
+        menuOptions.add(new Option("Manage Product", i -> goToPage(ii->SellerManageProductView.main())));
         menuOptions.add(new Option("Invoices", i -> goToPage(ii->InvoiceView.main())));        
         menuOptions.add(new Option("Manage Voucher", i -> goToPage(ii->SellerVoucherManageView.main())));
     }

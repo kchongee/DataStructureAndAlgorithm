@@ -4,18 +4,19 @@ package adtInterfaces;
 import java.util.Iterator;
 
 public interface MapInterface<K,V> extends Iterable<MapInterface.Entry<K, V>> {
-    V put(K k, V v);
-    V get(K k);
-    void putAll(MapInterface<K,V> map);
+    V put(K key, V value);
+    V get(K key);
+    V remove(K key);
+    int putAll(MapInterface<K,V> map);
     int size();
-    boolean containsKey(K k);
-    void clear();
-    boolean containsValue(V Value);
+    boolean containsKey(K key);
+    boolean containsValue(V value);
     boolean isEmpty();
     Set<K> keySet();
-    Iterator<Entry<K,V>> iterator();
-    V remove(K key);
     V[] values();
+    Iterator<Entry<K,V>> iterator();
+    void clear();
+
 
     interface Entry<K, V>{
         K getKey();

@@ -32,6 +32,6 @@ public class RoomListUI
     public void displayRoomList()
     {
         CMD.cls();
-        System.out.println(roomList.roomListStr() + formatter.optionPane());
+        System.out.println(roomList.toString() + formatter.optionPane());
     }
 }
