@@ -60,7 +60,7 @@ public final class jdbcUtil {
 
     public static MapInterface<String, Object> readOne(String statement) {
         openConnection();
-        HashMap<String, Object> record = new HashMap<String, Object>();
+        MapInterface<String, Object> record = new HashMap<String, Object>();
         try {
             queryRslt = SQL.executeQuery(statement);
 
