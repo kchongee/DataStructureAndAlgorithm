@@ -95,11 +95,11 @@ public class Payment {
 
     /*
     public static void main(String[] args) {
-        Payment py = new Payment(new Cart(1));
-        py.setPaymentMethod("Credit Card");
-        py.updateCart(1);
+        Payment py = new Payment(new Cart(1), "Credit Card");
+        py.updateCart(1,"Credit Card");
         
     }
     */
+    
 
 }
