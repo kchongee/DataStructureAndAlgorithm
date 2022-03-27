@@ -42,6 +42,10 @@ public class HashMap<K,V> implements MapInterface<K,V> {
 
     @Override
     public V put(K k, V v) {
+        
+        if (size==defaultLength){
+            expand();
+        }
         //calculate the index of a given key
         int index = getKey(k);
         Entry<K, V> entry = table[index];
@@ -69,39 +73,67 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return table[index].getValue();
     }
 
+    
     @Override
-    public int size() {
-        return size;
+    public V remove(K key) {
+
+        int i=indexOf(key);
+
+        Entry<K,V> prev = table[i];
+        Entry<K,V> e = prev;
+
+        while(e!=null){
+            if (e.getKey() != null && e.getKey().equals(key)){
+                size--;
+                if(prev==e){
+                    table[i]=e.next;
+                } else{
+                    prev.next=e.next;
+                }
+            } else{
+                prev = e;
+                e = e.next;
+            }
+            return e.getValue();
+        }
+        return e.getValue();
     }
 
     @Override
-    public boolean containsKey(K k) {
-        return false;
+    public int size() {
+        return this.size;
     }
 
     @Override
     public void clear() {
-
-    }
-
-    @Override
-    public boolean containsValue(V Value) {
-        return false;
+        this.size=0;
+        defaultLength = 16;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return this.size==0;
+    }
+
+    @Override
+    public boolean containsKey(K k) {
+        throw new UnsupportedOperationException();
+    }
+
+
+    @Override
+    public boolean containsValue(V Value) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Set keySet() {
-        return null;
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterator iterator(){
-        throw new UnsupportedOperationException("unsupported");
+        throw new UnsupportedOperationException();      
     }
 
     @Override
@@ -109,39 +141,13 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return 0;
     }
 
-    @Override
-    public V remove(K key) {
-        return null;
-    }
 
     @Override
     public V[] values() {
         return null;
     }
 
-    private class Entry<K, V> implements  MapInterface.Entry<K, V> {
-        K k;
-        V v;
-        
-        Entry<K, V> next;
-        
-        public Entry(K k, V v, Entry next) {
-            this.k = k;
-            this.v = v;
-            this.next = next;
-        }
-
-        @Override
-        public K getKey() {
-            return k;
-        }
-
-        @Override
-        public V getValue() {
-            return v;
-        }
-    }
-
+    
     private int getKey(K k) {
         int m = defaultLength;
         int index = k.hashCode() % m;
@@ -199,7 +205,6 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         }
     }
 
-
     private V findValueByEqualKey(K k , Entry<K,V> entry) {
 
         /*
@@ -219,17 +224,46 @@ public class HashMap<K,V> implements MapInterface<K,V> {
         return entry.getValue();
     }
 
-
-    public static void main(String[] args) {
-        System.out.println("a".hashCode());
-        System.out.println("d".hashCode());
-        System.out.println("a".hashCode());
-        System.out.println("b".hashCode());
-        System.out.println("b".hashCode());
-        System.out.println("b".hashCode());
-        System.out.println("z".hashCode());
-
+    private int indexOf(K object) {
+        return object == null ? 0 : hash(object) & (defaultLength - 1);
     }
+
+    /*private boolean matches(Object o1, Object o2) {
+        return Objects.equals(o1, o2);
+    }*/
+
+    private static int hash(Object key) {
+        // This function ensures that hashCodes that differ only by
+        // constant multiples at each bit position have a bounded
+        // number of collisions (approximately 8 at default load factor).
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
+
+    private class Entry<K, V> implements  MapInterface.Entry<K, V> {
+        private K k;
+        private V v;
+        
+        private Entry<K, V> next;
+        
+        public Entry(K k, V v, Entry next) {
+            this.k = k;
+            this.v = v;
+            this.next = next;
+        }
+
+        @Override
+        public K getKey() {
+            return k;
+        }
+
+        @Override
+        public V getValue() {
+            return v;
+        }
+    }
+
+
 }
 
 

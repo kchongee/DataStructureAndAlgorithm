@@ -3,6 +3,10 @@ import UtilityClasses.CMD;
 import application.App;
 import entity.Account;
 import entity.CartList;
+import entity.Buyer;
+import entity.Cart;
+import entity.CartDetails;
+
 import javax.swing.*;
 
 public class CartListView
@@ -17,11 +21,12 @@ public class CartListView
         this.cartList.syncCart();
     }
 
-
-    public static void main(String[] args) 
+    //String[] args
+    public static void main() 
     {
-        Account acc = new Account("A01");
-        CartListView view = new CartListView(acc);
+        //Account acc = new Account("A01");
+        Buyer buyer = (Buyer)App.currentUser;  
+        CartListView view = new CartListView(buyer);
         int maxChoice = view.cartList.getCart().size();
 
         while (true)
@@ -35,6 +40,8 @@ public class CartListView
             {
                 JOptionPane.showMessageDialog(null, "Please enter number between 1 and " + maxChoice, "Warning", JOptionPane.WARNING_MESSAGE);
             }else{
+                Cart cartSelected = view.cartList.getCart().get(userChoice-1);
+                CartDetailsView.main(cartSelected);
                 break;
             }
         }

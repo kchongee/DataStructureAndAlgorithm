@@ -11,6 +11,7 @@ public interface ListInterface<T> {
     int get(T element);
     boolean replace(int index, T element);
     boolean contains(T element);
+    Object[] toArray();
     boolean isEmpty();
     int size();
     void clear();

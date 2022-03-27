@@ -11,8 +11,9 @@ public class Payment {
     private LocalTime checkOutTime;
     private String paymentMethod;
 
-    public Payment(Cart cart) {
+    public Payment(Cart cart, String paymentMethod ) {
         this.cart = cart;
+        this.paymentMethod = paymentMethod;
     }
 
     public Payment(LocalDate checkOutDate, LocalTime checkOutTime, String paymentMethod) {
@@ -80,23 +81,25 @@ public class Payment {
         return total;
     }
 
-    public void updateCart (int cartID){
+    public void updateCart (int cartID, String paymentMethod){
         String query = String.format(
                  """
                     update Cart
                     set isCheckout=True, checkoutDate='%s', checkoutTime='%s', paymentMethod='%s'
                     where cartID =%s;
 
-                 """, DateTimeUtil.strDateNow(), DateTimeUtil.strTimeNow(), this.paymentMethod, cartID
-        );
+                 """, DateTimeUtil.strDateNow(), DateTimeUtil.strTimeNow(), paymentMethod, cartID
+        );System.out.print(query);
         jdbcUtil.executeCUD(query);
     }
 
+    /*
     public static void main(String[] args) {
         Payment py = new Payment(new Cart(1));
         py.setPaymentMethod("Credit Card");
         py.updateCart(1);
         
     }
+    */
 
 }

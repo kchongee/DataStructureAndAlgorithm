@@ -34,7 +34,6 @@ public class RegisterView {
             if (!App.accountList.checkAccount(uname)){
                 valid=true;
             } else{
-                App.clearScreen();
                 //System.out.println("This username is already in use, please try again");
                 CMD.pauseWithCustomScript("This username is already in use, press any key to try again...");
                 App.clearScreen();
@@ -44,7 +43,6 @@ public class RegisterView {
             if(emailPattern.matcher(email).find()){
                 valid=true;
             } else{
-                App.clearScreen();
                 //System.out.println("This email is invalid, please try again");
                 CMD.pauseWithCustomScript("This email is invalid, press any key to try again...");
                 App.clearScreen();
