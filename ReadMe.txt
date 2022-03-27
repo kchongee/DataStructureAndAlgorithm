@@ -1,24 +1,3 @@
-<!------------ Chong Ee part ------------>
-1. Open Java IDE or Code Editor for Java
-2. Go to src -> application2 -> App.java
-3. Below shows that the steps to login to application.
-    - To login to application as Buyer, have to comment following codes under main method:
-        currentUser = seller;
-        SellerHomeView.main();
-    and uncomment following code:
-        currentUser = buyer;
-        BuyerHomeView.main();
-    - To login to application as Seller, have to comment following codes under main method:
-        currentUser = buyer;
-        BuyerHomeView.main();
-    and uncomment following code:
-        currentUser = seller;
-        SellerHomeView.main();  
-    - Note*: The "buyer" and "seller" are predefined under my part. If wish to have a look on Login module, it was under Nathan part.
-4. Run the file
-
-
-<!------------ Nathan & Shi Han & Chooi Li part ------------>
 Download and install MySQL
 1. Download MySQL Community from this link https://dev.mysql.com/downloads/installer/, by clicking the download button with "2.3M" beside.
 2. After clicking the download button, just click "No thanks, just start my download" at the bottom.
