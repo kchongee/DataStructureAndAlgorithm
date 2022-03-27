@@ -119,18 +119,18 @@ public class Invoice implements Comparable<Invoice> {
         String str = "";                
         str += String.format("+%s+\n", "-".repeat(65));
         str += String.format("|Invoice %-57s|\n", invoiceId);
-        str += String.format("|Date: %-59s|\n", invoiceDateTime.getDayOfMonth()+"/"+invoiceDateTime.getDayOfMonth()+"/"+invoiceDateTime.getYear());
+        str += String.format("|Date: %-59s|\n", invoiceDateTime.getDayOfMonth()+" "+invoiceDateTime.getMonth()+" "+invoiceDateTime.getYear());
         str += String.format("|Time: %-59s|\n", invoiceDateTime.getHour()+":"+invoiceDateTime.getMinute()+":"+invoiceDateTime.getSecond());
         str += String.format("|Payment method: %-49s|\n", paymentMethod);
+        str += String.format("|Buyer: %-58s|\n", buyer.getUserName());
         str += OrderProduct.displayAll(invoiceProducts);
         str += String.format("|%50s|%-14.2f|\n","Total Amount(RM)",getTotalAmount());        
         str += String.format("+%s+\n", "-".repeat(65));
         return str;
     }
 
-    public static String displayAll(ListInterface<Invoice> listInterface) {
-        String str = "";                
-        str += listInterface;
+    public static String displayAll(ListInterface<Invoice> invoices) {                
+        String str = invoices.size()>0?invoices.toString():"You don't have any invoice yet.\n";        
         return str;
     }
 

@@ -11,12 +11,35 @@ public class Cart {
     
 
     public Cart(){
+        this.productList = new CartDetails(this);
         clearProducts();
     }
 
 
     public Cart(SortedListInterface<OrderProduct> cartProducts) {
         this.cartProducts = cartProducts;
+    }
+
+    public Cart(Account buyer, Account seller, int cartID, CartDetails productList)
+    {
+        this.buyer = buyer;
+        this.seller = seller;
+        this.cartID = cartID;
+        this.productList = productList;
+    }
+
+    public Cart(int cartID, Account seller)
+    {
+        this.cartID = cartID;
+        this.seller = seller;
+    }
+
+    public Cart (int cartID){
+        this.cartID = cartID;
+    }
+
+    public Cart(CartDetails productList) {
+        this.productList = productList;
     }
 
     public SortedListInterface<OrderProduct> getCartProducts() {
@@ -43,28 +66,6 @@ public class Cart {
         SortedListInterface<OrderProduct> products = this.cartProducts;
         clearProducts();
         return products;
-    }
-
-    public Cart(Account buyer, Account seller, int cartID, CartDetails productList)
-    {
-        this.buyer = buyer;
-        this.seller = seller;
-        this.cartID = cartID;
-        this.productList = productList;
-    }
-
-    public Cart(int cartID, Account seller)
-    {
-        this.cartID = cartID;
-        this.seller = seller;
-    }
-
-    public Cart (int cartID){
-        this.cartID = cartID;
-    }
-
-    public Cart(CartDetails productList) {
-        this.productList = productList;
     }
 
     public int getCartID() {

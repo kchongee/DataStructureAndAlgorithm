@@ -1,4 +1,4 @@
-package application;
+package application2;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,13 +7,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-import UtilityClasses.jdbcUtil;
-import adtInterfaces.MapInterface;
 import entity.*;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedStack;
 import adtInterfaces.ListInterface;
-import view.RoomViews.RoomViewExe;
 import view.WelcomeView;
 
 public class App {
@@ -21,33 +18,46 @@ public class App {
     public static LinkedStack<Consumer<String>> history = new LinkedStack<Consumer<String>>();
     public static Account currentUser = new Account();
     public static Account buyer = new Buyer();
-    public static Account seller = new Seller();
-    public static AccountList accountList = new AccountList(100);    
-    public static ListInterface<MapInterface<String, Object>> hashAccount = new ArrayList<>(100);
-    public static ListInterface<MapInterface<String, Object>> hashNotifications = new ArrayList<>(100);
-    public static Room chosenRoom =new Room();
-    public static RoomViewExe roomViewExe;
-    public static Integer sellerCreatedRoomID = 0;    
+    public static Account seller = new Seller();        
+
+    static{                
+        seller.setUserName("Jessy");
+        Product pr1 = new Product("title1", 20, "description1");
+        Product pr2 = new Product("title2", 30, "description2");
+        Product pr3 = new Product("title3", 40, "description3");
+        ((Seller)seller).addProduct(pr1);
+        ((Seller)seller).addProduct(pr2);
+        ((Seller)seller).addProduct(pr3);
+        ((Seller)seller).getVoucher().setMinSpend(100);
+        ((Seller)seller).getVoucher().setDiscountPercentage(10);        
+
+        buyer.setUserName("James");
+        OrderProduct bp1 = new OrderProduct(pr1, 5);
+        OrderProduct bp2 = new OrderProduct(pr2, 15);
+        OrderProduct bp3 = new OrderProduct(pr3, 25);        
+        ((Buyer)buyer).addProductToCart(bp1);
+        ((Buyer)buyer).addProductToCart(bp2);
+        ((Buyer)buyer).addProductToCart(bp3);        
+        Notification n1 = new Notification("accountID1", "sellerName1", "title1", "message1", LocalDate.now().toString(), false);
+        Notification n2 = new Notification("accountID2", "sellerName2", "title2", "message2", LocalDate.now().toString(), false);
+        ((Buyer)buyer).receiveNotification(n1);
+        ((Buyer)buyer).receiveNotification(n2);        
+        ((Buyer)buyer).checkoutCart("Credit Card", (Seller)seller);
+        ListInterface<OrderProduct> orderProducts = new ArrayList<>();
+        orderProducts.add(bp1);
+        orderProducts.add(bp2);
+        orderProducts.add(bp3);
+    }
 
     public static void main(String[] args) throws Exception
     {
-        retrieveAccounts();          
-        WelcomeView.main();
-    }     
-    
-    public static void retrieveAccounts(){
-        hashAccount = jdbcUtil.readAll("SELECT * FROM Account;");
+        history.push(i->WelcomeView.main());
 
-        for(int i=0;i<hashAccount.size();i++){      
-            Account a = new Account(hashAccount.get(i).get("accountID"),
-            hashAccount.get(i).get("userName"),
-            hashAccount.get(i).get("userPwd"),
-            hashAccount.get(i).get("name"),
-            hashAccount.get(i).get("address"),
-            hashAccount.get(i).get("email"),
-            hashAccount.get(i).get("isSeller"));         
-            accountList.addAccount(a);
-        } 
+        currentUser = buyer;
+        BuyerHomeView.main();
+
+        // currentUser = seller;
+        // SellerHomeView.main();
     }
 
     public static boolean promptYesOrNo(String promptText){        

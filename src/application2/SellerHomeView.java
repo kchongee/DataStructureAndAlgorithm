@@ -1,11 +1,10 @@
-package view;
+package application2;
 
 import java.util.function.Consumer;
 
 import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
-import application.App;
-import application.Option;
+import view.CatalogEditorView;
 
 public class SellerHomeView{
 

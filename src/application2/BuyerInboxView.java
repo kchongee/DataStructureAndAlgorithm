@@ -1,15 +1,12 @@
-package view;
+package application2;
 
 import java.util.Iterator;
 import java.util.function.Consumer;
 
-import UtilityClasses.jdbcUtil;
 import adtImplementation.ArrayList;
 import adtImplementation.LinkedDeque;
 import adtInterfaces.DequeInterface;
 import adtInterfaces.ListInterface;
-import application.App;
-import application.Option;
 import entity.Buyer;
 import entity.Inbox;
 import entity.Notification;
@@ -53,20 +50,7 @@ public class BuyerInboxView {
     }
 
     public static void retrieveNotifications(){
-        App.hashNotifications = jdbcUtil.readAll(String.format("SELECT * FROM Notification WHERE accountID = '%s';", App.currentUser.getAccountID()));
-
-        inbox.getNotifications().clear();
-        for(int i=0;i<App.hashNotifications.size();i++){      
-            Notification n = new Notification(App.hashNotifications.get(i).get("notificationID"),
-            
-            App.hashNotifications.get(i).get("accountID"),
-            App.hashNotifications.get(i).get("sellerName"),
-            App.hashNotifications.get(i).get("title"),
-            App.hashNotifications.get(i).get("message"),
-            App.hashNotifications.get(i).get("date"),
-            App.hashNotifications.get(i).get("isRead"));         
-            inbox.pushNotification(n);
-        }                 
+        inbox = ((Buyer)App.currentUser).getInbox(); 
         Iterator<Notification> notificationIterator = inbox.getNotifications().iterator();
         while(notificationIterator.hasNext()){
             Notification n = notificationIterator.next();

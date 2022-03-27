@@ -6,25 +6,27 @@ import adtImplementation.ArrayList;
 import adtInterfaces.ListInterface;
 import application.App;
 import application.Option;
-import view.RoomViews.SellerRoomControlView;
 
-public class SellerRoomsView {    
+public class SellerManageProductView{
 
     public static ListInterface<Option> menuOptions = new ArrayList<Option>();
-
-    static{
-        menuOptions.add(new Option("Create Instant Room", i -> goToPage(ii -> CatalogEditorView.main(new String[]{}))));
-        menuOptions.add(new Option("Open & Enter Room", i -> goToPage(ii -> SellerOpenRoomView.main())));
-        menuOptions.add(new Option("Schedule Room", i -> goToPage(ii -> SellerScheduleRoomView.main())));
-        // menuOptions.add(new Option("Delete Room", i -> goToPage(ii -> SellerCreateRoomView.)));
+    
+    static {
+        menuOptions.add(new Option("Add Product", i -> goToPage(ii -> SellerAddProductView.main())));
+        menuOptions.add(new Option("Remove Product", i -> goToPage(ii -> SellerRemoveProductView.main())));        
+        menuOptions.add(new Option("View/Edit Product Detail", i -> goToPage(ii -> SellerDetailedProductView.main())));
     }
 
-    public static void main() {        
-        printTitle("Rooms");    
-
-        App.menuHandler(menuOptions);
+    public static void main(String[] args) {
+        main();
     }
     
+    public static void main() {        
+        printTitle("Manage Product");                
+                                 
+        App.menuHandler(menuOptions);
+    }
+
     public static void printTitle(String title){
         App.clearScreen();
         System.out.println(title);        
