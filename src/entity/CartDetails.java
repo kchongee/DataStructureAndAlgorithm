@@ -53,9 +53,9 @@ public class CartDetails implements Comparable<CartDetails> {
         {   // remove more than available amount
             return false;
         }
-        else if (index < cartDetails.size())
+        else if (index>0 && index<=cartDetails.size())
         {   // remove qty = product qty => remove product
-            removeProduct(index);
+            removeProduct(index-1);
         }
         return true;
     }

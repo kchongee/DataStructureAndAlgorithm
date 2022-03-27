@@ -5,14 +5,17 @@ import adtImplementation.ArrayList;
 import application.App;
 import application.Option;
 import entity.Account;
+import entity.Buyer;
 import entity.Cart;
 import entity.CartDetails;
+import entity.CartList;
 
 
 public class CartDetailsView
 {
 
     public static CartDetails cartDetails;
+    Cart cart;
 
     ArrayList<Option> options = new ArrayList<>
     (
@@ -24,7 +27,7 @@ public class CartDetailsView
               new Option(i->sortByTitle()),
               new Option(i->sortByPrice()),
               new Option(i->sortByQuantity()),
-              new Option(i->goToPage(ii->PaymentView.main())),
+              new Option(i->goToPage(cart,ii->PaymentView.main(cart))),
         }
     );
 
@@ -32,20 +35,6 @@ public class CartDetailsView
         CartDetailsView.cartDetails = cartDetails;
     }
 
-//    public static void main(Cart cart)
-//    {
-//        // pass cart to here from cart list [seller ID + cartID + username]
-//
-//        // test cart
-//        Cart cartTest = new Cart(1, new Account("A50","chailey1d"));
-//
-//
-//        CartDetails cartDetails = new CartDetails(cartTest);
-//        CartDetailsView view = new CartDetailsView();
-//
-//
-//        System.out.println(cart.getProductList().toString());
-//    }
     public void addQuantity()
     {
         int productNo = App.promptIntInput("Select a product >> ");
@@ -93,29 +82,27 @@ public class CartDetailsView
         int productNo = App.promptIntInput("Select a product >> ");
         if (productNo > 0 && productNo <= cartDetails.getCartDetails().size())
         {            
-            cartDetails.removeProduct(productNo);
+            cartDetails.removeProductFromCart(productNo);
         }else {
             System.out.println("Please select a valid product number");
         }
     }
 
-    public static void main(String[] args) {
-        main();
-    }
-
-    public static void main()
+    public static void main(Cart cart)
     {
-        // pass cart to here from cart list [seller ID + cartID + username]
-
-        // test cart
-        Cart cartTest = new Cart(1, new Account("A50","chailey1d"));
-        CartDetails cartDetails = new CartDetails(cartTest);  // maybe cart no need cart details
+        // // pass cart to here from cart list [seller ID + cartID + username]
+        Buyer buyer = (Buyer)App.currentUser;
+        //CartList cartlist = new CartList(new Account("A50"));
+        // // test cart
+        //Cart cartTest = new Cart(1, new Account("A50","chailey1d"));
+        CartDetails cartDetails = new CartDetails(cart);  // maybe cart no need cart details
         cartDetails.syncCartDetails();
-        // cartDetails.getCartDetails().add(new OrderProduct(new Product("ctitle", 20.5, "description"),7));
-        // cartDetails.getCartDetails().add(new OrderProduct(new Product("atitle", 50.5, "description"),3));
-        // cartDetails.getCartDetails().add(new OrderProduct(new Product("stitle", 30.5, "description"),4));
+        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("ctitle", 20.5, "description"),7));
+        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("atitle", 50.5, "description"),3));
+        // // cartDetails.getCartDetails().add(new OrderProduct(new Product("stitle", 30.5, "description"),4));
 
         CartDetailsView view = new CartDetailsView(cartDetails);
+        view.cart=cart;
         boolean endLoop = false;
 
         while (!endLoop)
@@ -139,8 +126,8 @@ public class CartDetailsView
         }
     }
 
-    public static void goToPage(Consumer<String> page){
-        App.history.push(i -> main());
+    public static void goToPage(Cart cart, Consumer<String> page){
+        App.history.push(i -> main(cart));
         page.accept("t");
     }
 
